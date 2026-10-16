@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dompetku-cache-v3';
+const CACHE_NAME = 'dompetku-cache-v4';
 const ASSETS = [
   './',
   './index.html',
@@ -22,7 +22,6 @@ self.addEventListener('activate', (event) => {
   self.clients.claim();
 });
 
-// Network-first so updates always show immediately, fallback to cache when offline
 self.addEventListener('fetch', (event) => {
   event.respondWith(
     fetch(event.request)
