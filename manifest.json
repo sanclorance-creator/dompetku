@@ -1,0 +1,19 @@
+{
+  "name": "DompetKu — Pengatur Keuangan",
+  "short_name": "DompetKu",
+  "description": "Aplikasi pencatat pemasukan, pengeluaran, dan tabungan pribadi.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0B253A",
+  "theme_color": "#133955",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
