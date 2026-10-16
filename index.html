@@ -10,7 +10,7 @@
   <link rel="manifest" href="./manifest.json" />
   <link rel="icon" type="image/svg+xml" href="./icon.svg" />
   <link rel="apple-touch-icon" href="./icon.svg" />
-  <title>DompetKu — Keuangan Pribadi</title>
+  <title>DompetKu — Pengatur Keuangan Pribadi</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -18,17 +18,17 @@
     :root {
       --navy-top: #133955;
       --navy-bottom: #0B253A;
-      --green: #93C854;
-      --green-dark: #65A30D;
-      --blue: #4195D5;
-      --bg: #F2F6FA;
+      --green: #8CC63F;
+      --green-dark: #5C9E23;
+      --blue: #3B82F6;
+      --bg: #F1F5F9;
       --card: #FFFFFF;
-      --text: #133F5D;
-      --muted: #6E8494;
-      --border: #E3EBF2;
-      --danger: #E35273;
+      --text: #0F2942;
+      --muted: #64748B;
+      --border: #E2E8F0;
+      --danger: #E11D48;
       --warning: #F59E0B;
-      --shadow: 0 4px 16px rgba(19, 63, 93, 0.06);
+      --shadow: 0 4px 16px rgba(15, 41, 66, 0.06);
     }
 
     * {
@@ -110,7 +110,7 @@
       color: #fff;
     }
     .nav-btn.active {
-      background: rgba(147, 200, 84, 0.16);
+      background: rgba(140, 198, 63, 0.18);
       color: var(--green);
       font-weight: 800;
     }
@@ -146,6 +146,12 @@
       align-items: center;
       gap: 10px;
       cursor: pointer;
+      padding: 4px 8px 4px 4px;
+      border-radius: 12px;
+      transition: background 0.15s;
+    }
+    .user-chip:hover {
+      background: var(--bg);
     }
     .user-avatar {
       width: 36px;
@@ -163,10 +169,13 @@
       font-size: 14px;
       font-weight: 800;
       color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
     .user-sub {
       font-size: 11px;
-      color: #77B833;
+      color: var(--green-dark);
       font-weight: 700;
     }
 
@@ -182,18 +191,18 @@
       height: 36px;
       padding: 0 12px;
       border-radius: 99px;
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
     }
 
     /* Page container */
     .container {
-      padding: 20px 24px 90px;
-      max-width: 1280px;
+      padding: 20px 24px 96px;
+      max-width: 1260px;
       width: 100%;
       margin: 0 auto;
     }
@@ -206,7 +215,6 @@
       margin-bottom: 22px;
     }
 
-    /* Paper.id Hero Balance Card */
     .hero-card {
       background: linear-gradient(125deg, #7BB642 0%, #3E885B 40%, #164B68 80%, #0E314A 100%);
       border-radius: 16px;
@@ -223,14 +231,27 @@
       justify-content: space-between;
       font-size: 13px;
       font-weight: 700;
-      opacity: 0.92;
+      opacity: 0.95;
+    }
+    .edit-pill-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 99px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
     }
     .hero-balance {
       font-size: 28px;
       font-weight: 800;
       margin: 8px 0 14px;
       letter-spacing: -0.5px;
-      word-break: break-word;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
     .hero-btn-row {
       display: flex;
@@ -300,6 +321,8 @@
       justify-content: space-between;
       font-size: 12px;
       font-weight: 700;
+      gap: 8px;
+      flex-wrap: wrap;
     }
     .stat-link {
       background: none;
@@ -312,9 +335,9 @@
       margin-top: 10px;
     }
 
-    /* ==================== QUICK ACTIONS (4 BUTTONS) ==================== */
+    /* ==================== QUICK ACTIONS ==================== */
     .section-title {
-      font-size: 16px;
+      font-size: 15.5px;
       font-weight: 800;
       color: var(--text);
       margin-bottom: 12px;
@@ -367,7 +390,7 @@
     /* ==================== 2-COLUMN CONTENT GRID ==================== */
     .two-col {
       display: grid;
-      grid-template-columns: 1.5fr 1fr;
+      grid-template-columns: 1.45fr 1fr;
       gap: 18px;
       align-items: start;
     }
@@ -380,19 +403,22 @@
       margin-bottom: 16px;
     }
 
-    /* Transaction Item Row (Clean Mobile-First Card Row) */
+    /* Transaction Row */
     .tx-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 11px 0;
+      padding: 12px 4px;
       border-bottom: 1px solid var(--border);
       cursor: pointer;
       gap: 10px;
+      border-radius: 8px;
+    }
+    .tx-row:hover {
+      background: #F8FAFC;
     }
     .tx-row:last-child {
       border-bottom: none;
-      padding-bottom: 2px;
     }
     .tx-left {
       display: flex;
@@ -408,7 +434,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
+      font-size: 19px;
       flex-shrink: 0;
     }
     .tx-info {
@@ -441,11 +467,11 @@
     }
     .tx-wallet-tag {
       font-size: 11px;
-      color: var(--muted);
+      color: var(--blue);
+      font-weight: 700;
       margin-top: 2px;
     }
 
-    /* Progress bar */
     .progress-track {
       height: 8px;
       background: #E2E8F0;
@@ -463,7 +489,7 @@
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(11, 37, 58, 0.55);
+      background: rgba(11, 37, 58, 0.6);
       backdrop-filter: blur(2px);
       z-index: 100;
       display: none;
@@ -477,7 +503,7 @@
     .modal-box {
       background: #fff;
       width: 100%;
-      max-width: 440px;
+      max-width: 460px;
       border-radius: 20px;
       padding: 20px;
       max-height: 90vh;
@@ -497,26 +523,27 @@
       font-weight: 800;
     }
     .close-btn {
-      width: 30px;
-      height: 30px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       border: none;
       background: #F1F5F9;
       font-weight: 800;
       cursor: pointer;
+      font-size: 15px;
     }
     .form-label {
       display: block;
       font-size: 12px;
       font-weight: 700;
       color: var(--text);
-      margin: 12px 0 6px;
+      margin: 14px 0 6px;
     }
     .form-control {
       width: 100%;
       border: 1.5px solid var(--border);
       border-radius: 10px;
-      padding: 10px 12px;
+      padding: 11px 12px;
       font-size: 14px;
       color: var(--text);
       outline: none;
@@ -525,30 +552,90 @@
     .form-control:focus {
       border-color: var(--blue);
     }
+
+    /* Quick Nominal Chips */
+    .chip-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .chip-btn {
+      border: 1px solid var(--border);
+      background: #F8FAFC;
+      color: var(--text);
+      padding: 6px 10px;
+      border-radius: 99px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .chip-btn:active, .chip-btn.active {
+      background: #EBF5FF;
+      border-color: var(--blue);
+      color: var(--blue);
+    }
+
+    /* Category Grid */
     .cat-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 8px;
+      max-height: 230px;
+      overflow-y: auto;
+      padding: 2px;
     }
     .cat-btn {
       border: 1.5px solid var(--border);
       background: #F8FAFC;
-      border-radius: 10px;
+      border-radius: 12px;
       padding: 8px 4px;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
+      justify-content: center;
       gap: 4px;
       font-size: 10.5px;
       font-weight: 700;
       color: var(--text);
       text-align: center;
+      min-height: 64px;
     }
     .cat-btn.selected {
       border-color: var(--blue);
       background: #EBF5FF;
+      color: var(--blue);
     }
+
+    /* Bank / Wallet Preset Grid */
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 7px;
+      max-height: 170px;
+      overflow-y: auto;
+      padding: 2px;
+    }
+    .preset-btn {
+      border: 1.5px solid var(--border);
+      background: #F8FAFC;
+      border-radius: 10px;
+      padding: 8px 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .preset-btn.selected {
+      border-color: var(--blue);
+      background: #EBF5FF;
+      color: var(--blue);
+    }
+
     .btn-submit {
       width: 100%;
       border: none;
@@ -561,8 +648,20 @@
       cursor: pointer;
       margin-top: 16px;
     }
+    .btn-danger {
+      width: 100%;
+      border: 1.5px solid var(--danger);
+      border-radius: 12px;
+      padding: 11px;
+      font-size: 13.5px;
+      font-weight: 800;
+      color: var(--danger);
+      background: #FFF1F2;
+      cursor: pointer;
+      margin-top: 10px;
+    }
 
-    /* ==================== RESPONSIVE MOBILE DESIGN (< 768px) ==================== */
+    /* ==================== RESPONSIVE MOBILE (< 768px) ==================== */
     @media (max-width: 960px) {
       .summary-grid { grid-template-columns: 1fr; }
       .two-col { grid-template-columns: 1fr; }
@@ -570,7 +669,6 @@
     }
 
     @media (max-width: 768px) {
-      /* Turn sidebar into clean 5-item bottom tab bar */
       .sidebar {
         width: 100%;
         height: 64px;
@@ -603,42 +701,16 @@
       }
       .nav-icon { font-size: 19px; }
 
-      .main {
-        margin-left: 0;
-      }
-      .topbar {
-        padding: 0 14px;
-        height: 56px;
-      }
-      .container {
-        padding: 14px 14px 86px;
-      }
-      .hero-balance {
-        font-size: 25px;
-      }
-      .quick-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-      }
-      .quick-card {
-        padding: 12px;
-        gap: 10px;
-      }
-      .quick-icon {
-        width: 36px;
-        height: 36px;
-        font-size: 17px;
-      }
-      .quick-card h4 {
-        font-size: 12.5px;
-      }
-      .quick-card p {
-        display: none;
-      }
-      .modal-backdrop {
-        align-items: flex-end;
-        padding: 0;
-      }
+      .main { margin-left: 0; }
+      .topbar { padding: 0 14px; height: 56px; }
+      .container { padding: 14px 14px 86px; }
+      .hero-balance { font-size: 25px; }
+      .quick-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .quick-card { padding: 12px; gap: 10px; }
+      .quick-icon { width: 36px; height: 36px; font-size: 17px; }
+      .quick-card h4 { font-size: 12.5px; }
+      .quick-card p { display: none; }
+      .modal-backdrop { align-items: flex-end; padding: 0; }
       .modal-box {
         max-width: 100%;
         border-bottom-left-radius: 0;
@@ -650,7 +722,7 @@
 </head>
 <body>
 
-  <!-- NAVIGATION (Sidebar on Desktop, Bottom Tab Bar on Mobile) -->
+  <!-- SIDEBAR / MOBILE BOTTOM NAV -->
   <aside class="sidebar">
     <div class="brand">
       <div class="brand-icon">💰</div>
@@ -674,29 +746,32 @@
         <span>Tabungan</span>
       </button>
       <button class="nav-btn" data-page="wallets" onclick="navigate('wallets')">
-        <span class="nav-icon">💳</span>
-        <span>Dompet</span>
+        <span class="nav-icon">🏦</span>
+        <span>Bank/Dompet</span>
       </button>
     </nav>
   </aside>
 
-  <!-- MAIN CONTENT -->
+  <!-- MAIN AREA -->
   <div class="main">
     <header class="topbar">
-      <div class="user-chip" onclick="editUserName()">
-        <div class="user-avatar">💰</div>
+      <div class="user-chip" onclick="openProfileModal()">
+        <div class="user-avatar">👤</div>
         <div>
-          <div class="user-name" id="userNameText">Alfian Dimas</div>
-          <div class="user-sub">Keuangan Pribadi</div>
+          <div class="user-name">
+            <span id="userNameText">Alfian Dimas</span>
+            <span style="font-size:11px;color:var(--muted);">✏️</span>
+          </div>
+          <div class="user-sub">Ketuk untuk ganti nama</div>
         </div>
       </div>
 
       <div class="topbar-actions">
-        <button class="icon-btn" onclick="hideBalance=!hideBalance;renderPage();" title="Sembunyikan/Tampilkan Saldo">
-          <span id="eyeIcon">👁️</span>
+        <button class="icon-btn" onclick="hideBalance=!hideBalance;saveState();">
+          <span id="eyeIcon">👁️</span> Saldo
         </button>
-        <button class="icon-btn" onclick="openSettingsModal()" title="Pengaturan Data">
-          ⚙️ Reset
+        <button class="icon-btn" onclick="openSettingsModal()">
+          ⚙️ Data
         </button>
       </div>
     </header>
@@ -710,33 +785,64 @@
   </div>
 
   <script>
-    const EXPENSE_CATEGORIES = [
-      { id: 'food', name: 'Makan', icon: '🍜', color: '#F97316' },
-      { id: 'coffee', name: 'Ngopi/Jajan', icon: '☕', color: '#D97706' },
-      { id: 'transport', name: 'Transport', icon: '🛵', color: '#3B82F6' },
-      { id: 'shopping', name: 'Belanja', icon: '🛍️', color: '#EC4899' },
-      { id: 'bills', name: 'Tagihan', icon: '⚡', color: '#8B5CF6' },
-      { id: 'entertainment', name: 'Hiburan', icon: '🎮', color: '#14B8A6' },
-      { id: 'health', name: 'Kesehatan', icon: '💊', color: '#EF4444' },
-      { id: 'other_exp', name: 'Lainnya', icon: '📦', color: '#64748B' },
+    /* ==================== SPECIFIC INDONESIAN CATEGORIES ==================== */
+    const DEFAULT_EXPENSE_CATEGORIES = [
+      { id: 'makan', name: 'Makan Harian', icon: '🍛', color: '#F97316' },
+      { id: 'ngopi', name: 'Ngopi & Jajan', icon: '☕', color: '#D97706' },
+      { id: 'gofood', name: 'GoFood / GrabFood', icon: '🛵', color: '#10B981' },
+      { id: 'bensin', name: 'Bensin & Parkir', icon: '⛽', color: '#3B82F6' },
+      { id: 'ojol', name: 'Ojol / Transport', icon: '🚆', color: '#0EA5E9' },
+      { id: 'minimarket', name: 'Indomaret / Alfamart', icon: '🏪', color: '#EC4899' },
+      { id: 'olshop', name: 'Shopee / Tokped / TikTok', icon: '📦', color: '#F43F5E' },
+      { id: 'kuota', name: 'Pulsa & Paket Data', icon: '📱', color: '#8B5CF6' },
+      { id: 'listrik', name: 'Listrik PLN & WiFi', icon: '⚡', color: '#eab308' },
+      { id: 'kost', name: 'Kost / Cicilan / Sewa', icon: '🏠', color: '#6366F1' },
+      { id: 'skincare', name: 'Skincare & Laundry', icon: '🧴', color: '#14B8A6' },
+      { id: 'hiburan', name: 'Netflix / Game / Nonton', icon: '🎮', color: '#A855F7' },
+      { id: 'ortu', name: 'Kasih Ortu / Sedekah', icon: '🤲', color: '#059669' },
+      { id: 'kesehatan', name: 'Obat & Kesehatan', icon: '💊', color: '#EF4444' },
+      { id: 'nongkrong', name: 'Nongkrong Bareng Teman', icon: '🍻', color: '#F59E0B' },
+      { id: 'other_exp', name: 'Pengeluaran Lainnya', icon: '📋', color: '#64748B' },
     ];
 
-    const INCOME_CATEGORIES = [
-      { id: 'salary', name: 'Gaji', icon: '💰', color: '#10B981' },
-      { id: 'sidejob', name: 'Sampingan', icon: '💻', color: '#3B82F6' },
-      { id: 'bonus', name: 'Bonus/THR', icon: '🎁', color: '#F59E0B' },
-      { id: 'gift', name: 'Transferan', icon: '🤲', color: '#8B5CF6' },
-      { id: 'other_inc', name: 'Lainnya', icon: '✨', color: '#6366F1' },
+    const DEFAULT_INCOME_CATEGORIES = [
+      { id: 'gaji', name: 'Gaji Pokok', icon: '💰', color: '#10B981' },
+      { id: 'tunjangan', name: 'Uang Makan / Tunjangan', icon: '🍱', color: '#059669' },
+      { id: 'freelance', name: 'Freelance / Sampingan', icon: '💻', color: '#3B82F6' },
+      { id: 'jualan', name: 'Hasil Jualan / Bisnis', icon: '🏪', color: '#0EA5E9' },
+      { id: 'thr', name: 'Bonus / THR', icon: '🎁', color: '#F59E0B' },
+      { id: 'transferan', name: 'Dikasih Ortu / Teman', icon: '🤲', color: '#8B5CF6' },
+      { id: 'cashback', name: 'Cashback / Refund', icon: '🔄', color: '#EC4899' },
+      { id: 'investasi', name: 'Cair Investasi / Bunga', icon: '📈', color: '#6366F1' },
+    ];
+
+    /* ==================== INDONESIAN BANK & E-WALLET PRESETS ==================== */
+    const BANK_PRESETS = [
+      { name: 'BCA', type: 'bank', icon: '🏦' },
+      { name: 'Mandiri', type: 'bank', icon: '🏦' },
+      { name: 'BRI', type: 'bank', icon: '🏦' },
+      { name: 'BNI', type: 'bank', icon: '🏦' },
+      { name: 'BSI (Syariah)', type: 'bank', icon: '🏦' },
+      { name: 'SeaBank', type: 'bank', icon: '🏦' },
+      { name: 'Bank Jago', type: 'bank', icon: '🏦' },
+      { name: 'Blu by BCA', type: 'bank', icon: '🏦' },
+      { name: 'CIMB Niaga', type: 'bank', icon: '🏦' },
+      { name: 'GoPay', type: 'ewallet', icon: '📱' },
+      { name: 'DANA', type: 'ewallet', icon: '📱' },
+      { name: 'OVO', type: 'ewallet', icon: '📱' },
+      { name: 'ShopeePay', type: 'ewallet', icon: '📱' },
+      { name: 'LinkAja', type: 'ewallet', icon: '📱' },
+      { name: 'Dompet Tunai (Cash)', type: 'cash', icon: '💵' },
     ];
 
     const WALLET_TYPES = [
       { id: 'bank', name: 'Rekening Bank', icon: '🏦' },
-      { id: 'ewallet', name: 'E-Wallet', icon: '📱' },
-      { id: 'cash', name: 'Uang Tunai', icon: '💵' },
+      { id: 'ewallet', name: 'E-Wallet / Digital', icon: '📱' },
+      { id: 'cash', name: 'Uang Tunai (Cash)', icon: '💵' },
     ];
 
     const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
-    const STORAGE_KEY = 'dompetku_personal_v2';
+    const STORAGE_KEY = 'dompetku_personal_v3';
 
     let currentPage = 'dashboard';
     let hideBalance = false;
@@ -744,29 +850,26 @@
     function getDefaultData() {
       return {
         userName: 'Alfian Dimas',
+        customCategories: [],
         wallets: [
           { id: 'w_bca', name: 'BCA', type: 'bank', initialBalance: 3200000 },
-          { id: 'w_gopay', name: 'GoPay / DANA', type: 'ewallet', initialBalance: 450000 },
-          { id: 'w_cash', name: 'Dompet Tunai', type: 'cash', initialBalance: 300000 },
+          { id: 'w_gopay', name: 'GoPay', type: 'ewallet', initialBalance: 350000 },
+          { id: 'w_dana', name: 'DANA', type: 'ewallet', initialBalance: 200000 },
+          { id: 'w_cash', name: 'Dompet Tunai (Cash)', type: 'cash', initialBalance: 250000 },
         ],
         transactions: [
-          { id: 't1', type: 'income', amount: 6500000, categoryId: 'salary', walletId: 'w_bca', note: 'Gaji Bulan Ini', date: '2026-10-01' },
-          { id: 't2', type: 'income', amount: 1200000, categoryId: 'sidejob', walletId: 'w_bca', note: 'Project Freelance', date: '2026-10-10' },
-          { id: 't3', type: 'expense', amount: 45000, categoryId: 'food', walletId: 'w_gopay', note: 'Makan Siang Ayam Bakar', date: '2026-10-16' },
-          { id: 't4', type: 'expense', amount: 25000, categoryId: 'coffee', walletId: 'w_gopay', note: 'Es Kopi Susu', date: '2026-10-16' },
-          { id: 't5', type: 'expense', amount: 150000, categoryId: 'transport', walletId: 'w_cash', note: 'Isi Bensin', date: '2026-10-15' },
-          { id: 't6', type: 'expense', amount: 350000, categoryId: 'bills', walletId: 'w_bca', note: 'Listrik & Kuota Internet', date: '2026-10-12' },
+          { id: 't1', type: 'income', amount: 6500000, categoryId: 'gaji', walletId: 'w_bca', note: 'Gaji Bulan Ini', date: '2026-10-01' },
+          { id: 't2', type: 'income', amount: 1200000, categoryId: 'freelance', walletId: 'w_bca', note: 'Project Sampingan', date: '2026-10-10' },
+          { id: 't3', type: 'expense', amount: 35000, categoryId: 'makan', walletId: 'w_gopay', note: 'Makan Siang Nasi Padang', date: '2026-10-16' },
+          { id: 't4', type: 'expense', amount: 22000, categoryId: 'ngopi', walletId: 'w_gopay', note: 'Kopi Kenangan', date: '2026-10-16' },
+          { id: 't5', type: 'expense', amount: 50000, categoryId: 'bensin', walletId: 'w_cash', note: 'Isi Pertamax Motor', date: '2026-10-15' },
+          { id: 't6', type: 'expense', amount: 250000, categoryId: 'listrik', walletId: 'w_bca', note: 'Token Listrik & WiFi', date: '2026-10-12' },
         ],
         savings: [
           { id: 's1', name: 'Dana Darurat', icon: '🛡️', current: 4500000, target: 10000000 },
-          { id: 's2', name: 'Beli Gadget / Laptop', icon: '💻', current: 3000000, target: 8000000 },
+          { id: 's2', name: 'Beli Laptop / HP', icon: '💻', current: 3000000, target: 8000000 },
           { id: 's3', name: 'Liburan', icon: '✈️', current: 1500000, target: 4000000 },
         ],
-        budgets: [
-          { categoryId: 'food', limit: 1500000 },
-          { categoryId: 'coffee', limit: 350000 },
-          { categoryId: 'transport', limit: 500000 },
-        ]
       };
     }
 
@@ -775,7 +878,11 @@
     function loadState() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
-        if (raw) return JSON.parse(raw);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (!parsed.customCategories) parsed.customCategories = [];
+          return parsed;
+        }
       } catch (e) {}
       const def = getDefaultData();
       localStorage.setItem(STORAGE_KEY, JSON.stringify(def));
@@ -812,13 +919,23 @@
       return `${d.getDate()} ${MONTHS_SHORT[d.getMonth()]} ${d.getFullYear()}`;
     }
 
+    function getExpenseCategories() {
+      const custom = (state.customCategories || []).filter(c => c.type === 'expense');
+      return [...DEFAULT_EXPENSE_CATEGORIES, ...custom];
+    }
+
+    function getIncomeCategories() {
+      const custom = (state.customCategories || []).filter(c => c.type === 'income');
+      return [...DEFAULT_INCOME_CATEGORIES, ...custom];
+    }
+
     function getCategory(id) {
-      return [...EXPENSE_CATEGORIES, ...INCOME_CATEGORIES].find(c => c.id === id) ||
-        { id, name: 'Lainnya', icon: '📦', color: '#64748B' };
+      return [...getExpenseCategories(), ...getIncomeCategories()].find(c => c.id === id) ||
+        { id, name: 'Lainnya', icon: '📋', color: '#64748B' };
     }
 
     function getWallet(id) {
-      return state.wallets.find(w => w.id === id) || state.wallets[0] || { name: 'Utama' };
+      return state.wallets.find(w => w.id === id) || state.wallets[0] || { id: '', name: 'Utama', type: 'bank' };
     }
 
     function getWalletType(typeId) {
@@ -827,21 +944,29 @@
 
     function computeTotals() {
       const walletBalances = {};
-      state.wallets.forEach(w => { walletBalances[w.id] = Number(w.initialBalance) || 0; });
+      const walletTxNet = {};
+      state.wallets.forEach(w => {
+        walletBalances[w.id] = Number(w.initialBalance) || 0;
+        walletTxNet[w.id] = 0;
+      });
 
       let totalIncome = 0;
       let totalExpense = 0;
-      const expenseByCategory = {};
 
       state.transactions.forEach(t => {
         const amt = Number(t.amount) || 0;
         if (t.type === 'income') {
           totalIncome += amt;
-          if (walletBalances[t.walletId] !== undefined) walletBalances[t.walletId] += amt;
+          if (walletBalances[t.walletId] !== undefined) {
+            walletBalances[t.walletId] += amt;
+            walletTxNet[t.walletId] += amt;
+          }
         } else {
           totalExpense += amt;
-          expenseByCategory[t.categoryId] = (expenseByCategory[t.categoryId] || 0) + amt;
-          if (walletBalances[t.walletId] !== undefined) walletBalances[t.walletId] -= amt;
+          if (walletBalances[t.walletId] !== undefined) {
+            walletBalances[t.walletId] -= amt;
+            walletTxNet[t.walletId] -= amt;
+          }
         }
       });
 
@@ -851,10 +976,10 @@
 
       return {
         walletBalances,
+        walletTxNet,
         totalWalletBalance,
         totalIncome,
         totalExpense,
-        expenseByCategory,
         totalSavings,
         totalSavingsTarget,
       };
@@ -878,12 +1003,12 @@
           <div class="tx-left">
             <div class="tx-badge" style="background:${cat.color}18;">${cat.icon}</div>
             <div class="tx-info">
-              <div class="tx-title">${escapeHtml(tx.note || cat.name)}</div>
+              <div class="tx-title">${escapeHtml(tx.note || cat.name)} <span style="font-size:11px;color:var(--muted);">✏️</span></div>
               <div class="tx-meta">${formatDateIndo(tx.date)} • ${cat.name}</div>
             </div>
           </div>
           <div class="tx-right">
-            <div class="tx-amt" style="color:${isInc ? '#65A30D' : '#E35273'};">
+            <div class="tx-amt" style="color:${isInc ? '#5C9E23' : '#E11D48'};">
               ${isInc ? '+' : '-'}${formatRupiah(tx.amount, true)}
             </div>
             <div class="tx-wallet-tag">${escapeHtml(w.name)}</div>
@@ -904,18 +1029,20 @@
     /* ==================== PAGE 1: BERANDA ==================== */
     function renderDashboard() {
       const t = computeTotals();
-      const recentTx = state.transactions.slice(0, 6);
+      const recentTx = state.transactions.slice(0, 8);
 
       return `
-        <!-- 3 Top Cards -->
+        <!-- 3 Top Summary Cards -->
         <div class="summary-grid">
           <div class="hero-card">
             <div>
               <div class="hero-top">
                 <span>Total Saldo Dompet Aktif</span>
-                <span>💳 ${state.wallets.length} Dompet</span>
+                <button class="edit-pill-btn" onclick="navigate('wallets')">✏️ Ubah Saldo / Bank</button>
               </div>
-              <div class="hero-balance">${formatRupiah(t.totalWalletBalance, true)}</div>
+              <div class="hero-balance" onclick="navigate('wallets')" title="Klik untuk atur saldo per bank/dompet">
+                <span>${formatRupiah(t.totalWalletBalance, true)}</span>
+              </div>
               <div class="hero-btn-row">
                 <button class="hero-btn in" onclick="openTxModal('income')">＋ Pemasukan</button>
                 <button class="hero-btn out" onclick="openTxModal('expense')">－ Pengeluaran</button>
@@ -930,18 +1057,18 @@
           <div class="stat-card">
             <div>
               <div class="stat-head">
-                <span>Arus Kas Bulan Ini</span>
+                <span>Pemasukan vs Pengeluaran</span>
                 <span>📊</span>
               </div>
               <div class="stat-val" style="color:${t.totalIncome - t.totalExpense >= 0 ? 'var(--text)' : 'var(--danger)'}">
                 ${t.totalIncome - t.totalExpense >= 0 ? '+' : ''}${formatRupiah(t.totalIncome - t.totalExpense, true)}
               </div>
               <div class="stat-sub">
-                <span style="color:#65A30D;">↓ Masuk: ${formatRupiah(t.totalIncome, true)}</span>
-                <span style="color:#E35273;">↑ Keluar: ${formatRupiah(t.totalExpense, true)}</span>
+                <span style="color:#5C9E23;">↓ Masuk: ${formatRupiah(t.totalIncome, true)}</span>
+                <span style="color:#E11D48;">↑ Keluar: ${formatRupiah(t.totalExpense, true)}</span>
               </div>
             </div>
-            <button class="stat-link" onclick="navigate('expense')">Lihat Riwayat ›</button>
+            <button class="stat-link" onclick="openTxModal('expense')">+ Catat Transaksi Baru ›</button>
           </div>
 
           <div class="stat-card">
@@ -952,43 +1079,43 @@
               </div>
               <div class="stat-val">${formatRupiah(t.totalSavings, true)}</div>
               <div class="stat-sub" style="color:var(--muted);">
-                <span>${state.savings.length} Target</span>
+                <span>${state.savings.length} Celengan</span>
                 <span>Target: ${formatRupiah(t.totalSavingsTarget, true)}</span>
               </div>
             </div>
-            <button class="stat-link" onclick="openSavingDepositModal()">+ Setor Tabungan ›</button>
+            <button class="stat-link" onclick="openSavingDepositModal()">+ Setor / Tarik Tabungan ›</button>
           </div>
         </div>
 
         <!-- 4 Quick Action Buttons -->
-        <div class="section-title">Aksi Cepat</div>
+        <div class="section-title">Menu Cepat</div>
         <div class="quick-grid">
           <div class="quick-card" onclick="openTxModal('income')">
             <div class="quick-icon" style="background:#ECF6DF;">📥</div>
             <div>
-              <h4>Catat Masuk</h4>
-              <p>Gaji, bonus, transferan</p>
+              <h4>Catat Pemasukan</h4>
+              <p>Gaji, bonus, jualan, transferan</p>
             </div>
           </div>
           <div class="quick-card" onclick="openTxModal('expense')">
-            <div class="quick-icon" style="background:#FEE2E2;">📤</div>
+            <div class="quick-icon" style="background:#FFE4E6;">📤</div>
             <div>
-              <h4>Catat Keluar</h4>
-              <p>Makan, jajan, tagihan</p>
+              <h4>Catat Pengeluaran</h4>
+              <p>Makan, ngopi, ojol, olshop, kuota</p>
             </div>
           </div>
           <div class="quick-card" onclick="openSavingDepositModal()">
             <div class="quick-icon" style="background:#EBF5FF;">🐷</div>
             <div>
-              <h4>Isi Tabungan</h4>
-              <p>Sisihkan uang ke celengan</p>
+              <h4>Setor Tabungan</h4>
+              <p>Nabung atau tarik celengan</p>
             </div>
           </div>
           <div class="quick-card" onclick="openWalletModal()">
-            <div class="quick-icon" style="background:#F3E8FF;">💳</div>
+            <div class="quick-icon" style="background:#F3E8FF;">🏦</div>
             <div>
-              <h4>Tambah Dompet</h4>
-              <p>Bank, E-Wallet, Tunai</p>
+              <h4>Tambah Bank/Dompet</h4>
+              <p>BCA, Mandiri, BRI, GoPay, DANA</p>
             </div>
           </div>
         </div>
@@ -998,46 +1125,20 @@
           <!-- Left: Recent Transactions -->
           <div class="card-box">
             <div class="section-title">
-              <span>Transaksi Terakhir</span>
+              <span>Riwayat Transaksi (Ketuk untuk Edit)</span>
               <button class="stat-link" style="margin:0;" onclick="navigate('expense')">Semua ›</button>
             </div>
             ${recentTx.length === 0
-              ? `<p style="color:var(--muted);font-size:13px;padding:16px 0;text-align:center;">Belum ada transaksi. Klik tombol <strong>+ Pemasukan</strong> atau <strong>- Pengeluaran</strong> di atas.</p>`
+              ? `<p style="color:var(--muted);font-size:13px;padding:18px 0;text-align:center;">Belum ada transaksi. Klik tombol <strong>+ Pemasukan</strong> atau <strong>- Pengeluaran</strong> di atas.</p>`
               : recentTx.map(renderTxRow).join('')}
           </div>
 
-          <!-- Right: Savings & Wallets -->
+          <!-- Right: Wallets & Savings -->
           <div>
             <div class="card-box">
               <div class="section-title">
-                <span>Target Tabungan 🐷</span>
-                <button class="stat-link" style="margin:0;" onclick="openSavingModal()">+ Baru</button>
-              </div>
-              ${state.savings.length === 0
-                ? `<p style="color:var(--muted);font-size:12.5px;">Belum ada celengan tabungan.</p>`
-                : state.savings.map(s => {
-                  const pct = s.target ? Math.min(100, Math.round((s.current / s.target) * 100)) : 0;
-                  return `
-                    <div style="margin-bottom:12px;cursor:pointer;" onclick="openSavingModal('${s.id}')">
-                      <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;">
-                        <span>${s.icon} ${escapeHtml(s.name)}</span>
-                        <span style="color:#65A30D;">${pct}%</span>
-                      </div>
-                      <div class="progress-track">
-                        <div class="progress-fill" style="width:${pct}%;background:#93C854;"></div>
-                      </div>
-                      <div style="font-size:11.5px;color:var(--muted);">
-                        ${formatRupiah(s.current, true)} dari ${formatRupiah(s.target, true)}
-                      </div>
-                    </div>
-                  `;
-                }).join('')}
-            </div>
-
-            <div class="card-box">
-              <div class="section-title">
-                <span>Saldo per Dompet</span>
-                <button class="stat-link" style="margin:0;" onclick="navigate('wallets')">Kelola ›</button>
+                <span>Saldo Bank & Dompet (Ketuk untuk Edit)</span>
+                <button class="stat-link" style="margin:0;" onclick="openWalletModal()">+ Tambah</button>
               </div>
               ${state.wallets.map(w => {
                 const wt = getWalletType(w.type);
@@ -1047,7 +1148,7 @@
                     <div class="tx-left">
                       <div class="tx-badge" style="background:#EBF5FF;">${wt.icon}</div>
                       <div class="tx-info">
-                        <div class="tx-title">${escapeHtml(w.name)}</div>
+                        <div class="tx-title">${escapeHtml(w.name)} <span style="font-size:11px;color:var(--blue);">✏️ Edit</span></div>
                         <div class="tx-meta">${wt.name}</div>
                       </div>
                     </div>
@@ -1057,6 +1158,32 @@
                   </div>
                 `;
               }).join('')}
+            </div>
+
+            <div class="card-box">
+              <div class="section-title">
+                <span>Target Tabunganmu 🐷</span>
+                <button class="stat-link" style="margin:0;" onclick="openSavingModal()">+ Buat Baru</button>
+              </div>
+              ${state.savings.length === 0
+                ? `<p style="color:var(--muted);font-size:12.5px;">Belum ada celengan tabungan.</p>`
+                : state.savings.map(s => {
+                  const pct = s.target ? Math.min(100, Math.round((s.current / s.target) * 100)) : 0;
+                  return `
+                    <div style="margin-bottom:14px;cursor:pointer;" onclick="openSavingModal('${s.id}')">
+                      <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;">
+                        <span>${s.icon} ${escapeHtml(s.name)} <span style="font-size:11px;color:var(--blue);">✏️</span></span>
+                        <span style="color:#5C9E23;">${pct}%</span>
+                      </div>
+                      <div class="progress-track">
+                        <div class="progress-fill" style="width:${pct}%;background:#8CC63F;"></div>
+                      </div>
+                      <div style="font-size:11.5px;color:var(--muted);">
+                        Terkumpul ${formatRupiah(s.current, true)} / Target ${formatRupiah(s.target, true)}
+                      </div>
+                    </div>
+                  `;
+                }).join('')}
             </div>
           </div>
         </div>
@@ -1073,7 +1200,7 @@
         <div class="card-box" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
           <div>
             <div style="font-size:12px;color:var(--muted);font-weight:700;">TOTAL ${isInc ? 'PEMASUKAN' : 'PENGELUARAN'}</div>
-            <div style="font-size:24px;font-weight:800;color:${isInc ? '#65A30D' : '#E35273'};margin-top:2px;">
+            <div style="font-size:24px;font-weight:800;color:${isInc ? '#5C9E23' : '#E11D48'};margin-top:2px;">
               ${formatRupiah(total, true)}
             </div>
           </div>
@@ -1084,8 +1211,8 @@
 
         <div class="card-box">
           <div class="section-title">
-            <span>Daftar ${isInc ? 'Uang Masuk' : 'Uang Keluar'} (${list.length})</span>
-            <span style="font-size:11.5px;color:var(--muted);font-weight:600;">Ketuk item untuk edit/hapus</span>
+            <span>Daftar ${isInc ? 'Pemasukan' : 'Pengeluaran'} (${list.length})</span>
+            <span style="font-size:11.5px;color:var(--blue);font-weight:700;">Ketuk baris untuk Edit / Hapus</span>
           </div>
           ${list.length === 0
             ? `<p style="color:var(--muted);font-size:13px;padding:20px 0;text-align:center;">Belum ada catatan.</p>`
@@ -1106,9 +1233,9 @@
               <span style="font-size:13px;color:var(--muted);font-weight:600;">/ ${formatRupiah(t.totalSavingsTarget, true)}</span>
             </div>
           </div>
-          <div style="display:flex;gap:8px;">
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
             <button class="hero-btn" style="flex:0;padding:10px 14px;background:var(--blue);color:#fff;" onclick="openSavingDepositModal()">＋ Setor / Tarik</button>
-            <button class="hero-btn" style="flex:0;padding:10px 14px;background:var(--green);color:#fff;" onclick="openSavingModal()">＋ Celengan Baru</button>
+            <button class="hero-btn" style="flex:0;padding:10px 14px;background:var(--green);color:#fff;" onclick="openSavingModal()">＋ Buat Target Baru</button>
           </div>
         </div>
 
@@ -1121,17 +1248,17 @@
                 <div>
                   <div class="stat-head">
                     <span style="color:var(--text);font-size:14.5px;">${s.icon} ${escapeHtml(s.name)}</span>
-                    <strong style="color:#65A30D;">${pct}%</strong>
+                    <span style="color:var(--blue);font-size:12px;">✏️ Edit</span>
                   </div>
                   <div class="stat-val" style="font-size:20px;">
                     ${formatRupiah(s.current, true)}
                   </div>
                   <div class="progress-track">
-                    <div class="progress-fill" style="width:${pct}%;background:#93C854;"></div>
+                    <div class="progress-fill" style="width:${pct}%;background:#8CC63F;"></div>
                   </div>
                 </div>
                 <div class="stat-sub" style="margin-top:8px;color:var(--muted);">
-                  <span>Target: ${formatRupiah(s.target, true)}</span>
+                  <span>Target: ${formatRupiah(s.target, true)} (${pct}%)</span>
                   <span>${kurang > 0 ? `Kurang ${formatRupiah(kurang, true)}` : '🎉 Tercapai'}</span>
                 </div>
               </div>
@@ -1141,18 +1268,18 @@
       `;
     }
 
-    /* ==================== PAGE 5: DOMPET ==================== */
+    /* ==================== PAGE 5: BANK & DOMPET ==================== */
     function renderWalletsPage() {
       const t = computeTotals();
       return `
         <div class="card-box" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
           <div>
-            <div style="font-size:12px;color:var(--muted);font-weight:700;">TOTAL SALDO SEMUA DOMPET</div>
+            <div style="font-size:12px;color:var(--muted);font-weight:700;">TOTAL SALDO SEMUA BANK & DOMPET</div>
             <div style="font-size:24px;font-weight:800;color:var(--text);margin-top:2px;">
               ${formatRupiah(t.totalWalletBalance, true)}
             </div>
           </div>
-          <button class="hero-btn" style="flex:0;padding:10px 16px;background:var(--green);color:#fff;" onclick="openWalletModal()">＋ Tambah Dompet</button>
+          <button class="hero-btn" style="flex:0;padding:10px 16px;background:var(--green);color:#fff;" onclick="openWalletModal()">＋ Tambah Bank / Dompet</button>
         </div>
 
         <div class="summary-grid">
@@ -1164,13 +1291,13 @@
                 <div>
                   <div class="stat-head">
                     <span>${wt.icon} ${wt.name}</span>
-                    <span style="color:var(--blue);">Edit ›</span>
+                    <span style="color:var(--blue);font-weight:800;">✏️ Edit Nama / Saldo</span>
                   </div>
-                  <div style="font-size:16px;font-weight:800;margin-top:6px;">${escapeHtml(w.name)}</div>
+                  <div style="font-size:17px;font-weight:800;margin-top:6px;">${escapeHtml(w.name)}</div>
                   <div class="stat-val">${formatRupiah(bal, true)}</div>
                 </div>
                 <div class="stat-sub" style="color:var(--muted);">
-                  <span>Saldo Awal: ${formatRupiah(w.initialBalance, true)}</span>
+                  <span>Ketuk kartu ini untuk ubah nama bank atau saldo</span>
                 </div>
               </div>
             `;
@@ -1179,7 +1306,7 @@
       `;
     }
 
-    /* ==================== MODALS ==================== */
+    /* ==================== MODALS (NO window.prompt / window.confirm!) ==================== */
     let form = {};
 
     function openModal(html) {
@@ -1190,28 +1317,41 @@
       document.getElementById('modalBackdrop').classList.remove('open');
     }
 
+    /* 1. MODAL TRANSAKSI (PEMASUKAN / PENGELUARAN) */
     function openTxModal(type = 'expense', txId = null) {
       const existing = txId ? state.transactions.find(t => t.id === txId) : null;
-      const cats = (existing ? existing.type : type) === 'income' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES;
+      const actualType = existing ? existing.type : type;
+      const cats = actualType === 'income' ? getIncomeCategories() : getExpenseCategories();
       form = {
         id: existing ? existing.id : null,
-        type: existing ? existing.type : type,
+        type: actualType,
         note: existing ? existing.note : '',
         amount: existing ? String(existing.amount) : '',
         categoryId: existing ? existing.categoryId : cats[0].id,
         walletId: existing ? existing.walletId : (state.wallets[0] ? state.wallets[0].id : ''),
         date: existing ? existing.date : new Date().toISOString().slice(0, 10),
+        confirmDelete: false,
+        addingCustomCat: false,
+        customCatName: '',
+        customCatIcon: '🏷️',
       };
       renderTxModal();
     }
 
+    function addQuickAmount(val) {
+      const cur = parseInt(form.amount, 10) || 0;
+      form.amount = String(cur + val);
+      const inp = document.getElementById('txAmountInput');
+      if (inp) inp.value = formatThousands(form.amount);
+    }
+
     function renderTxModal() {
-      const cats = form.type === 'income' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES;
+      const cats = form.type === 'income' ? getIncomeCategories() : getExpenseCategories();
       if (!cats.some(c => c.id === form.categoryId)) form.categoryId = cats[0].id;
 
       openModal(`
         <div class="modal-header">
-          <span class="modal-title">${form.id ? 'Edit Transaksi' : (form.type === 'income' ? 'Catat Pemasukan' : 'Catat Pengeluaran')}</span>
+          <span class="modal-title">${form.id ? '✏️ Edit Transaksi' : (form.type === 'income' ? '📥 Catat Pemasukan' : '📤 Catat Pengeluaran')}</span>
           <button class="close-btn" onclick="closeModal()">✕</button>
         </div>
 
@@ -1221,24 +1361,48 @@
         </div>
 
         <label class="form-label">Nominal (Rp)</label>
-        <input type="text" inputmode="numeric" class="form-control" style="font-size:20px;font-weight:800;" placeholder="0" value="${formatThousands(form.amount)}" oninput="form.amount=this.value.replace(/\\D/g,'');this.value=formatThousands(form.amount);" />
+        <input id="txAmountInput" type="text" inputmode="numeric" class="form-control" style="font-size:21px;font-weight:800;" placeholder="0" value="${formatThousands(form.amount)}" oninput="form.amount=this.value.replace(/\\D/g,'');this.value=formatThousands(form.amount);" />
+        <div class="chip-row">
+          <button type="button" class="chip-btn" onclick="addQuickAmount(10000)">+10rb</button>
+          <button type="button" class="chip-btn" onclick="addQuickAmount(20000)">+20rb</button>
+          <button type="button" class="chip-btn" onclick="addQuickAmount(50000)">+50rb</button>
+          <button type="button" class="chip-btn" onclick="addQuickAmount(100000)">+100rb</button>
+          <button type="button" class="chip-btn" onclick="addQuickAmount(500000)">+500rb</button>
+          <button type="button" class="chip-btn" style="color:var(--danger);" onclick="form.amount='';document.getElementById('txAmountInput').value='';">Reset</button>
+        </div>
 
-        <label class="form-label">Catatan</label>
-        <input class="form-control" placeholder="Cth: Makan siang, Gaji, Bensin..." value="${escapeHtml(form.note)}" oninput="form.note=this.value" />
+        <label class="form-label">Catatan / Keterangan</label>
+        <input class="form-control" placeholder="Cth: Nasi Padang, Kopi, Bensin, Gaji..." value="${escapeHtml(form.note)}" oninput="form.note=this.value" />
 
-        <label class="form-label">Kategori</label>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin:14px 0 6px;">
+          <label class="form-label" style="margin:0;">Pilih Kategori (${cats.length} pilihan)</label>
+          <button type="button" style="background:none;border:none;color:var(--blue);font-size:12px;font-weight:800;cursor:pointer;" onclick="form.addingCustomCat=!form.addingCustomCat;renderTxModal();">
+            ${form.addingCustomCat ? 'Batal' : '＋ Buat Kategori Sendiri'}
+          </button>
+        </div>
+
+        ${form.addingCustomCat ? `
+          <div style="background:#F8FAFC;border:1.5px solid var(--blue);border-radius:12px;padding:12px;margin-bottom:10px;">
+            <div style="font-size:12px;font-weight:800;margin-bottom:6px;">Tambah Kategori Baru</div>
+            <div style="display:flex;gap:8px;">
+              <input class="form-control" style="flex:1;" placeholder="Nama kategori baru..." value="${escapeHtml(form.customCatName)}" oninput="form.customCatName=this.value" />
+              <button type="button" class="hero-btn" style="flex:0;padding:0 14px;background:var(--blue);color:#fff;" onclick="saveCustomCategory()">Tambah</button>
+            </div>
+          </div>
+        ` : ''}
+
         <div class="cat-grid">
           ${cats.map(c => `
             <button type="button" class="cat-btn ${form.categoryId === c.id ? 'selected' : ''}" onclick="form.categoryId='${c.id}';renderTxModal();">
-              <span style="font-size:18px;">${c.icon}</span>
-              <span>${c.name}</span>
+              <span style="font-size:20px;">${c.icon}</span>
+              <span>${escapeHtml(c.name)}</span>
             </button>
           `).join('')}
         </div>
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
           <div>
-            <label class="form-label">Dompet</label>
+            <label class="form-label">Pakai Bank / Dompet</label>
             <select class="form-control" onchange="form.walletId=this.value">
               ${state.wallets.map(w => `<option value="${w.id}" ${form.walletId===w.id?'selected':''}>${escapeHtml(w.name)}</option>`).join('')}
             </select>
@@ -1249,14 +1413,39 @@
           </div>
         </div>
 
-        <button class="btn-submit" onclick="saveTx()">Simpan Transaksi</button>
-        ${form.id ? `<button class="btn-submit" style="background:var(--danger);margin-top:8px;" onclick="deleteTx('${form.id}')">Hapus Transaksi</button>` : ''}
+        <button class="btn-submit" onclick="saveTx()">💾 Simpan Transaksi</button>
+        ${form.id ? (
+          !form.confirmDelete
+            ? `<button type="button" class="btn-danger" onclick="form.confirmDelete=true;renderTxModal();">🗑️ Hapus Transaksi Ini</button>`
+            : `<button type="button" class="btn-danger" style="background:var(--danger);color:#fff;" onclick="deleteTx('${form.id}')">⚠️ Yakin Hapus? Ketuk Sekali Lagi</button>`
+        ) : ''}
       `);
+    }
+
+    function saveCustomCategory() {
+      const name = (form.customCatName || '').trim();
+      if (!name) return;
+      const newCat = {
+        id: 'cust_' + uid(),
+        type: form.type,
+        name,
+        icon: form.type === 'income' ? '💵' : '🏷️',
+        color: '#3B82F6',
+      };
+      state.customCategories.push(newCat);
+      form.categoryId = newCat.id;
+      form.addingCustomCat = false;
+      form.customCatName = '';
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      renderTxModal();
     }
 
     function saveTx() {
       const amt = parseInt(form.amount, 10) || 0;
-      if (amt <= 0) return alert('Masukkan nominal yang valid.');
+      if (amt <= 0) {
+        document.getElementById('txAmountInput').focus();
+        return;
+      }
       const cat = getCategory(form.categoryId);
       const payload = {
         id: form.id || uid(),
@@ -1274,12 +1463,116 @@
     }
 
     function deleteTx(id) {
-      if (!confirm('Hapus transaksi ini?')) return;
       state.transactions = state.transactions.filter(t => t.id !== id);
       closeModal();
       saveState();
     }
 
+    /* 2. MODAL EDIT / TAMBAH BANK & DOMPET (DIRECT CURRENT BALANCE EDIT!) */
+    function openWalletModal(walletId = null) {
+      const totals = computeTotals();
+      const w = walletId ? state.wallets.find(x => x.id === walletId) : null;
+      const currentBal = w ? (totals.walletBalances[w.id] || 0) : 0;
+
+      form = {
+        id: w ? w.id : null,
+        name: w ? w.name : '',
+        type: w ? w.type : 'bank',
+        targetBalance: w ? String(Math.max(0, currentBal)) : '',
+        confirmDelete: false,
+      };
+      renderWalletModal();
+    }
+
+    function selectBankPreset(name, type) {
+      form.name = name;
+      form.type = type;
+      renderWalletModal();
+    }
+
+    function renderWalletModal() {
+      const isEdit = !!form.id;
+      openModal(`
+        <div class="modal-header">
+          <span class="modal-title">${isEdit ? '✏️ Edit Nama Bank & Saldo' : '🏦 Tambah Bank / E-Wallet / Dompet'}</span>
+          <button class="close-btn" onclick="closeModal()">✕</button>
+        </div>
+
+        <label class="form-label" style="margin-top:0;">Pilih Cepat Bank / E-Wallet Indonesia (Atau ketik di bawah)</label>
+        <div class="preset-grid">
+          ${BANK_PRESETS.map(p => `
+            <button type="button" class="preset-btn ${form.name === p.name ? 'selected' : ''}" onclick="selectBankPreset('${p.name}', '${p.type}')">
+              <span>${p.icon}</span>
+              <span>${p.name}</span>
+            </button>
+          `).join('')}
+        </div>
+
+        <label class="form-label">Nama Bank / E-Wallet / Dompet (Bebas Diubah)</label>
+        <input id="walletNameInput" class="form-control" style="font-weight:700;" placeholder="Ketik nama bank/dompet, cth: BCA Utama, Mandiri, GoPay..." value="${escapeHtml(form.name)}" oninput="form.name=this.value" />
+
+        <label class="form-label">Kategori Akun</label>
+        <div style="display:flex;gap:6px;">
+          ${WALLET_TYPES.map(t => `
+            <button type="button" class="chip-btn ${form.type === t.id ? 'active' : ''}" style="flex:1;padding:9px 6px;" onclick="form.type='${t.id}';renderWalletModal();">
+              ${t.icon} ${t.name}
+            </button>
+          `).join('')}
+        </div>
+
+        <label class="form-label">Saldo Saat Ini di ${escapeHtml(form.name || 'Dompet Ini')} (Rp)</label>
+        <input id="walletBalInput" type="text" inputmode="numeric" class="form-control" style="font-size:21px;font-weight:800;" placeholder="0" value="${formatThousands(form.targetBalance)}" oninput="form.targetBalance=this.value.replace(/\\D/g,'');this.value=formatThousands(form.targetBalance);" />
+        <div class="chip-row">
+          <button type="button" class="chip-btn" onclick="form.targetBalance=String((parseInt(form.targetBalance,10)||0)+100000);document.getElementById('walletBalInput').value=formatThousands(form.targetBalance);">+100rb</button>
+          <button type="button" class="chip-btn" onclick="form.targetBalance=String((parseInt(form.targetBalance,10)||0)+500000);document.getElementById('walletBalInput').value=formatThousands(form.targetBalance);">+500rb</button>
+          <button type="button" class="chip-btn" onclick="form.targetBalance=String((parseInt(form.targetBalance,10)||0)+1000000);document.getElementById('walletBalInput').value=formatThousands(form.targetBalance);">+1 Juta</button>
+          <button type="button" class="chip-btn" style="color:var(--danger);" onclick="form.targetBalance='0';document.getElementById('walletBalInput').value='0';">Set Rp 0</button>
+        </div>
+
+        <button class="btn-submit" onclick="saveWallet()">💾 Simpan Bank / Dompet</button>
+        ${isEdit && state.wallets.length > 1 ? (
+          !form.confirmDelete
+            ? `<button type="button" class="btn-danger" onclick="form.confirmDelete=true;renderWalletModal();">🗑️ Hapus Dompet Ini</button>`
+            : `<button type="button" class="btn-danger" style="background:var(--danger);color:#fff;" onclick="deleteWallet('${form.id}')">⚠️ Yakin Hapus? Ketuk Sekali Lagi</button>`
+        ) : ''}
+      `);
+    }
+
+    function saveWallet() {
+      const cleanName = (form.name || '').trim();
+      if (!cleanName) {
+        document.getElementById('walletNameInput').focus();
+        return;
+      }
+      const desiredBalance = parseInt(form.targetBalance, 10) || 0;
+      const totals = computeTotals();
+
+      if (form.id) {
+        // Adjust initialBalance so that initialBalance + walletTxNet === desiredBalance!
+        const txNet = totals.walletTxNet[form.id] || 0;
+        const newInitial = desiredBalance - txNet;
+        state.wallets = state.wallets.map(w =>
+          w.id === form.id ? { ...w, name: cleanName, type: form.type, initialBalance: newInitial } : w
+        );
+      } else {
+        state.wallets.push({
+          id: uid(),
+          name: cleanName,
+          type: form.type,
+          initialBalance: desiredBalance,
+        });
+      }
+      closeModal();
+      saveState();
+    }
+
+    function deleteWallet(id) {
+      state.wallets = state.wallets.filter(w => w.id !== id);
+      closeModal();
+      saveState();
+    }
+
+    /* 3. MODAL SETOR / TARIK TABUNGAN */
     function openSavingDepositModal() {
       if (!state.savings.length) return openSavingModal();
       form = {
@@ -1294,30 +1587,30 @@
     function renderSavingDepositModal() {
       openModal(`
         <div class="modal-header">
-          <span class="modal-title">Setor / Tarik Tabungan 🐷</span>
+          <span class="modal-title">🐷 Setor / Tarik Tabungan</span>
           <button class="close-btn" onclick="closeModal()">✕</button>
         </div>
         <div style="display:flex;gap:8px;margin-bottom:8px;">
           <button type="button" class="hero-btn" style="background:${form.mode==='deposit'?'var(--green)':'#E2E8F0'};color:${form.mode==='deposit'?'#fff':'var(--text)'}" onclick="form.mode='deposit';renderSavingDepositModal();">＋ Setor Nabung</button>
           <button type="button" class="hero-btn" style="background:${form.mode==='withdraw'?'var(--warning)':'#E2E8F0'};color:${form.mode==='withdraw'?'#fff':'var(--text)'}" onclick="form.mode='withdraw';renderSavingDepositModal();">－ Tarik Tabungan</button>
         </div>
-        <label class="form-label">Celengan Tabungan</label>
+        <label class="form-label">Pilih Celengan Tabungan</label>
         <select class="form-control" onchange="form.savingId=this.value">
           ${state.savings.map(s => `<option value="${s.id}" ${form.savingId===s.id?'selected':''}>${s.icon} ${escapeHtml(s.name)} (${formatRupiah(s.current)})</option>`).join('')}
         </select>
-        <label class="form-label">${form.mode === 'deposit' ? 'Ambil dari Dompet' : 'Masukkan ke Dompet'}</label>
+        <label class="form-label">${form.mode === 'deposit' ? 'Ambil Saldo dari Bank/Dompet' : 'Masukkan ke Bank/Dompet'}</label>
         <select class="form-control" onchange="form.walletId=this.value">
           ${state.wallets.map(w => `<option value="${w.id}" ${form.walletId===w.id?'selected':''}>${escapeHtml(w.name)}</option>`).join('')}
         </select>
         <label class="form-label">Nominal (Rp)</label>
-        <input type="text" inputmode="numeric" class="form-control" style="font-size:20px;font-weight:800;" placeholder="0" value="${formatThousands(form.amount)}" oninput="form.amount=this.value.replace(/\\D/g,'');this.value=formatThousands(form.amount);" />
-        <button class="btn-submit" onclick="saveSavingDeposit()">Simpan</button>
+        <input id="savDepInput" type="text" inputmode="numeric" class="form-control" style="font-size:20px;font-weight:800;" placeholder="0" value="${formatThousands(form.amount)}" oninput="form.amount=this.value.replace(/\\D/g,'');this.value=formatThousands(form.amount);" />
+        <button class="btn-submit" onclick="saveSavingDeposit()">💾 Simpan</button>
       `);
     }
 
     function saveSavingDeposit() {
       const amt = parseInt(form.amount, 10) || 0;
-      if (amt <= 0) return alert('Masukkan nominal yang valid.');
+      if (amt <= 0) return;
       const target = state.savings.find(s => s.id === form.savingId);
       if (!target) return;
       if (form.mode === 'deposit') {
@@ -1329,13 +1622,26 @@
       } else {
         target.current = Math.max(0, (Number(target.current) || 0) - amt);
         state.transactions.unshift({
-          id: uid(), type: 'income', amount: amt, categoryId: 'other_inc',
+          id: uid(), type: 'income', amount: amt, categoryId: 'cashback',
           walletId: form.walletId, note: `Tarik dari ${target.name}`, date: new Date().toISOString().slice(0, 10)
         });
       }
       closeModal();
       saveState();
     }
+
+    /* 4. MODAL TARGET TABUNGAN */
+    const SAVING_PRESETS = [
+      { name: 'Dana Darurat', icon: '🛡️' },
+      { name: 'Beli HP / Gadget', icon: '📱' },
+      { name: 'Rakit PC / Laptop', icon: '💻' },
+      { name: 'Beli Motor / Mobil', icon: '🛵' },
+      { name: 'Liburan / Healing', icon: '✈️' },
+      { name: 'Modal Nikah', icon: '💍' },
+      { name: 'Beli Rumah / Kost', icon: '🏠' },
+      { name: 'Nonton Konser', icon: '🎫' },
+      { name: 'Tabungan Umroh/Haji', icon: '🕋' },
+    ];
 
     function openSavingModal(savingId = null) {
       const s = savingId ? state.savings.find(x => x.id === savingId) : null;
@@ -1345,25 +1651,49 @@
         icon: s ? s.icon : '🐷',
         current: s ? String(s.current || '') : '',
         target: s ? String(s.target || '') : '',
+        confirmDelete: false,
       };
+      renderSavingModal();
+    }
+
+    function renderSavingModal() {
+      const s = !!form.id;
       openModal(`
         <div class="modal-header">
-          <span class="modal-title">${s ? 'Edit Celengan' : 'Buat Target Tabungan'}</span>
+          <span class="modal-title">${s ? '✏️ Edit Target Tabungan' : '🐷 Buat Target Tabungan'}</span>
           <button class="close-btn" onclick="closeModal()">✕</button>
         </div>
+
+        <label class="form-label" style="margin-top:0;">Pilih Cepat Tujuan Tabungan (Atau ketik sendiri)</label>
+        <div class="preset-grid">
+          ${SAVING_PRESETS.map(p => `
+            <button type="button" class="preset-btn ${form.name === p.name ? 'selected' : ''}" onclick="form.name='${p.name}';form.icon='${p.icon}';renderSavingModal();">
+              <span>${p.icon}</span>
+              <span>${p.name}</span>
+            </button>
+          `).join('')}
+        </div>
+
         <label class="form-label">Nama Target Tabungan</label>
-        <input class="form-control" placeholder="Cth: Dana Darurat, Beli Motor, Liburan..." value="${escapeHtml(form.name)}" oninput="form.name=this.value" />
-        <label class="form-label">Terkumpul Saat Ini (Rp)</label>
-        <input type="text" inputmode="numeric" class="form-control" placeholder="0" value="${formatThousands(form.current)}" oninput="form.current=this.value.replace(/\\D/g,'');this.value=formatThousands(form.current);" />
-        <label class="form-label">Target Tabungan (Rp)</label>
-        <input type="text" inputmode="numeric" class="form-control" placeholder="0" value="${formatThousands(form.target)}" oninput="form.target=this.value.replace(/\\D/g,'');this.value=formatThousands(form.target);" />
-        <button class="btn-submit" onclick="saveSavingGoal()">Simpan Tabungan</button>
-        ${s ? `<button class="btn-submit" style="background:var(--danger);margin-top:8px;" onclick="deleteSavingGoal('${s.id}')">Hapus Celengan</button>` : ''}
+        <input class="form-control" style="font-weight:700;" placeholder="Ketik nama tabungan..." value="${escapeHtml(form.name)}" oninput="form.name=this.value" />
+
+        <label class="form-label">Saldo Tabungan Terkumpul Saat Ini (Rp)</label>
+        <input type="text" inputmode="numeric" class="form-control" style="font-size:18px;font-weight:800;" placeholder="0" value="${formatThousands(form.current)}" oninput="form.current=this.value.replace(/\\D/g,'');this.value=formatThousands(form.current);" />
+
+        <label class="form-label">Target yang Ingin Dicapai (Rp)</label>
+        <input type="text" inputmode="numeric" class="form-control" style="font-size:18px;font-weight:800;" placeholder="0" value="${formatThousands(form.target)}" oninput="form.target=this.value.replace(/\\D/g,'');this.value=formatThousands(form.target);" />
+
+        <button class="btn-submit" onclick="saveSavingGoal()">💾 Simpan Tabungan</button>
+        ${s ? (
+          !form.confirmDelete
+            ? `<button type="button" class="btn-danger" onclick="form.confirmDelete=true;renderSavingModal();">🗑️ Hapus Celengan Ini</button>`
+            : `<button type="button" class="btn-danger" style="background:var(--danger);color:#fff;" onclick="deleteSavingGoal('${form.id}')">⚠️ Yakin Hapus? Ketuk Sekali Lagi</button>`
+        ) : ''}
       `);
     }
 
     function saveSavingGoal() {
-      if (!form.name.trim()) return alert('Nama tabungan wajib diisi.');
+      if (!form.name.trim()) return;
       const payload = {
         id: form.id || uid(),
         name: form.name.trim(),
@@ -1378,79 +1708,63 @@
     }
 
     function deleteSavingGoal(id) {
-      if (!confirm('Hapus celengan ini?')) return;
       state.savings = state.savings.filter(s => s.id !== id);
       closeModal();
       saveState();
     }
 
-    function openWalletModal(walletId = null) {
-      const w = walletId ? state.wallets.find(x => x.id === walletId) : null;
-      form = {
-        id: w ? w.id : null,
-        name: w ? w.name : '',
-        type: w ? w.type : 'bank',
-        initialBalance: w ? String(w.initialBalance || '') : '',
-      };
+    /* 5. MODAL EDIT NAMA PROFIL (MENGGANTIKAN window.prompt) */
+    function openProfileModal() {
+      form = { userName: state.userName || 'Alfian Dimas' };
       openModal(`
         <div class="modal-header">
-          <span class="modal-title">${w ? 'Edit Dompet' : 'Tambah Dompet'}</span>
+          <span class="modal-title">👤 Ubah Nama Profil</span>
           <button class="close-btn" onclick="closeModal()">✕</button>
         </div>
-        <label class="form-label">Jenis Dompet</label>
-        <select class="form-control" onchange="form.type=this.value">
-          ${WALLET_TYPES.map(t => `<option value="${t.id}" ${form.type===t.id?'selected':''}>${t.icon} ${t.name}</option>`).join('')}
-        </select>
-        <label class="form-label">Nama Dompet</label>
-        <input class="form-control" placeholder="Cth: BCA, GoPay, Tunai" value="${escapeHtml(form.name)}" oninput="form.name=this.value" />
-        <label class="form-label">Saldo Awal (Rp)</label>
-        <input type="text" inputmode="numeric" class="form-control" placeholder="0" value="${formatThousands(form.initialBalance)}" oninput="form.initialBalance=this.value.replace(/\\D/g,'');this.value=formatThousands(form.initialBalance);" />
-        <button class="btn-submit" onclick="saveWallet()">Simpan Dompet</button>
-        ${w && state.wallets.length > 1 ? `<button class="btn-submit" style="background:var(--danger);margin-top:8px;" onclick="deleteWallet('${w.id}')">Hapus Dompet</button>` : ''}
+        <label class="form-label" style="margin-top:0;">Nama Kamu</label>
+        <input class="form-control" style="font-size:16px;font-weight:700;" value="${escapeHtml(form.userName)}" oninput="form.userName=this.value" />
+        <button class="btn-submit" onclick="if(form.userName.trim()){state.userName=form.userName.trim();closeModal();saveState();}">💾 Simpan Nama</button>
       `);
     }
 
-    function saveWallet() {
-      if (!form.name.trim()) return alert('Nama dompet wajib diisi.');
-      const payload = {
-        id: form.id || uid(),
-        name: form.name.trim(),
-        type: form.type,
-        initialBalance: parseInt(form.initialBalance, 10) || 0,
-      };
-      if (form.id) state.wallets = state.wallets.map(w => w.id === form.id ? payload : w);
-      else state.wallets.push(payload);
-      closeModal();
-      saveState();
-    }
-
-    function deleteWallet(id) {
-      if (!confirm('Hapus dompet ini?')) return;
-      state.wallets = state.wallets.filter(w => w.id !== id);
-      closeModal();
-      saveState();
-    }
-
+    /* 6. MODAL PENGATURAN & RESET DATA (MENGGANTIKAN window.confirm) */
     function openSettingsModal() {
+      form = { confirmZero: false };
+      renderSettingsModal();
+    }
+
+    function renderSettingsModal() {
       openModal(`
         <div class="modal-header">
-          <span class="modal-title">Pengaturan Data</span>
+          <span class="modal-title">⚙️ Pengaturan Data Keuangan</span>
           <button class="close-btn" onclick="closeModal()">✕</button>
         </div>
-        <p style="font-size:13px;color:var(--muted);margin-bottom:14px;">
-          Semua data tersimpan otomatis di HP/browser kamu.
+        <p style="font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.5;">
+          Semua catatan keuangan, saldo bank, dan tabunganmu tersimpan otomatis di dalam HP/perangkat ini.
         </p>
-        <button class="btn-submit" style="background:var(--blue);margin-top:0;" onclick="state=getDefaultData();closeModal();saveState();">🔄 Isi Data Contoh</button>
-        <button class="btn-submit" style="background:var(--danger);margin-top:10px;" onclick="if(confirm('Kosongkan semua saldo ke Rp 0?')){state.transactions=[];state.savings=[];state.wallets.forEach(w=>w.initialBalance=0);closeModal();saveState();}">🗑️ Mulai dari Nol (Rp 0)</button>
+
+        ${!form.confirmZero ? `
+          <button type="button" class="btn-danger" style="background:var(--danger);color:#fff;" onclick="form.confirmZero=true;renderSettingsModal();">
+            🗑️ Mulai dari Nol (Set Semua Saldo Rp 0)
+          </button>
+        ` : `
+          <button type="button" class="btn-danger" style="background:#991B1B;color:#fff;" onclick="resetToZeroNow()">
+            ⚠️ Yakin Kosongkan Semua Jadi Rp 0? Ketuk di Sini
+          </button>
+        `}
+
+        <button type="button" class="btn-submit" style="background:var(--blue);margin-top:10px;" onclick="state=getDefaultData();closeModal();saveState();">
+          🔄 Isi Kembali Data Contoh
+        </button>
       `);
     }
 
-    function editUserName() {
-      const name = prompt('Nama kamu:', state.userName || 'Alfian Dimas');
-      if (name && name.trim()) {
-        state.userName = name.trim();
-        saveState();
-      }
+    function resetToZeroNow() {
+      state.transactions = [];
+      state.savings = [];
+      state.wallets.forEach(w => { w.initialBalance = 0; });
+      closeModal();
+      saveState();
     }
 
     function escapeHtml(str) {
