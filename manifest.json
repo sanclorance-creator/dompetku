@@ -2,7 +2,7 @@
   "name": "DompetKu — Pengatur Keuangan",
   "short_name": "DompetKu",
   "description": "Aplikasi pencatat pemasukan, pengeluaran, dan tabungan pribadi.",
-  "start_url": "./index.html",
+  "start_url": "./app.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
