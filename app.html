@@ -2194,8 +2194,9 @@
           { id: 's1', name: 'Dana Darurat', icon: 'vault', current: 0, target: 10000000, targetDate: '2027-12-31' },
         ],
         budgets: DEFAULT_BUDGETS.map(b => ({ ...b })),
-        portfolio: DEFAULT_PORTFOLIO.map(p => ({ ...p })),
-        liabilities: DEFAULT_LIABILITIES.map(l => ({ ...l })),
+        // Empty profile: sample holdings and debt load only through "Muat Contoh Data".
+        portfolio: [],
+        liabilities: [],
       };
     }
 
@@ -2287,7 +2288,8 @@
               instrument: PORTFOLIO_INSTRUMENTS.some(i => i.id === p.instrument) ? p.instrument : 'Saham',
               currency: PORTFOLIO_CURRENCIES.some(c => c.id === p.currency) ? p.currency : 'IDR',
               value: Math.max(0, Number(p.value) || 0),
-              changePct: Number(p.changePct) || 0,
+              changePct: Number.isFinite(Number(p.changePct)) ? Number(p.changePct) : 0,
+              goalId: p.goalId && s.savings.some(sv => String(sv.id) === String(p.goalId)) ? String(p.goalId) : '',
             }))
           : DEFAULT_PORTFOLIO.map(p => ({ ...p })),
         liabilities: Array.isArray(s.liabilities)
@@ -2313,7 +2315,7 @@
         }
       } catch (e) {}
       const clean = getCleanZeroData();
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(clean));
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(clean)); } catch (e) {}
       return clean;
     }
 
@@ -2324,12 +2326,20 @@
     }
 
     function saveState() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      let storageFailed = false;
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {
+        storageFailed = true;
+      }
       const uName = state.userName || 'Alfian Dimas';
       document.getElementById('userNameText').textContent = uName;
       document.getElementById('userAvatar').textContent = getInitials(uName);
       document.getElementById('eyeIcon').innerHTML = hideBalance ? SVG_PATHS.eyeOff : SVG_PATHS.eye;
       renderPage();
+      if (storageFailed) {
+        showToast('Penyimpanan browser penuh/tidak tersedia. Ekspor backup JSON sebelum menutup halaman.');
+      }
     }
 
     /* ==================== BACKUP / SNAPSHOT ==================== */
