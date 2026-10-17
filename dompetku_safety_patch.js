@@ -67,10 +67,11 @@
     var source = state.savings.find(function (s) { return s.id === id; });
     if (!source) return;
     var linkedTx = state.transactions.filter(function (t) { return t.savingId === id; });
+    var linkedInvestments = (state.portfolio || []).filter(function (p) { return p.goalId === id; });
     var amount = Number(source.current) || 0;
     var others = state.savings.filter(function (s) { return s.id !== id; });
 
-    if (linkedTx.length === 0 && amount === 0) {
+    if (linkedTx.length === 0 && linkedInvestments.length === 0 && amount === 0) {
       confirmAction({
         title: 'Hapus target ' + escapeHtml(source.name) + '?',
         message: 'Target ini tidak memiliki saldo atau riwayat transfer. Target akan dihapus.',
@@ -92,8 +93,8 @@
     }
 
     var desc = 'Target <strong>' + escapeHtml(source.name) + '</strong> memiliki saldo ' +
-      '<strong>' + formatRupiah(amount) + '</strong> dan ' + linkedTx.length + ' transaksi transfer. ' +
-      'Pindahkan saldo dan tautan riwayatnya ke target lain agar catatan tetap konsisten.';
+      '<strong>' + formatRupiah(amount) + '</strong>, ' + linkedTx.length + ' transaksi transfer, dan ' +
+      linkedInvestments.length + ' investasi tertaut. Pindahkan semuanya ke target lain agar tidak ada tautan yatim.';
     openModal(
       '<div class="modal-header">' +
         '<span class="modal-title" style="color:var(--warning);">' + SVG_PATHS.vault + ' <span>Pindahkan Target Dana</span></span>' +
@@ -123,6 +124,9 @@
     target.current = (Number(target.current) || 0) + (Number(source.current) || 0);
     state.transactions.forEach(function (t) {
       if (t.savingId === sourceId) t.savingId = targetId;
+    });
+    (state.portfolio || []).forEach(function (p) {
+      if (p.goalId === sourceId) p.goalId = targetId;
     });
     state.savings = state.savings.filter(function (s) { return s.id !== sourceId; });
     closeModal();
