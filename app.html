@@ -1062,6 +1062,405 @@
       transform: scale(0.97);
     }
 
+    /* ==================== NEW WIDGETS: SEKILAS HARI INI, MENU UTAMA, PROGRES & KALENDER, BUDGET, GOALS ==================== */
+    .glance-card {
+      background: linear-gradient(155deg, rgba(16, 185, 129, 0.14) 0%, rgba(19, 25, 38, 0.92) 55%, rgba(29, 111, 242, 0.12) 100%);
+      border-color: rgba(0, 229, 143, 0.25);
+    }
+    html[data-theme="light"] .glance-card {
+      background: linear-gradient(155deg, rgba(16, 185, 129, 0.10) 0%, #FFFFFF 60%, rgba(29, 111, 242, 0.08) 100%);
+      border-color: rgba(16, 185, 129, 0.28);
+    }
+    .glance-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.7px;
+      text-transform: uppercase;
+      color: var(--warning);
+      margin-bottom: 10px;
+    }
+    .glance-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .glance-big-num {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.7px;
+      line-height: 1.15;
+      color: var(--text-main);
+    }
+    .glance-sub {
+      font-size: 12px;
+      color: var(--text-sub);
+      margin-top: 3px;
+      font-weight: 500;
+    }
+    .glance-io-box {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      text-align: right;
+      min-width: 145px;
+    }
+    .glance-io-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 11.5px;
+      font-weight: 700;
+    }
+    .glance-status {
+      font-size: 12px;
+      color: var(--text-sub);
+      margin-top: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    /* Menu Utama Circular Icon Grid */
+    .menu-utama-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px 8px;
+      margin-top: 8px;
+    }
+    @media (min-width: 640px) {
+      .menu-utama-grid {
+        grid-template-columns: repeat(8, 1fr);
+      }
+    }
+    .menu-utama-btn {
+      background: none;
+      border: none;
+      color: var(--text-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      cursor: pointer;
+      padding: 6px 2px;
+      border-radius: 14px;
+      transition: transform 0.22s var(--ease-spring), background 0.2s ease;
+    }
+    .menu-utama-btn:hover {
+      background: rgba(255, 255, 255, 0.04);
+      transform: translateY(-2px);
+    }
+    .menu-utama-btn:active {
+      transform: scale(0.93);
+    }
+    .menu-utama-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--glass-highlight);
+      box-shadow: 0 8px 20px -6px rgba(0, 0, 0, 0.35);
+      transition: all 0.25s var(--ease-spring);
+    }
+    .menu-utama-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-sub);
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    /* Progres Pengeluaran (Hari X dari 30 + Kebutuhan/Keinginan/Tabungan) */
+    .spend-prog-layout {
+      display: grid;
+      grid-template-columns: 118px 1fr;
+      gap: 18px;
+      align-items: center;
+      margin-top: 8px;
+    }
+    @media (max-width: 420px) {
+      .spend-prog-layout {
+        grid-template-columns: 102px 1fr;
+        gap: 12px;
+      }
+    }
+    .day-ring-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    .day-ring-svg-wrap {
+      position: relative;
+      width: 94px;
+      height: 94px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .day-ring-label {
+      position: absolute;
+      font-size: 12.5px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      color: var(--text-main);
+    }
+    .day-ring-sub {
+      font-size: 11.5px;
+      color: var(--text-sub);
+      font-weight: 600;
+      margin-top: 6px;
+    }
+    .prog-cat-row {
+      margin-bottom: 11px;
+    }
+    .prog-cat-row:last-child {
+      margin-bottom: 0;
+    }
+    .prog-cat-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      margin-bottom: 4px;
+    }
+    .prog-cat-badge {
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 1px 7px;
+      border-radius: 99px;
+      margin-left: 6px;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    /* Aktivitas Bulan Ini — Monthly Calendar Grid */
+    .cal-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      text-align: center;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-sub);
+      padding: 8px 0 6px;
+      border-bottom: 1px solid var(--glass-border);
+      margin-bottom: 6px;
+    }
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+    }
+    .cal-cell {
+      min-height: 56px;
+      border-radius: 11px;
+      padding: 5px 3px 4px;
+      border: 1px solid transparent;
+      background: rgba(255, 255, 255, 0.02);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      cursor: pointer;
+      transition: all 0.18s var(--ease-spring);
+      overflow: hidden;
+    }
+    html[data-theme="light"] .cal-cell {
+      background: rgba(15, 23, 42, 0.025);
+    }
+    .cal-cell:hover {
+      border-color: var(--blue-light);
+      background: rgba(29, 111, 242, 0.10);
+      transform: translateY(-1px);
+    }
+    .cal-cell.other-month {
+      opacity: 0.28;
+      pointer-events: none;
+    }
+    .cal-cell.is-today {
+      border-color: var(--emerald);
+      background: rgba(0, 229, 143, 0.10);
+      box-shadow: 0 0 12px rgba(0, 229, 143, 0.18);
+    }
+    .cal-day-num {
+      font-size: 11.5px;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1.2;
+      margin-bottom: 3px;
+    }
+    .cal-cell.is-sunday .cal-day-num {
+      color: var(--danger);
+    }
+    .cal-cell.is-today .cal-day-num {
+      color: var(--emerald);
+    }
+    .cal-tag {
+      font-size: 9.5px;
+      font-weight: 800;
+      line-height: 1.15;
+      padding: 1px 4px;
+      border-radius: 4px;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 1px;
+    }
+    .cal-tag.inc {
+      color: var(--emerald);
+      background: rgba(0, 229, 143, 0.13);
+    }
+    .cal-tag.exp {
+      color: #FF6B81;
+      background: rgba(255, 77, 106, 0.14);
+    }
+
+    /* Budget Page Rows (Screenshot 2 Style) */
+    .budget-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 13px;
+      padding: 15px 4px;
+      border-bottom: 1px solid var(--glass-border);
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .budget-row:last-child {
+      border-bottom: none;
+    }
+    .budget-row:hover {
+      background: rgba(255, 255, 255, 0.025);
+      border-radius: 14px;
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+    .budget-row-body {
+      flex: 1;
+      min-width: 0;
+    }
+    .budget-row-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+    .budget-row-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--text-sub);
+    }
+    .budget-del-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-muted);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .budget-del-btn:hover {
+      color: var(--danger);
+      background: var(--danger-soft);
+      border-color: rgba(255, 77, 106, 0.3);
+    }
+
+    /* Goals Card (Screenshot 1 Style) */
+    .goals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+      gap: 16px;
+    }
+    .goal-card {
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 18px;
+      cursor: pointer;
+      transition: all 0.24s var(--ease-spring);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 14px;
+    }
+    .goal-card:hover {
+      border-color: rgba(29, 111, 242, 0.45);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-card);
+    }
+    .goal-card-mid {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 4px 0;
+    }
+    .goal-ring-wrap {
+      position: relative;
+      width: 60px;
+      height: 60px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .goal-ring-pct {
+      position: absolute;
+      font-size: 12.5px;
+      font-weight: 800;
+      color: var(--text-main);
+    }
+    .goal-card-footer {
+      border-top: 1px solid var(--glass-border);
+      padding-top: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-sub);
+      font-weight: 600;
+    }
+
+    /* Floating Center + Button in Bottom Nav (Mobile) */
+    .nav-fab-btn {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: 3px solid var(--bg-base);
+      background: linear-gradient(135deg, #00E58F 0%, #10B981 45%, #1D6FF2 100%);
+      color: #06130E;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 10px 24px -4px rgba(0, 229, 143, 0.55);
+      transform: translateY(-14px);
+      transition: transform 0.24s var(--ease-spring), box-shadow 0.24s ease;
+      flex-shrink: 0;
+    }
+    .nav-fab-btn:active {
+      transform: translateY(-12px) scale(0.93);
+    }
+
     @media (max-width: 1024px) {
       .finpro-top-grid { grid-template-columns: 1fr; }
       .two-col { grid-template-columns: 1fr; }
@@ -1070,13 +1469,13 @@
     @media (max-width: 768px) {
       .sidebar {
         width: 100%;
-        height: 66px;
+        height: 68px;
         top: auto;
         bottom: 0;
         left: 0;
         right: 0;
         flex-direction: row;
-        padding: 6px 8px;
+        padding: 6px 10px;
         border-right: none;
         border-top: 1px solid var(--glass-border);
         box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.45);
@@ -1087,7 +1486,7 @@
         width: 100%;
         justify-content: space-around;
         align-items: center;
-        gap: 4px;
+        gap: 2px;
       }
       .nav-btn {
         flex: 1;
@@ -1095,14 +1494,20 @@
         justify-content: center;
         align-items: center;
         padding: 6px 2px;
-        gap: 4px;
+        gap: 3px;
         font-size: 10.5px;
         border-radius: 12px;
         text-align: center;
       }
+      .nav-btn.desktop-only {
+        display: none;
+      }
+      .nav-fab-btn {
+        display: inline-flex;
+      }
       .main { margin-left: 0; }
       .topbar { padding: 0 12px; height: 60px; }
-      .container { padding: 14px 12px 92px; }
+      .container { padding: 14px 12px 98px; }
       .bal-digits { font-size: 27px; }
       .bal-currency { font-size: 23px; }
       .tx-table-head { display: none; }
@@ -1118,148 +1523,53 @@
         padding: 18px 15px 28px;
       }
     }
-  
-    
-    /* Fix 7.1: compact, non-wrapping mobile header controls */
+
     @media (max-width: 480px) {
       .topbar {
+        padding: 6px 10px;
         height: auto;
-        min-height: 60px;
-        padding: 8px 10px;
-        gap: 8px;
+        min-height: 54px;
+        gap: 6px;
       }
-
       .user-chip {
-        flex: 1 1 0;
+        padding: 4px 6px;
+        gap: 8px;
         min-width: 0;
-        max-width: 44%;
-        padding: 4px 7px 4px 4px;
-        gap: 7px;
+        flex: 1 1 auto;
       }
-
       .user-avatar {
         width: 32px;
         height: 32px;
-        flex: 0 0 32px;
-      }
-
-      .user-chip > div:last-child {
-        min-width: 0;
-        overflow: hidden;
-      }
-
-      .user-greeting {
-        display: none;
-      }
-
-      .user-name {
-        display: flex;
-        min-width: 0;
-        max-width: 100%;
-        white-space: nowrap;
-        overflow: hidden;
         font-size: 12px;
-        gap: 3px;
+        flex-shrink: 0;
       }
-
-      #userNameText {
-        display: block;
-        min-width: 0;
+      .user-greeting { display: none; }
+      .user-name {
+        font-size: 12.5px;
+        white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-        white-space: nowrap;
+        max-width: 118px;
       }
-
-      #editUserIco {
-        flex: 0 0 auto;
-      }
-
       .topbar-actions {
-        flex: 0 0 auto;
-        min-width: 0;
         gap: 5px;
+        flex-shrink: 0;
       }
-
-      .theme-pill {
-        flex: 0 0 auto;
+      .theme-pill { padding: 2px; }
+      .theme-pill-btn { width: 26px; height: 24px; }
+      .top-btn {
+        padding: 6px 8px;
+        font-size: 11px;
+        border-radius: 9px;
       }
-
-      .theme-pill-btn {
-        width: 27px;
-        height: 27px;
-      }
-
-      .topbar-actions > .top-btn {
-        flex: 0 0 36px;
-        width: 36px;
-        min-width: 36px;
-        height: 36px;
-        padding: 0;
-        justify-content: center;
-        gap: 0;
-      }
-
-      .topbar-actions > .top-btn.danger {
-        flex-basis: 60px;
-        width: 60px;
-        min-width: 60px;
-      }
-
-      .topbar-actions > .top-btn.danger span:last-child {
+      .top-btn.danger span:last-child {
         display: none;
       }
-
-      .topbar-actions > .top-btn.danger::after {
-        content: 'Reset';
-        font-size: 10px;
-        font-weight: 800;
-      }
     }
 
-    /* Tiny phones: reclaim a little space while keeping every control available */
     @media (max-width: 360px) {
-      .topbar {
-        padding-left: 7px;
-        padding-right: 7px;
-        gap: 5px;
-      }
-
-      .user-chip {
-        gap: 5px;
-        padding-right: 4px;
-        max-width: 40%;
-      }
-
-      .user-avatar {
-        width: 29px;
-        height: 29px;
-        flex-basis: 29px;
-        font-size: 11px;
-      }
-
-      .topbar-actions {
-        gap: 4px;
-      }
-
-      .topbar-actions > .top-btn {
-        flex-basis: 34px;
-        width: 34px;
-        min-width: 34px;
-        height: 34px;
-      }
-
-      .topbar-actions > .top-btn.danger {
-        flex-basis: 54px;
-        width: 54px;
-        min-width: 54px;
-      }
-
-      .theme-pill-btn {
-        width: 25px;
-        height: 25px;
-      }
+      .user-name { max-width: 92px; }
     }
-
   </style>
 </head>
 <body>
@@ -1280,21 +1590,31 @@
         <span class="nav-ico" data-ico="dashboard"></span>
         <span>Beranda</span>
       </button>
+      <button type="button" class="nav-btn" data-page="budget" onclick="navigate('budget')">
+        <span class="nav-ico" data-ico="pie"></span>
+        <span>Budget</span>
+      </button>
+
+      <!-- TOMBOL TENGAH (+) FLOATING KHUSUS MOBILE (Screenshot 3) -->
+      <button type="button" class="nav-fab-btn" onclick="openTxModal('expense')" title="Catat Transaksi Baru" aria-label="Catat Transaksi Baru">
+        <span class="nav-ico" data-ico="plusBold"></span>
+      </button>
+
+      <button type="button" class="nav-btn" data-page="savings" onclick="navigate('savings')">
+        <span class="nav-ico" data-ico="vault"></span>
+        <span>Goals</span>
+      </button>
       <button type="button" class="nav-btn" data-page="wallets" onclick="navigate('wallets')">
         <span class="nav-ico" data-ico="bank"></span>
         <span>Bank/Akun</span>
       </button>
-      <button type="button" class="nav-btn" data-page="income" onclick="navigate('income')">
+      <button type="button" class="nav-btn desktop-only" data-page="income" onclick="navigate('income')">
         <span class="nav-ico" data-ico="income"></span>
         <span>Pemasukan</span>
       </button>
-      <button type="button" class="nav-btn" data-page="expense" onclick="navigate('expense')">
+      <button type="button" class="nav-btn desktop-only" data-page="expense" onclick="navigate('expense')">
         <span class="nav-ico" data-ico="expense"></span>
         <span>Pengeluaran</span>
-      </button>
-      <button type="button" class="nav-btn" data-page="savings" onclick="navigate('savings')">
-        <span class="nav-ico" data-ico="vault"></span>
-        <span>Target Dana</span>
       </button>
     </nav>
   </aside>
@@ -1324,7 +1644,7 @@
           <span id="eyeIcon"></span>
         </button>
 
-        <button type="button" class="top-btn danger" aria-label="Nolkan semua saldo dan transaksi" title="Nolkan semua saldo dan transaksi" onclick="resetAllToZero()">
+        <button type="button" class="top-btn danger" onclick="resetAllToZero()">
           <span id="resetIco"></span>
           <span>Nolkan Rp 0</span>
         </button>
@@ -1380,7 +1700,13 @@
       income: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v14"/><path d="m7 12 5 5 5-5"/><path d="M5 21h14"/></svg>`,
       expense: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17V3"/><path d="m7 8 5-5 5 5"/><path d="M5 21h14"/></svg>`,
       vault: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>`,
+      pie: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>`,
+      calendar: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
+      link: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`,
+      chevLeft: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>`,
+      chevRight: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>`,
       plus: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
+      plusBold: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
       minus: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
       edit: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>`,
       trash: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>`,
@@ -1435,30 +1761,41 @@
 
     /* ==================== INDONESIAN CATEGORIES (ALL PROFESSIONAL VECTOR ICONS) ==================== */
     const DEFAULT_EXPENSE_CATEGORIES = [
-      { id: 'makan', name: 'Makan & Resto', icon: 'utensils', color: '#F97316' },
-      { id: 'ngopi', name: 'Ngopi & Minuman', icon: 'coffee', color: '#F59E0B' },
-      { id: 'jajan', name: 'Jajan & Camilan', icon: 'utensils', color: '#EAB308' },
-      { id: 'gofood', name: 'GoFood / GrabFood', icon: 'bag', color: '#10B981' },
-      { id: 'bensin', name: 'Bensin Kendaraan', icon: 'fuel', color: '#3B82F6' },
-      { id: 'parkir', name: 'Parkir & Tol', icon: 'car', color: '#6366F1' },
-      { id: 'ojol', name: 'Ojol / Transport', icon: 'car', color: '#0EA5E9' },
-      { id: 'minimarket', name: 'Indomaret / Alfamart', icon: 'cart', color: '#EC4899' },
-      { id: 'dapur', name: 'Belanja Dapur', icon: 'cart', color: '#14B8A6' },
-      { id: 'olshop', name: 'Shopee / Tokped', icon: 'bag', color: '#F43F5E' },
-      { id: 'kuota', name: 'Pulsa & Paket Data', icon: 'ewallet', color: '#8B5CF6' },
-      { id: 'listrik', name: 'Token Listrik PLN', icon: 'zap', color: '#F59E0B' },
-      { id: 'wifi', name: 'WiFi & Internet', icon: 'wifi', color: '#0284C7' },
-      { id: 'kost', name: 'Kost / Kontrakan / KPR', icon: 'house', color: '#4F46E5' },
-      { id: 'cicilan', name: 'Cicilan & Tagihan', icon: 'bank', color: '#E11D48' },
-      { id: 'skincare', name: 'Perawatan & Laundry', icon: 'layers', color: '#0D9488' },
-      { id: 'hiburan', name: 'Langganan & Game', icon: 'gamepad', color: '#9333EA' },
-      { id: 'nongkrong', name: 'Nongkrong & Hiburan', icon: 'coffee', color: '#EA580C' },
-      { id: 'ortu', name: 'Transfer Keluarga', icon: 'heart', color: '#059669' },
-      { id: 'sedekah', name: 'Amal & Sosial', icon: 'heart', color: '#16A34A' },
-      { id: 'kesehatan', name: 'Obat & Medis', icon: 'heart', color: '#DC2626' },
-      { id: 'servis', name: 'Servis & Bengkel', icon: 'wrench', color: '#64748B' },
-      { id: 'hewan', name: 'Kebutuhan Hobi', icon: 'layers', color: '#D97706' },
-      { id: 'other_exp', name: 'Pengeluaran Lain', icon: 'layers', color: '#64748B' },
+      { id: 'makan', name: 'Makan & Bahan Makanan', icon: 'utensils', color: '#F97316', group: 'need' },
+      { id: 'ngopi', name: 'Ngopi & Minuman', icon: 'coffee', color: '#F59E0B', group: 'want' },
+      { id: 'jajan', name: 'Jajan & Camilan', icon: 'utensils', color: '#EAB308', group: 'want' },
+      { id: 'gofood', name: 'GoFood / GrabFood', icon: 'bag', color: '#10B981', group: 'want' },
+      { id: 'bensin', name: 'Bensin Kendaraan', icon: 'fuel', color: '#3B82F6', group: 'need' },
+      { id: 'parkir', name: 'Parkir & Tol', icon: 'car', color: '#6366F1', group: 'need' },
+      { id: 'ojol', name: 'Ojol / Transport', icon: 'car', color: '#0EA5E9', group: 'need' },
+      { id: 'minimarket', name: 'Indomaret / Alfamart', icon: 'cart', color: '#EC4899', group: 'need' },
+      { id: 'dapur', name: 'Belanja Dapur & Gas', icon: 'cart', color: '#14B8A6', group: 'need' },
+      { id: 'olshop', name: 'Shopee / Tokped', icon: 'bag', color: '#F43F5E', group: 'want' },
+      { id: 'kuota', name: 'Pulsa & Paket Data', icon: 'ewallet', color: '#8B5CF6', group: 'need' },
+      { id: 'listrik', name: 'Token Listrik PLN', icon: 'zap', color: '#F59E0B', group: 'need' },
+      { id: 'wifi', name: 'WiFi & Internet', icon: 'wifi', color: '#0284C7', group: 'need' },
+      { id: 'kost', name: 'Biaya Sewa / Kost / KPR', icon: 'house', color: '#4F46E5', group: 'need' },
+      { id: 'cicilan', name: 'Tagihan Air PAM / Cicilan', icon: 'bank', color: '#E11D48', group: 'need' },
+      { id: 'skincare', name: 'Perawatan & Laundry', icon: 'layers', color: '#0D9488', group: 'want' },
+      { id: 'hiburan', name: 'Langganan & Game', icon: 'gamepad', color: '#9333EA', group: 'want' },
+      { id: 'nongkrong', name: 'Nongkrong & Hiburan', icon: 'coffee', color: '#EA580C', group: 'want' },
+      { id: 'ortu', name: 'Transfer Keluarga', icon: 'heart', color: '#059669', group: 'need' },
+      { id: 'sedekah', name: 'Sedekah & Amal', icon: 'heart', color: '#16A34A', group: 'need' },
+      { id: 'kesehatan', name: 'Obat & Medis', icon: 'heart', color: '#DC2626', group: 'need' },
+      { id: 'servis', name: 'Servis & Bengkel', icon: 'wrench', color: '#64748B', group: 'need' },
+      { id: 'hewan', name: 'Kebutuhan Hobi', icon: 'layers', color: '#D97706', group: 'want' },
+      { id: 'other_exp', name: 'Pengeluaran Lain', icon: 'layers', color: '#64748B', group: 'want' },
+    ];
+
+    const DEFAULT_BUDGETS = [
+      { id: 'b_makan', categoryId: 'makan', limit: 1800000 },
+      { id: 'b_kost', categoryId: 'kost', limit: 700000 },
+      { id: 'b_listrik', categoryId: 'listrik', limit: 200000 },
+      { id: 'b_cicilan', categoryId: 'cicilan', limit: 50000 },
+      { id: 'b_wifi', categoryId: 'wifi', limit: 250000 },
+      { id: 'b_bensin', categoryId: 'bensin', limit: 200000 },
+      { id: 'b_dapur', categoryId: 'dapur', limit: 150000 },
+      { id: 'b_sedekah', categoryId: 'sedekah', limit: 100000 },
     ];
 
     const DEFAULT_INCOME_CATEGORIES = [
@@ -1498,17 +1835,17 @@
 
     const SAVING_PRESETS = [
       { name: 'Dana Darurat', icon: 'vault' },
+      { name: 'Beli Rumah / Properti', icon: 'house' },
+      { name: 'Dana Pensiun', icon: 'briefcase' },
       { name: 'Upgrade Gadget / HP', icon: 'ewallet' },
       { name: 'Workstation / Laptop', icon: 'laptop' },
       { name: 'Kendaraan Pribadi', icon: 'car' },
       { name: 'Portofolio Investasi', icon: 'trending' },
       { name: 'Liburan & Travel', icon: 'plane' },
       { name: 'Dana Pernikahan', icon: 'heart' },
-      { name: 'Properti / Hunian', icon: 'house' },
       { name: 'Pendidikan & Kursus', icon: 'briefcase' },
       { name: 'Dana Sosial / Ibadah', icon: 'vault' },
       { name: 'Modal Bisnis', icon: 'trending' },
-      { name: 'Target Khusus Lainnya', icon: 'layers' },
     ];
 
     const WALLET_TYPES = [
@@ -1518,12 +1855,14 @@
     ];
 
     const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+    const MONTHS_LONG = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
     const STORAGE_KEY = 'dompetku_clean_v5';
 
     let currentPage = 'dashboard';
     let hideBalance = false;
     let selectedBankFilter = 'all';
     let chartPeriod = 'month';
+    let calendarMonthOffset = 0; // 0 = bulan ini, -1 = bulan lalu, +1 = bulan depan
 
     function setTheme(mode) {
       document.documentElement.setAttribute('data-theme', mode);
@@ -1550,16 +1889,17 @@
         ],
         transactions: [],
         savings: [
-          { id: 's1', name: 'Dana Darurat', icon: 'vault', current: 0, target: 10000000 },
+          { id: 's1', name: 'Dana Darurat', icon: 'vault', current: 0, target: 10000000, targetDate: '2027-12-31' },
         ],
+        budgets: DEFAULT_BUDGETS.map(b => ({ ...b })),
       };
     }
 
     function getSampleData() {
       const now = new Date();
       const d0 = localDateStr(now);
-      const d1 = localDateStr(new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1));
-      const d2 = localDateStr(new Date(now.getFullYear(), now.getMonth(), now.getDate() - 2));
+      const d1 = localDateStr(new Date(now.getFullYear(), now.getMonth(), Math.max(1, now.getDate() - 1)));
+      const d2 = localDateStr(new Date(now.getFullYear(), now.getMonth(), Math.max(1, now.getDate() - 2)));
       const dFirst = localDateStr(new Date(now.getFullYear(), now.getMonth(), 1));
       return {
         userName: 'Alfian Dimas',
@@ -1571,15 +1911,20 @@
           { id: 'w_dana', name: 'DANA', type: 'ewallet', initialBalance: 250000 },
         ],
         transactions: [
-          { id: 't1', type: 'income', amount: 6500000, categoryId: 'gaji', walletId: 'w_bca', note: 'Gaji Bulanan', date: dFirst },
-          { id: 't2', type: 'expense', amount: 45000, categoryId: 'makan', walletId: 'w_gopay', note: 'Makan Siang', date: d2 },
-          { id: 't3', type: 'expense', amount: 28000, categoryId: 'ngopi', walletId: 'w_dana', note: 'Kopi Espresso', date: d1 },
-          { id: 't4', type: 'income', amount: 1200000, categoryId: 'freelance', walletId: 'w_mandiri', note: 'Proyek Desain UI', date: d0 },
+          { id: 't1', type: 'income', amount: 10000000, categoryId: 'gaji', walletId: 'w_bca', note: 'Gaji Bulanan', date: dFirst },
+          { id: 't2', type: 'expense', amount: 890500, categoryId: 'makan', walletId: 'w_gopay', note: 'Bahan Makanan & Resto', date: d2 },
+          { id: 't3', type: 'expense', amount: 700000, categoryId: 'kost', walletId: 'w_bca', note: 'Bayar Sewa / Kost', date: d2 },
+          { id: 't4', type: 'expense', amount: 200000, categoryId: 'listrik', walletId: 'w_dana', note: 'Token Listrik PLN', date: d1 },
+          { id: 't5', type: 'expense', amount: 230000, categoryId: 'wifi', walletId: 'w_bca', note: 'WiFi & Paket Data', date: d1 },
+          { id: 't6', type: 'expense', amount: 72000, categoryId: 'bensin', walletId: 'w_gopay', note: 'Isi Bensin Pertamax', date: d1 },
+          { id: 't7', type: 'income', amount: 1200000, categoryId: 'freelance', walletId: 'w_mandiri', note: 'Proyek Desain UI', date: d0 },
         ],
         savings: [
-          { id: 's1', name: 'Dana Darurat', icon: 'vault', current: 4500000, target: 10000000 },
-          { id: 's2', name: 'Workstation / Laptop', icon: 'laptop', current: 3200000, target: 8000000 },
+          { id: 's1', name: 'Dana Darurat', icon: 'vault', current: 4500000, target: 10000000, targetDate: '2027-12-31' },
+          { id: 's2', name: 'Beli Rumah', icon: 'house', current: 29000000, target: 350000000, targetDate: '2035-12-31' },
+          { id: 's3', name: 'Dana Pensiun', icon: 'briefcase', current: 66000000, target: 600000000, targetDate: '2045-12-31' },
         ],
+        budgets: DEFAULT_BUDGETS.map(b => ({ ...b })),
       };
     }
 
@@ -1619,7 +1964,15 @@
           icon: SVG_PATHS[sv.icon] ? sv.icon : 'vault',
           current: Math.max(0, Number(sv.current) || 0),
           target: Math.max(0, Number(sv.target) || 0),
+          targetDate: typeof sv.targetDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(sv.targetDate) ? sv.targetDate : '2027-12-31',
         })),
+        budgets: Array.isArray(s.budgets) && s.budgets.length > 0
+          ? s.budgets.map(b => ({
+              id: String(b.id || uid()),
+              categoryId: String(b.categoryId || 'makan'),
+              limit: Math.max(0, Number(b.limit) || 0),
+            }))
+          : DEFAULT_BUDGETS.map(b => ({ ...b })),
       };
       return out;
     }
@@ -2020,9 +2373,428 @@
       `;
     }
 
+    function formatCompactIdr(n, signPrefix = '') {
+      if (hideBalance) return '•••';
+      const val = Math.abs(Number(n) || 0);
+      if (val === 0) return '0';
+      if (val >= 1000000000) {
+        const m = (val / 1000000000).toFixed(val % 1000000000 === 0 ? 0 : 1).replace('.', ',');
+        return `${signPrefix}${m}M`;
+      }
+      if (val >= 1000000) {
+        const jt = (val / 1000000).toFixed(val % 1000000 === 0 ? 0 : 1).replace('.', ',');
+        return `${signPrefix}${jt}JT`;
+      }
+      if (val >= 1000) {
+        const rb = Math.round(val / 1000);
+        return `${signPrefix}${rb}RB`;
+      }
+      return `${signPrefix}${val}`;
+    }
+
+    function formatFullDateIndo(dateStr) {
+      if (!dateStr) return 'Tanpa batas waktu';
+      const d = parseLocalDate(dateStr);
+      if (isNaN(d)) return dateStr;
+      return `${d.getDate()} ${MONTHS_SHORT[d.getMonth()]} ${d.getFullYear()}`;
+    }
+
+    function computeMonthlyBudgetStats(year, month) {
+      const now = new Date();
+      const y = year !== undefined ? year : now.getFullYear();
+      const m = month !== undefined ? month : now.getMonth();
+      const todayStr = localDateStr(now);
+      const daysInMonth = new Date(y, m + 1, 0).getDate();
+      const currentDay = (y === now.getFullYear() && m === now.getMonth()) ? now.getDate() : daysInMonth;
+      const remainingDays = Math.max(1, daysInMonth - currentDay + 1);
+
+      const spentByCat = {};
+      let monthIncome = 0;
+      let monthExpense = 0;
+      let todayIncome = 0;
+      let todayExpense = 0;
+      let needSpent = 0;
+      let wantSpent = 0;
+      let monthSavedDeposit = 0;
+
+      const needGroupIds = new Set(
+        DEFAULT_EXPENSE_CATEGORIES.filter(c => c.group === 'need').map(c => c.id)
+      );
+
+      state.transactions.forEach(t => {
+        const d = parseLocalDate(t.date);
+        if (isNaN(d)) return;
+        const amt = Number(t.amount) || 0;
+
+        if (t.date === todayStr && !t.transfer) {
+          if (t.type === 'income') todayIncome += amt;
+          else todayExpense += amt;
+        }
+
+        if (d.getFullYear() === y && d.getMonth() === m) {
+          if (t.transfer) {
+            if (t.type === 'expense') monthSavedDeposit += amt;
+            return;
+          }
+          if (t.type === 'income') {
+            monthIncome += amt;
+          } else {
+            monthExpense += amt;
+            spentByCat[t.categoryId] = (spentByCat[t.categoryId] || 0) + amt;
+            if (needGroupIds.has(t.categoryId)) needSpent += amt;
+            else wantSpent += amt;
+          }
+        }
+      });
+
+      const budgets = state.budgets || [];
+      let totalBudgetLimit = 0;
+      let needBudgetLimit = 0;
+      let wantBudgetLimit = 0;
+
+      budgets.forEach(b => {
+        const lim = Number(b.limit) || 0;
+        totalBudgetLimit += lim;
+        if (needGroupIds.has(b.categoryId)) needBudgetLimit += lim;
+        else wantBudgetLimit += lim;
+      });
+
+      // Fallback cerdas jika belum ada budget untuk Keinginan
+      if (needBudgetLimit === 0) needBudgetLimit = Math.round((totalBudgetLimit || 3000000) * 0.7);
+      if (wantBudgetLimit === 0) wantBudgetLimit = Math.round((totalBudgetLimit || 3000000) * 0.3);
+
+      // Hitung sisa budget bulanan di luar hari ini, lalu bagi sisa hari di bulan ini
+      const spentBeforeToday = Math.max(0, monthExpense - todayExpense);
+      const remainingPoolStartOfToday = Math.max(0, totalBudgetLimit - spentBeforeToday);
+      const dailyBudgetAllowance = totalBudgetLimit > 0
+        ? Math.round(remainingPoolStartOfToday / remainingDays)
+        : 115000;
+      const remainingDailyBudget = Math.max(0, dailyBudgetAllowance - todayExpense);
+
+      return {
+        y,
+        m,
+        daysInMonth,
+        currentDay,
+        remainingDays,
+        spentByCat,
+        monthIncome,
+        monthExpense,
+        todayIncome,
+        todayExpense,
+        totalBudgetLimit,
+        dailyBudgetAllowance,
+        remainingDailyBudget,
+        needSpent,
+        wantSpent,
+        needBudgetLimit,
+        wantBudgetLimit,
+        monthSavedDeposit,
+      };
+    }
+
+    /* ==================== WIDGET UPDATE 3A: ⚡ SEKILAS HARI INI ==================== */
+    function renderTodayGlanceCard(bs) {
+      const usedPct = bs.dailyBudgetAllowance > 0
+        ? Math.min(100, Math.round((bs.todayExpense / bs.dailyBudgetAllowance) * 100))
+        : 0;
+      const remainPct = Math.max(0, 100 - usedPct);
+
+      let statusText = 'Suppeerrr! Belum ada pengeluaran hari ini.';
+      let barGradient = 'linear-gradient(90deg, #00E58F 0%, #10B981 100%)';
+      if (bs.todayExpense > 0 && bs.todayExpense <= bs.dailyBudgetAllowance * 0.65) {
+        statusText = 'Mantap! Pengeluaran hari ini masih sangat aman.';
+      } else if (bs.todayExpense > bs.dailyBudgetAllowance * 0.65 && bs.todayExpense <= bs.dailyBudgetAllowance) {
+        statusText = 'Hati-hati, hampir menyentuh batas budget harian.';
+        barGradient = 'linear-gradient(90deg, #F59E0B 0%, #F97316 100%)';
+      } else if (bs.todayExpense > bs.dailyBudgetAllowance) {
+        statusText = 'Waspada! Pengeluaran hari ini melewati jatah harian.';
+        barGradient = 'linear-gradient(90deg, #FF4D6A 0%, #E11D48 100%)';
+      }
+
+      return `
+        <div class="f-card glance-card anim-in d-1" style="margin-bottom:16px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <div class="glance-badge">
+              <span style="color:var(--warning);display:inline-flex;">${SVG_PATHS.zap}</span>
+              <span>SEKILAS HARI INI</span>
+            </div>
+            <button type="button" class="pill-edit-btn" style="padding:4px 10px;font-size:11px;" onclick="navigate('budget')">
+              ${SVG_PATHS.pie}
+              <span>Atur Budget</span>
+            </button>
+          </div>
+
+          <div class="glance-top-row">
+            <div>
+              <div class="glance-big-num">${formatRupiah(bs.remainingDailyBudget, true)}</div>
+              <div class="glance-sub">budget harian yang tersisa (jatah ${formatRupiah(bs.dailyBudgetAllowance, true)}/hari)</div>
+            </div>
+            <div class="glance-io-box">
+              <div class="glance-io-row">
+                <span style="color:var(--text-muted);letter-spacing:0.4px;">PEMASUKAN</span>
+                <span style="color:var(--emerald);">${formatRupiah(bs.todayIncome, true)}</span>
+              </div>
+              <div class="glance-io-row">
+                <span style="color:var(--text-muted);letter-spacing:0.4px;">PENGELUARAN</span>
+                <span style="color:var(--danger);">${formatRupiah(bs.todayExpense, true)}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="progress-track" style="height:8px;margin:14px 0 10px;">
+            <div class="progress-fill" style="width:${bs.todayExpense === 0 ? 100 : remainPct}%;background:${barGradient};"></div>
+          </div>
+
+          <div class="glance-status">
+            <span>${statusText}</span>
+            <button type="button" class="link-action" onclick="openTxModal('expense')">+ Catat Hari Ini</button>
+          </div>
+        </div>
+      `;
+    }
+
+    /* ==================== WIDGET UPDATE 3B: MENU UTAMA GRID ==================== */
+    function scrollToCalendarWidget() {
+      if (currentPage !== 'dashboard') {
+        navigate('dashboard');
+        setTimeout(() => {
+          const el = document.getElementById('monthlyCalendarWidget');
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 120);
+      } else {
+        const el = document.getElementById('monthlyCalendarWidget');
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
+    function renderMainMenuGrid() {
+      const items = [
+        { label: 'Budget', icon: 'pie', color: '#10B981', action: "navigate('budget')" },
+        { label: 'Goals', icon: 'vault', color: '#3B82F6', action: "navigate('savings')" },
+        { label: 'Kalender', icon: 'calendar', color: '#F59E0B', action: 'scrollToCalendarWidget()' },
+        { label: 'Bank & Akun', icon: 'bank', color: '#06B6D4', action: "navigate('wallets')" },
+        { label: 'Pemasukan', icon: 'income', color: '#00E58F', action: "openTxModal('income')" },
+        { label: 'Pengeluaran', icon: 'expense', color: '#FF4D6A', action: "openTxModal('expense')" },
+        { label: 'Setor Goal', icon: 'trending', color: '#8B5CF6', action: 'openSavingDepositModal()' },
+        { label: 'Backup Data', icon: 'settings', color: '#64748B', action: 'openDataModal()' },
+      ];
+      return `
+        <div class="f-card anim-in d-2" style="margin-bottom:16px;">
+          <div class="section-head" style="margin-bottom:6px;">
+            <span class="section-title">Menu Utama</span>
+            <span style="font-size:11.5px;color:var(--text-muted);font-weight:600;">Akses Cepat Fitur</span>
+          </div>
+          <div class="menu-utama-grid">
+            ${items.map(it => `
+              <button type="button" class="menu-utama-btn" onclick="${it.action}">
+                <div class="menu-utama-circle" style="background:${it.color}1C;color:${it.color};border-color:${it.color}38;">
+                  ${getSvg(it.icon)}
+                </div>
+                <span class="menu-utama-label">${it.label}</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    /* ==================== WIDGET UPDATE 4A: PROGRES PENGELUARAN (HARI X DARI 30) ==================== */
+    function getPaceBadge(pct, dayPct) {
+      if (pct > 100) {
+        return { text: 'Lewat batas', color: '#FF4D6A', bg: 'rgba(255,77,106,0.16)', bar: '#FF4D6A' };
+      }
+      if (pct > dayPct + 18 || pct >= 80) {
+        return { text: 'Cepat sekali', color: '#F59E0B', bg: 'rgba(245,158,11,0.16)', bar: '#FF6B81' };
+      }
+      return { text: 'Masih aman', color: '#00E58F', bg: 'rgba(0,229,143,0.14)', bar: '#00E58F' };
+    }
+
+    function renderSpendingProgressCard(bs, totals) {
+      const dayPct = Math.min(100, Math.round((bs.currentDay / bs.daysInMonth) * 100));
+      const r = 38;
+      const circ = 2 * Math.PI * r;
+      const dayOffset = circ - (circ * dayPct) / 100;
+
+      const needPct = bs.needBudgetLimit > 0 ? Math.round((bs.needSpent / bs.needBudgetLimit) * 100) : 0;
+      const wantPct = bs.wantBudgetLimit > 0 ? Math.round((bs.wantSpent / bs.wantBudgetLimit) * 100) : 0;
+      const savPct = totals.totalSavingsTarget > 0
+        ? Math.round((totals.totalSavings / totals.totalSavingsTarget) * 100)
+        : 0;
+
+      const needBadge = getPaceBadge(needPct, dayPct);
+      const wantBadge = getPaceBadge(wantPct, dayPct);
+      const savBadge = savPct >= 20
+        ? { text: 'Masih aman', color: '#00E58F', bg: 'rgba(0,229,143,0.14)', bar: '#00E58F' }
+        : { text: 'Yuk nabung', color: '#60A5FA', bg: 'rgba(29,111,242,0.16)', bar: '#3B82F6' };
+
+      return `
+        <div class="f-card anim-in d-2">
+          <div class="section-head" style="margin-bottom:8px;">
+            <div class="section-title">
+              <span style="color:var(--emerald);">${SVG_PATHS.pie}</span>
+              <span>Progres Pengeluaran</span>
+            </div>
+            <button type="button" class="link-action" onclick="navigate('budget')">Detail Budget</button>
+          </div>
+
+          <div class="spend-prog-layout">
+            <div class="day-ring-box">
+              <div class="day-ring-svg-wrap">
+                <svg width="94" height="94" viewBox="0 0 94 94" style="transform:rotate(-90deg);">
+                  <circle cx="47" cy="47" r="${r}" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="8.5" />
+                  <circle cx="47" cy="47" r="${r}" fill="none" stroke="#00E58F" stroke-width="8.5" stroke-linecap="round"
+                    stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${dayOffset.toFixed(1)}"
+                    style="transition:stroke-dashoffset 0.7s var(--ease-spring);" />
+                </svg>
+                <div class="day-ring-label">HARI ${bs.currentDay}</div>
+              </div>
+              <div class="day-ring-sub">Hari ${bs.currentDay} dari ${bs.daysInMonth}</div>
+            </div>
+
+            <div>
+              <!-- KEBUTUHAN -->
+              <div class="prog-cat-row">
+                <div class="prog-cat-head">
+                  <div>
+                    <span style="color:var(--text-sub);">KEBUTUHAN</span>
+                    <span class="prog-cat-badge" style="color:${needBadge.color};background:${needBadge.bg};">${needBadge.text}</span>
+                  </div>
+                  <span style="color:var(--text-main);">${needPct}%</span>
+                </div>
+                <div class="progress-track" style="margin:4px 0 0;height:6.5px;">
+                  <div class="progress-fill" style="width:${Math.min(100, needPct)}%;background:${needBadge.bar};box-shadow:none;"></div>
+                </div>
+              </div>
+
+              <!-- KEINGINAN -->
+              <div class="prog-cat-row">
+                <div class="prog-cat-head">
+                  <div>
+                    <span style="color:var(--text-sub);">KEINGINAN</span>
+                    <span class="prog-cat-badge" style="color:${wantBadge.color};background:${wantBadge.bg};">${wantBadge.text}</span>
+                  </div>
+                  <span style="color:var(--text-main);">${wantPct}%</span>
+                </div>
+                <div class="progress-track" style="margin:4px 0 0;height:6.5px;">
+                  <div class="progress-fill" style="width:${Math.min(100, wantPct)}%;background:${wantBadge.bar};box-shadow:none;"></div>
+                </div>
+              </div>
+
+              <!-- TABUNGAN -->
+              <div class="prog-cat-row">
+                <div class="prog-cat-head">
+                  <div>
+                    <span style="color:var(--text-sub);">TABUNGAN</span>
+                    <span class="prog-cat-badge" style="color:${savBadge.color};background:${savBadge.bg};">${savBadge.text}</span>
+                  </div>
+                  <span style="color:var(--text-main);">${savPct}%</span>
+                </div>
+                <div class="progress-track" style="margin:4px 0 0;height:6.5px;">
+                  <div class="progress-fill" style="width:${Math.min(100, savPct)}%;background:${savBadge.bar};box-shadow:none;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    /* ==================== WIDGET UPDATE 4B: AKTIVITAS BULAN INI (KALENDER INTERAKTIF) ==================== */
+    function changeCalendarMonth(delta) {
+      calendarMonthOffset += delta;
+      renderPage();
+    }
+
+    function renderMonthlyCalendarCard() {
+      const now = new Date();
+      const targetDate = new Date(now.getFullYear(), now.getMonth() + calendarMonthOffset, 1);
+      const y = targetDate.getFullYear();
+      const m = targetDate.getMonth();
+      const daysInMonth = new Date(y, m + 1, 0).getDate();
+      const prevMonthDays = new Date(y, m, 0).getDate();
+
+      // Senin = 0 ... Minggu = 6 (sesuai SN SL RB KM JM SB MG di Screenshot 4)
+      const firstDayJs = new Date(y, m, 1).getDay(); // 0=Minggu, 1=Senin...
+      const startOffset = (firstDayJs + 6) % 7;
+
+      const dailyMap = {};
+      state.transactions.forEach(t => {
+        if (t.transfer) return;
+        const d = parseLocalDate(t.date);
+        if (isNaN(d) || d.getFullYear() !== y || d.getMonth() !== m) return;
+        const day = d.getDate();
+        if (!dailyMap[day]) dailyMap[day] = { inc: 0, exp: 0 };
+        const amt = Number(t.amount) || 0;
+        if (t.type === 'income') dailyMap[day].inc += amt;
+        else dailyMap[day].exp += amt;
+      });
+
+      const todayStr = localDateStr(now);
+      const cells = [];
+
+      // Sel hari bulan sebelumnya
+      for (let i = startOffset - 1; i >= 0; i--) {
+        const dayNum = prevMonthDays - i;
+        cells.push(`<div class="cal-cell other-month"><span class="cal-day-num">${dayNum}</span></div>`);
+      }
+
+      // Sel hari bulan aktif
+      for (let d = 1; d <= daysInMonth; d++) {
+        const dateStr = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        const isToday = dateStr === todayStr;
+        const colIdx = (startOffset + d - 1) % 7;
+        const isSunday = colIdx === 6;
+        const stat = dailyMap[d];
+
+        cells.push(`
+          <div class="cal-cell ${isToday ? 'is-today' : ''} ${isSunday ? 'is-sunday' : ''}" onclick="openDateDetailModal('${dateStr}')" title="Ketuk untuk lihat/catat transaksi ${d} ${MONTHS_SHORT[m]}">
+            <span class="cal-day-num">${d}</span>
+            ${stat && stat.inc > 0 ? `<span class="cal-tag inc">+${formatCompactIdr(stat.inc)}</span>` : ''}
+            ${stat && stat.exp > 0 ? `<span class="cal-tag exp">-${formatCompactIdr(stat.exp)}</span>` : ''}
+          </div>
+        `);
+      }
+
+      // Genapkan baris terakhir
+      const totalCells = cells.length;
+      const trailing = (7 - (totalCells % 7)) % 7;
+      for (let i = 1; i <= trailing; i++) {
+        cells.push(`<div class="cal-cell other-month"><span class="cal-day-num">${i}</span></div>`);
+      }
+
+      return `
+        <div class="f-card anim-in d-3" id="monthlyCalendarWidget">
+          <div class="section-head" style="margin-bottom:6px;">
+            <div class="section-title">
+              <span style="color:var(--blue-light);">${SVG_PATHS.calendar}</span>
+              <span>Aktivitas Bulan Ini</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <button type="button" class="top-btn" style="padding:4px 7px;" onclick="changeCalendarMonth(-1)" title="Bulan Sebelumnya">${SVG_PATHS.chevLeft}</button>
+              <span style="font-size:12px;font-weight:800;min-width:92px;text-align:center;">${MONTHS_SHORT[m]} ${y}</span>
+              <button type="button" class="top-btn" style="padding:4px 7px;" onclick="changeCalendarMonth(1)" title="Bulan Berikutnya">${SVG_PATHS.chevRight}</button>
+            </div>
+          </div>
+
+          <div class="cal-weekdays">
+            <span>SN</span><span>SL</span><span>RB</span><span>KM</span><span>JM</span><span>SB</span><span style="color:var(--danger);">MG</span>
+          </div>
+          <div class="cal-grid">
+            ${cells.join('')}
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:11px;color:var(--text-muted);">
+            <span>Ketuk tanggal untuk lihat detail / catat transaksi</span>
+            ${calendarMonthOffset !== 0 ? `<button type="button" class="link-action" style="font-size:11px;" onclick="calendarMonthOffset=0;renderPage();">Ke Bulan Ini</button>` : ''}
+          </div>
+        </div>
+      `;
+    }
+
     function renderPage() {
       const el = document.getElementById('pageContent');
       if (currentPage === 'dashboard') el.innerHTML = renderDashboard();
+      else if (currentPage === 'budget') el.innerHTML = renderBudgetPage();
       else if (currentPage === 'wallets') el.innerHTML = renderWalletsPage();
       else if (currentPage === 'income') el.innerHTML = renderTxListPage('income');
       else if (currentPage === 'expense') el.innerHTML = renderTxListPage('expense');
@@ -2032,6 +2804,7 @@
     /* ==================== PAGE 1: FINPRO DASHBOARD ==================== */
     function renderDashboard() {
       const t = computeTotals();
+      const bs = computeMonthlyBudgetStats();
       const recentTx = state.transactions.slice(0, 7);
 
       const displayedBalance = selectedBankFilter === 'all'
@@ -2047,6 +2820,12 @@
       const ps = computePeriodStats(chartPeriod);
 
       return `
+        <!-- UPDATE 3A: ⚡ SEKILAS HARI INI -->
+        ${renderTodayGlanceCard(bs)}
+
+        <!-- UPDATE 3B: MENU UTAMA QUICK GRID -->
+        ${renderMainMenuGrid()}
+
         <div class="finpro-top-grid">
           <!-- WIDGET 1: TOTAL BALANCE (FinPro Style) -->
           <div class="f-card balance-card anim-in d-1">
@@ -2120,7 +2899,7 @@
           <!-- WIDGET 3: TARGET DANA & SKOR PROGRES (FinPro Radial Gauge Style) -->
           <div class="f-card gauge-card anim-in d-3">
             <div style="width:100%;display:flex;justify-content:space-between;align-items:center;">
-              <span class="card-subtitle">Target Dana Simpanan</span>
+              <span class="card-subtitle">Goals & Simpanan</span>
               <button type="button" class="pill-edit-btn" style="padding:4px 10px;" onclick="openSavingDepositModal()">+ Setor</button>
             </div>
 
@@ -2141,7 +2920,7 @@
               </svg>
               <div class="gauge-score-text">
                 <div class="gauge-num">${savPct}%</div>
-                <div class="gauge-caption">PROGRES DANA</div>
+                <div class="gauge-caption">PROGRES GOALS</div>
               </div>
             </div>
 
@@ -2150,6 +2929,12 @@
               <strong style="color:var(--text-main);">${formatRupiah(t.totalSavings, true)}</strong>
             </div>
           </div>
+        </div>
+
+        <!-- UPDATE 4: PROGRES PENGELUARAN (HARI X DARI 30) & KALENDER AKTIVITAS BULAN INI -->
+        <div class="two-col" style="margin-bottom:16px;">
+          ${renderSpendingProgressCard(bs, t)}
+          ${renderMonthlyCalendarCard()}
         </div>
 
         <!-- LOWER TWO-COLUMN AREA -->
@@ -2192,16 +2977,15 @@
               }).join('')}
             </div>
 
-            <!-- Target Dana (Professional Vault Style) -->
+            <!-- Goals Preview on Dashboard -->
             <div class="f-card">
               <div class="section-head">
                 <div class="section-title">
                   <span style="color:var(--emerald);">${SVG_PATHS.vault}</span>
-                  <span>Target Dana & Alokasi</span>
+                  <span>Goals & Target Dana</span>
                 </div>
-                <button type="button" class="link-action" onclick="openSavingModal()">
-                  ${SVG_PATHS.plus}
-                  <span>Target Baru</span>
+                <button type="button" class="link-action" onclick="navigate('savings')">
+                  <span>Lihat Semua</span>
                 </button>
               </div>
 
@@ -2266,6 +3050,108 @@
                 ${recentTx.map(renderTxTableRow).join('')}
               `}
           </div>
+        </div>
+      `;
+    }
+
+    /* ==================== UPDATE 2: PAGE BUDGET (ANGGARAN BULANAN PER KATEGORI — SCREENSHOT 2) ==================== */
+    function renderBudgetPage() {
+      const bs = computeMonthlyBudgetStats();
+      const budgets = state.budgets || [];
+      const totalSpentOnBudgets = budgets.reduce((acc, b) => acc + (bs.spentByCat[b.categoryId] || 0), 0);
+      const totalLimit = bs.totalBudgetLimit;
+      const totalPct = totalLimit > 0 ? Math.min(100, Math.round((totalSpentOnBudgets / totalLimit) * 100)) : 0;
+
+      return `
+        <div class="f-card anim-in d-1" style="margin-bottom:16px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+            <div>
+              <div style="font-size:24px;font-weight:800;letter-spacing:-0.5px;">Budget</div>
+              <div style="font-size:12.5px;color:var(--text-sub);margin-top:2px;">
+                Anggaran pengeluaran bulanan per kategori (${MONTHS_LONG[bs.m]} ${bs.y})
+              </div>
+            </div>
+            <button type="button" class="btn-finpro-primary" onclick="openBudgetModal()">
+              ${SVG_PATHS.plus}
+              <span>Tambah Budget</span>
+            </button>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:16px;padding-top:14px;border-top:1px solid var(--glass-border);">
+            <div>
+              <div class="card-subtitle">TERPAKAI BULAN INI</div>
+              <div style="font-size:20px;font-weight:800;color:${totalSpentOnBudgets > totalLimit && totalLimit > 0 ? 'var(--danger)' : 'var(--text-main)'};margin-top:2px;">
+                ${formatRupiah(totalSpentOnBudgets, true)}
+              </div>
+            </div>
+            <div>
+              <div class="card-subtitle">TOTAL BATAS BUDGET</div>
+              <div style="font-size:20px;font-weight:800;color:var(--emerald);margin-top:2px;">
+                ${formatRupiah(totalLimit, true)}
+              </div>
+            </div>
+            <div>
+              <div class="card-subtitle">SISA BUDGET BULANAN</div>
+              <div style="font-size:20px;font-weight:800;color:var(--blue-light);margin-top:2px;">
+                ${formatRupiah(Math.max(0, totalLimit - totalSpentOnBudgets), true)}
+              </div>
+            </div>
+          </div>
+
+          <div class="progress-track" style="height:8px;margin-top:12px;">
+            <div class="progress-fill" style="width:${totalPct}%;background:${totalSpentOnBudgets > totalLimit && totalLimit > 0 ? 'var(--danger)' : 'linear-gradient(90deg, #1D6FF2 0%, #00E58F 100%)'};"></div>
+          </div>
+        </div>
+
+        <div class="f-card anim-in d-2">
+          <div class="section-head">
+            <span class="section-title">Daftar Kategori Budget (${budgets.length})</span>
+            <span style="font-size:11.5px;color:var(--text-muted);">Ketuk baris untuk ubah batas</span>
+          </div>
+
+          ${budgets.length === 0
+            ? `<p style="color:var(--text-sub);font-size:13px;padding:24px 0;text-align:center;">Belum ada kategori budget. Klik <strong>+ Tambah Budget</strong> di atas.</p>`
+            : budgets.map(b => {
+                const cat = getCategory(b.categoryId);
+                const spent = bs.spentByCat[b.categoryId] || 0;
+                const limit = Number(b.limit) || 0;
+                const pct = limit > 0 ? Math.min(100, Math.round((spent / limit) * 100)) : 0;
+                const over = limit > 0 && spent > limit;
+                const near = !over && pct >= 80;
+                const barColor = over
+                  ? 'linear-gradient(90deg, #FF4D6A, #E11D48)'
+                  : near
+                    ? 'linear-gradient(90deg, #F59E0B, #F97316)'
+                    : 'linear-gradient(90deg, #00E58F, #10B981)';
+
+                return `
+                  <div class="budget-row" onclick="openBudgetModal('${b.id}')">
+                    <div class="icon-squircle" style="width:42px;height:42px;background:${cat.color}1F;color:${cat.color};margin-top:2px;">
+                      ${cat.svg}
+                    </div>
+                    <div class="budget-row-body">
+                      <div class="budget-row-top">
+                        <strong style="font-size:14.5px;color:var(--text-main);">${escapeHtml(cat.name)}</strong>
+                        <strong style="font-size:14.5px;color:${over ? 'var(--danger)' : 'var(--text-main)'};">
+                          ${formatRupiah(spent, true)}
+                        </strong>
+                      </div>
+                      <div class="progress-track" style="height:7px;margin:6px 0;">
+                        <div class="progress-fill" style="width:${pct}%;background:${barColor};box-shadow:none;"></div>
+                      </div>
+                      <div class="budget-row-bottom">
+                        <span>dari ${formatRupiah(limit, true)} ${over ? `<strong style="color:var(--danger);margin-left:4px;">(Lewat!)</strong>` : ''}</span>
+                        <div style="display:flex;align-items:center;gap:6px;">
+                          <span class="edit-pill" style="margin-top:0;">${pct}%</span>
+                          <button type="button" class="budget-del-btn" title="Hapus Budget" onclick="event.stopPropagation();deleteBudget('${b.id}')">
+                            ${SVG_PATHS.trash}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
         </div>
       `;
     }
@@ -2362,58 +3248,97 @@
       `;
     }
 
-    /* ==================== PAGE 5: TARGET DANA ==================== */
+    /* ==================== UPDATE 1: PAGE GOALS / TARGET DANA (SCREENSHOT 1 STYLE) ==================== */
     function renderSavingsPage() {
       const t = computeTotals();
       return `
-        <div class="f-card anim-in d-1" style="margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;">
-          <div>
-            <div class="card-subtitle">TOTAL DANA SIMPANAN TERKUMPUL</div>
-            <div style="font-size:28px;font-weight:800;margin-top:4px;">
-              <span style="color:var(--emerald);">Rp</span> ${formatNumberOnly(t.totalSavings, true)}
+        <div class="f-card anim-in d-1" style="margin-bottom:16px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;">
+            <div>
+              <div style="font-size:24px;font-weight:800;letter-spacing:-0.5px;">Goals</div>
+              <div style="font-size:13px;color:var(--text-sub);margin-top:2px;">Mimpi besar, mulai dari recehan.</div>
+            </div>
+            <div style="display:flex;gap:8px;flex-wrap:wrap;">
+              <button type="button" class="btn-finpro-secondary" onclick="openSavingDepositModal()">
+                ${SVG_PATHS.income}
+                <span>Setor / Tarik</span>
+              </button>
+              <button type="button" class="btn-finpro-primary" onclick="openSavingModal()">
+                ${SVG_PATHS.plus}
+                <span>Goal Baru</span>
+              </button>
             </div>
           </div>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;">
-            <button type="button" class="btn-finpro-secondary" onclick="openSavingDepositModal()">
-              ${SVG_PATHS.income}
-              <span>Setor / Tarik Dana</span>
-            </button>
-            <button type="button" class="btn-finpro-primary" onclick="openSavingModal()">
-              ${SVG_PATHS.plus}
-              <span>Target Baru</span>
-            </button>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:12px;border-top:1px solid var(--glass-border);font-size:12.5px;">
+            <span style="color:var(--text-sub);">Total Terkumpul di Semua Goals:</span>
+            <strong style="font-size:15px;color:var(--emerald);">${formatRupiah(t.totalSavings, true)} <span style="color:var(--text-muted);font-weight:500;">/ ${formatRupiah(t.totalSavingsTarget, true)}</span></strong>
           </div>
         </div>
 
-        <div class="f-card anim-in d-2">
-          <div class="section-head">
-            <span class="section-title">Daftar Target Simpanan & Alokasi Dana</span>
-          </div>
-          ${state.savings.map(s => {
-            const pct = s.target ? Math.min(100, Math.round((s.current / s.target) * 100)) : 0;
-            return `
-              <div class="item-row" style="display:block;" onclick="openSavingModal('${s.id}')">
-                <div style="display:flex;justify-content:space-between;align-items:center;">
-                  <div style="display:flex;align-items:center;gap:10px;">
-                    <div class="icon-squircle" style="background:rgba(29,111,242,0.16);color:var(--blue-light);">
-                      ${getSvg(s.icon)}
+        ${state.savings.length === 0
+          ? `<div class="f-card"><p style="color:var(--text-sub);font-size:13px;padding:24px 0;text-align:center;">Belum ada goal simpanan. Klik <strong>+ Goal Baru</strong> di atas.</p></div>`
+          : `
+            <div class="goals-grid anim-in d-2">
+              ${state.savings.map(s => {
+                const pct = s.target ? Math.min(100, Math.round((s.current / s.target) * 100)) : 0;
+                const r = 24;
+                const circ = 2 * Math.PI * r;
+                const offset = circ - (circ * pct) / 100;
+                const linkedCount = state.transactions.filter(tx => tx.savingId === s.id).length;
+
+                return `
+                  <div class="goal-card" onclick="openSavingModal('${s.id}')">
+                    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;">
+                      <div style="display:flex;align-items:center;gap:12px;">
+                        <div class="icon-squircle" style="width:42px;height:42px;background:rgba(0,229,143,0.12);color:var(--emerald);">
+                          ${getSvg(s.icon)}
+                        </div>
+                        <div>
+                          <div style="font-size:15.5px;font-weight:800;color:var(--text-main);">${escapeHtml(s.name)}</div>
+                          <div style="display:inline-flex;align-items:center;gap:5px;font-size:11.5px;color:var(--text-sub);margin-top:3px;">
+                            <span style="color:var(--blue-light);display:inline-flex;">${SVG_PATHS.calendar}</span>
+                            <span>${formatFullDateIndo(s.targetDate)}</span>
+                          </div>
+                        </div>
+                      </div>
+                      <span class="edit-pill">${SVG_PATHS.edit} Edit</span>
                     </div>
-                    <div>
-                      <strong style="font-size:14px;">${escapeHtml(s.name)}</strong>
-                      <div style="font-size:12px;color:var(--text-sub);margin-top:2px;">
-                        Terkumpul <strong>${formatRupiah(s.current, true)}</strong> dari Target ${formatRupiah(s.target, true)}
+
+                    <div class="goal-card-mid">
+                      <div class="goal-ring-wrap">
+                        <svg width="60" height="60" viewBox="0 0 60 60" style="transform:rotate(-90deg);">
+                          <circle cx="30" cy="30" r="${r}" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="6" />
+                          <circle cx="30" cy="30" r="${r}" fill="none" stroke="#00E58F" stroke-width="6" stroke-linecap="round"
+                            stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${offset.toFixed(1)}"
+                            style="transition:stroke-dashoffset 0.7s var(--ease-spring);" />
+                        </svg>
+                        <div class="goal-ring-pct">${pct}%</div>
+                      </div>
+                      <div>
+                        <div style="font-size:21px;font-weight:800;color:var(--text-main);letter-spacing:-0.4px;">
+                          ${formatRupiah(s.current, true)}
+                        </div>
+                        <div style="font-size:12px;color:var(--text-sub);margin-top:2px;">
+                          dari ${formatRupiah(s.target, true)}
+                        </div>
                       </div>
                     </div>
+
+                    <div class="goal-card-footer">
+                      <div style="display:inline-flex;align-items:center;gap:6px;">
+                        <span style="color:var(--blue-light);display:inline-flex;">${SVG_PATHS.link}</span>
+                        <span>${linkedCount} transaksi tertaut</span>
+                      </div>
+                      <button type="button" class="link-action" style="font-size:11.5px;" onclick="event.stopPropagation();openSavingDepositFor('${s.id}')">
+                        + Setor / Tarik
+                      </button>
+                    </div>
                   </div>
-                  <span class="edit-pill">${SVG_PATHS.edit} ${pct}%</span>
-                </div>
-                <div class="progress-track">
-                  <div class="progress-fill" style="width:${pct}%;"></div>
-                </div>
-              </div>
-            `;
-          }).join('')}
-        </div>
+                `;
+              }).join('')}
+            </div>
+          `}
       `;
     }
 
@@ -2898,15 +3823,22 @@
     }
 
     /* 3. MODAL SETOR / TARIK TARGET DANA */
-    function openSavingDepositModal() {
+    function openSavingDepositModal(preferredSavingId = null) {
       if (!state.savings.length) return openSavingModal();
+      const validId = preferredSavingId && state.savings.some(s => s.id === preferredSavingId)
+        ? preferredSavingId
+        : state.savings[0].id;
       form = {
-        savingId: state.savings[0].id,
+        savingId: validId,
         walletId: state.wallets[0] ? state.wallets[0].id : '',
         mode: 'deposit',
         amount: '',
       };
       renderSavingDepositModal();
+    }
+
+    function openSavingDepositFor(savingId) {
+      openSavingDepositModal(savingId);
     }
 
     function renderSavingDepositModal() {
@@ -3000,15 +3932,17 @@
       showToast('Alokasi dana simpanan diperbarui');
     }
 
-    /* 4. MODAL TARGET DANA */
+    /* 4. MODAL TARGET DANA / GOALS */
     function openSavingModal(savingId = null) {
       const s = savingId ? state.savings.find(x => x.id === savingId) : null;
+      const nextYear = new Date().getFullYear() + 1;
       form = {
         id: s ? s.id : null,
         name: s ? s.name : '',
         icon: s && SVG_PATHS[s.icon] ? s.icon : 'vault',
         current: s ? String(s.current || '') : '',
         target: s ? String(s.target || '') : '',
+        targetDate: s && s.targetDate ? s.targetDate : `${nextYear}-12-31`,
       };
       renderSavingModal();
     }
@@ -3025,13 +3959,14 @@
 
     function renderSavingModal() {
       const isEdit = !!form.id;
+      const linkedTxs = isEdit ? state.transactions.filter(t => t.savingId === form.id) : [];
       openModal(`
         <div class="modal-header">
-          <span class="modal-title">${SVG_PATHS.vault} <span>${isEdit ? 'Edit Target Dana' : 'Buat Target Dana Baru'}</span></span>
+          <span class="modal-title">${SVG_PATHS.vault} <span>${isEdit ? 'Edit Goal Simpanan' : 'Buat Goal Baru'}</span></span>
           <button type="button" class="close-btn" onclick="closeModal()">✕</button>
         </div>
 
-        <label class="form-label" style="margin-top:0;">Pilih Cepat Tujuan Dana (Atau ketik bebas)</label>
+        <label class="form-label" style="margin-top:0;">Pilih Cepat Tujuan Goal (Atau ketik bebas)</label>
         <div class="preset-grid" id="savingPresetGrid">
           ${SAVING_PRESETS.map(p => `
             <button type="button" class="preset-btn ${form.name === p.name ? 'selected' : ''}" data-name="${escapeHtml(p.name)}" onclick="pickSavingPreset('${p.name}', '${p.icon}')">
@@ -3041,18 +3976,35 @@
           `).join('')}
         </div>
 
-        <label class="form-label">Nama Target Dana</label>
-        <input id="savNameInput" type="text" class="form-control" style="font-weight:700;" placeholder="Ketik nama target dana..." value="${escapeHtml(form.name)}" oninput="form.name=this.value" />
+        <label class="form-label">Nama Goal / Target Dana</label>
+        <input id="savNameInput" type="text" class="form-control" style="font-weight:700;" placeholder="Ketik nama goal..." value="${escapeHtml(form.name)}" oninput="form.name=this.value" />
 
-        <label class="form-label">Dana Terkumpul Saat Ini (Rp)</label>
-        <input id="savCurInput" type="text" inputmode="numeric" class="form-control" style="font-size:18px;font-weight:800;" placeholder="0" value="${formatThousands(form.current)}" oninput="form.current=this.value.replace(/\\D/g,'');this.value=formatThousands(form.current);" />
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div>
+            <label class="form-label">Dana Terkumpul (Rp)</label>
+            <input id="savCurInput" type="text" inputmode="numeric" class="form-control" style="font-size:16px;font-weight:800;" placeholder="0" value="${formatThousands(form.current)}" oninput="form.current=this.value.replace(/\\D/g,'');this.value=formatThousands(form.current);" />
+          </div>
+          <div>
+            <label class="form-label">Target Nominal (Rp)</label>
+            <input id="savTarInput" type="text" inputmode="numeric" class="form-control" style="font-size:16px;font-weight:800;" placeholder="0" value="${formatThousands(form.target)}" oninput="form.target=this.value.replace(/\\D/g,'');this.value=formatThousands(form.target);" />
+          </div>
+        </div>
 
-        <label class="form-label">Target Nominal (Rp)</label>
-        <input id="savTarInput" type="text" inputmode="numeric" class="form-control" style="font-size:18px;font-weight:800;" placeholder="0" value="${formatThousands(form.target)}" oninput="form.target=this.value.replace(/\\D/g,'');this.value=formatThousands(form.target);" />
+        <label class="form-label">Target Tanggal Tercapai</label>
+        <input id="savDateInput" type="date" class="form-control" value="${form.targetDate}" onchange="form.targetDate=this.value" />
 
-        <button type="button" class="btn-submit" onclick="saveSavingGoal()">Simpan Target Dana</button>
         ${isEdit ? `
-          <button type="button" class="btn-danger" onclick="deleteSavingGoal('${form.id}')">Hapus Target Ini</button>
+          <div style="margin-top:12px;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,0.03);border:1px solid var(--glass-border);display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:12px;color:var(--text-sub);display:inline-flex;align-items:center;gap:6px;">
+              ${SVG_PATHS.link} <strong>${linkedTxs.length} transaksi tertaut</strong>
+            </span>
+            <button type="button" class="link-action" style="font-size:12px;" onclick="openSavingDepositFor('${form.id}')">+ Setor / Tarik Dana</button>
+          </div>
+        ` : ''}
+
+        <button type="button" class="btn-submit" onclick="saveSavingGoal()">Simpan Goal</button>
+        ${isEdit ? `
+          <button type="button" class="btn-danger" onclick="deleteSavingGoal('${form.id}')">Hapus Goal Ini</button>
         ` : ''}
       `);
     }
@@ -3061,9 +4013,11 @@
       const nameEl = document.getElementById('savNameInput');
       const curEl = document.getElementById('savCurInput');
       const tarEl = document.getElementById('savTarInput');
-      const cleanName = ((nameEl ? nameEl.value : form.name) || '').trim() || 'Target Baru';
+      const dateEl = document.getElementById('savDateInput');
+      const cleanName = ((nameEl ? nameEl.value : form.name) || '').trim() || 'Goal Baru';
       const curVal = parseInt(String((curEl ? curEl.value : form.current) || '0').replace(/\D/g, ''), 10) || 0;
       const tarVal = parseInt(String((tarEl ? tarEl.value : form.target) || '0').replace(/\D/g, ''), 10) || 1000000;
+      const dateVal = (dateEl ? dateEl.value : form.targetDate) || '2027-12-31';
 
       const payload = {
         id: form.id || uid(),
@@ -3071,19 +4025,195 @@
         icon: SVG_PATHS[form.icon] ? form.icon : 'vault',
         current: curVal,
         target: tarVal,
+        targetDate: dateVal,
       };
       if (form.id) state.savings = state.savings.map(s => s.id === form.id ? payload : s);
       else state.savings.push(payload);
       closeModal();
       saveState();
-      showToast('Target dana berhasil disimpan');
+      showToast('Goal simpanan berhasil disimpan');
     }
 
     function deleteSavingGoal(id) {
       state.savings = state.savings.filter(s => s.id !== id);
       closeModal();
       saveState();
-      showToast('Target dana dihapus');
+      showToast('Goal simpanan dihapus');
+    }
+
+    /* 4B. MODAL BUDGET BULANAN PER KATEGORI (SCREENSHOT 2) */
+    function openBudgetModal(budgetId = null) {
+      const existing = budgetId ? (state.budgets || []).find(b => b.id === budgetId) : null;
+      const expCats = getExpenseCategories();
+      const usedCatIds = new Set((state.budgets || []).map(b => b.categoryId));
+      const defaultCat = expCats.find(c => !usedCatIds.has(c.id)) || expCats[0];
+
+      form = {
+        id: existing ? existing.id : null,
+        categoryId: existing ? existing.categoryId : defaultCat.id,
+        limit: existing ? String(existing.limit || '') : '',
+      };
+      renderBudgetModal();
+    }
+
+    function selectBudgetCategory(catId) {
+      form.categoryId = catId;
+      document.querySelectorAll('#budgetCatGrid .cat-btn').forEach(b => {
+        b.classList.toggle('selected', b.dataset.id === catId);
+      });
+    }
+
+    function addBudgetAmount(delta) {
+      const inp = document.getElementById('budgetLimitInput');
+      const curRaw = inp ? inp.value.replace(/\D/g, '') : form.limit;
+      const cur = parseInt(curRaw, 10) || 0;
+      form.limit = String(Math.max(0, cur + delta));
+      if (inp) inp.value = formatThousands(form.limit);
+    }
+
+    function renderBudgetModal() {
+      const isEdit = !!form.id;
+      const cats = getExpenseCategories();
+      openModal(`
+        <div class="modal-header">
+          <span class="modal-title">${SVG_PATHS.pie} <span>${isEdit ? 'Ubah Budget Kategori' : 'Tambah Budget Kategori'}</span></span>
+          <button type="button" class="close-btn" onclick="closeModal()">✕</button>
+        </div>
+
+        <label class="form-label" style="margin-top:0;">Pilih Kategori Pengeluaran</label>
+        <div class="cat-grid" id="budgetCatGrid">
+          ${cats.map(c => `
+            <button type="button" class="cat-btn ${form.categoryId === c.id ? 'selected' : ''}" data-id="${c.id}" onclick="selectBudgetCategory('${c.id}')">
+              <span style="color:${c.color};">${getSvg(c.icon)}</span>
+              <span>${escapeHtml(c.name)}</span>
+            </button>
+          `).join('')}
+        </div>
+
+        <label class="form-label">Batas Anggaran Bulanan (Rp)</label>
+        <input id="budgetLimitInput" type="text" inputmode="numeric" class="form-control" style="font-size:21px;font-weight:800;" placeholder="0" value="${formatThousands(form.limit)}" oninput="form.limit=this.value.replace(/\\D/g,'');this.value=formatThousands(form.limit);" />
+        <div class="chip-row">
+          <button type="button" class="chip-btn" onclick="addBudgetAmount(100000)">+100rb</button>
+          <button type="button" class="chip-btn" onclick="addBudgetAmount(250000)">+250rb</button>
+          <button type="button" class="chip-btn" onclick="addBudgetAmount(500000)">+500rb</button>
+          <button type="button" class="chip-btn" onclick="addBudgetAmount(1000000)">+1 Juta</button>
+        </div>
+
+        <button type="button" class="btn-submit" onclick="saveBudget()">Simpan Budget</button>
+        ${isEdit ? `
+          <button type="button" class="btn-danger" onclick="deleteBudget('${form.id}')">Hapus Budget Ini</button>
+        ` : ''}
+      `);
+    }
+
+    function saveBudget() {
+      const inp = document.getElementById('budgetLimitInput');
+      const raw = (inp ? inp.value : form.limit) || '0';
+      const limitVal = parseInt(String(raw).replace(/\D/g, ''), 10) || 0;
+      if (limitVal <= 0) {
+        showToast('Masukkan batas budget lebih dari Rp 0');
+        return;
+      }
+      if (!Array.isArray(state.budgets)) state.budgets = [];
+
+      // Jika tambah baru tapi kategori sudah ada di daftar budget, update yang sudah ada
+      const duplicate = !form.id && state.budgets.find(b => b.categoryId === form.categoryId);
+      if (duplicate) {
+        duplicate.limit = limitVal;
+      } else if (form.id) {
+        state.budgets = state.budgets.map(b =>
+          b.id === form.id ? { ...b, categoryId: form.categoryId, limit: limitVal } : b
+        );
+      } else {
+        state.budgets.push({
+          id: 'b_' + uid(),
+          categoryId: form.categoryId,
+          limit: limitVal,
+        });
+      }
+      closeModal();
+      saveState();
+      showToast('Budget kategori berhasil disimpan');
+    }
+
+    function deleteBudget(id) {
+      state.budgets = (state.budgets || []).filter(b => b.id !== id);
+      closeModal();
+      saveState();
+      showToast('Budget kategori dihapus');
+    }
+
+    /* 4C. MODAL DETAIL TANGGAL KALENDER AKTIVITAS */
+    function openTxModalOnDate(type, dateStr) {
+      openTxModal(type, null);
+      form.date = dateStr;
+      renderTxModal();
+    }
+
+    function openDateDetailModal(dateStr) {
+      const dayTxs = state.transactions.filter(t => t.date === dateStr);
+      let inc = 0, exp = 0;
+      dayTxs.forEach(t => {
+        if (t.transfer) return;
+        const amt = Number(t.amount) || 0;
+        if (t.type === 'income') inc += amt;
+        else exp += amt;
+      });
+
+      openModal(`
+        <div class="modal-header">
+          <span class="modal-title">${SVG_PATHS.calendar} <span>Aktivitas ${formatFullDateIndo(dateStr)}</span></span>
+          <button type="button" class="close-btn" onclick="closeModal()">✕</button>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+          <div style="padding:10px 12px;border-radius:12px;background:rgba(0,229,143,0.08);border:1px solid rgba(0,229,143,0.2);">
+            <div style="font-size:10.5px;font-weight:700;color:var(--text-sub);">PEMASUKAN</div>
+            <div style="font-size:15px;font-weight:800;color:var(--emerald);margin-top:2px;">+${formatRupiah(inc, true)}</div>
+          </div>
+          <div style="padding:10px 12px;border-radius:12px;background:rgba(255,77,106,0.08);border:1px solid rgba(255,77,106,0.2);">
+            <div style="font-size:10.5px;font-weight:700;color:var(--text-sub);">PENGELUARAN</div>
+            <div style="font-size:15px;font-weight:800;color:var(--danger);margin-top:2px;">-${formatRupiah(exp, true)}</div>
+          </div>
+        </div>
+
+        <div style="max-height:42vh;overflow-y:auto;">
+          ${dayTxs.length === 0
+            ? `<p style="font-size:12.5px;color:var(--text-sub);text-align:center;padding:18px 0;">Belum ada transaksi pada tanggal ini.</p>`
+            : dayTxs.map(tx => {
+                const cat = tx.transfer
+                  ? { name: 'Transfer Target Dana', svg: SVG_PATHS.vault, color: '#8B5CF6' }
+                  : getCategory(tx.categoryId);
+                const w = getWallet(tx.walletId);
+                const isInc = tx.type === 'income';
+                return `
+                  <div class="item-row" onclick="openTxModal('${tx.type}', '${tx.id}')">
+                    <div class="item-left">
+                      <div class="icon-squircle" style="width:36px;height:36px;background:${cat.color}1F;color:${cat.color};">${cat.svg}</div>
+                      <div class="item-info">
+                        <div class="item-title">${escapeHtml(tx.note || cat.name)}</div>
+                        <div class="item-meta">${escapeHtml(cat.name)} • ${escapeHtml(w.name)}</div>
+                      </div>
+                    </div>
+                    <div class="item-right">
+                      <div class="item-amt" style="color:${tx.transfer ? 'var(--text-sub)' : (isInc ? 'var(--emerald)' : 'var(--danger)')};">
+                        ${isInc ? '+' : '-'} ${formatRupiah(tx.amount, true)}
+                      </div>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px;">
+          <button type="button" class="btn-finpro-primary" onclick="openTxModalOnDate('income', '${dateStr}')">
+            ${SVG_PATHS.plus} <span>Pemasukan</span>
+          </button>
+          <button type="button" class="btn-finpro-secondary" onclick="openTxModalOnDate('expense', '${dateStr}')">
+            ${SVG_PATHS.plus} <span>Pengeluaran</span>
+          </button>
+        </div>
+      `);
     }
 
     /* 5. MODAL PROFIL */
