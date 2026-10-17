@@ -1,34 +1,64 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <meta name="theme-color" content="#0E314A" />
+  <meta name="theme-color" content="#0B0E14" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="DompetKu" />
   <link rel="manifest" href="./manifest.json" />
   <link rel="icon" type="image/svg+xml" href="./icon.svg" />
   <link rel="apple-touch-icon" href="./icon.svg" />
-  <title>DompetKu — Pengatur Keuangan Pribadi</title>
+  <title>DompetKu Pro — Smart Personal Finance</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --navy-top: #133955;
-      --navy-bottom: #0B253A;
-      --green: #8CC63F;
-      --green-dark: #5C9E23;
-      --blue: #2563EB;
-      --bg: #F1F5F9;
-      --card: #FFFFFF;
-      --text: #0F2942;
-      --muted: #64748B;
-      --border: #E2E8F0;
-      --danger: #E11D48;
+      --bg-main: #0A0D14;
+      --bg-elevated: #121621;
+      --card-bg: linear-gradient(160deg, rgba(25, 30, 44, 0.92) 0%, rgba(16, 20, 30, 0.96) 100%);
+      --card-solid: #151A26;
+      --card-hover: rgba(32, 39, 56, 0.95);
+      --glass-border: rgba(255, 255, 255, 0.075);
+      --glass-highlight: rgba(255, 255, 255, 0.14);
+      --text-main: #F8FAFC;
+      --text-sub: #94A3B8;
+      --text-muted: #64748B;
+      --blue: #1D6FF2;
+      --blue-light: #3B82F6;
+      --blue-glow: rgba(29, 111, 242, 0.38);
+      --emerald: #00E58F;
+      --emerald-soft: rgba(0, 229, 143, 0.14);
+      --danger: #FF4D6A;
+      --danger-soft: rgba(255, 77, 106, 0.14);
       --warning: #F59E0B;
-      --shadow: 0 4px 14px rgba(15, 41, 66, 0.06);
+      --input-bg: rgba(11, 14, 21, 0.75);
+      --shadow-card: 0 18px 40px -12px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+      --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    html[data-theme="light"] {
+      --bg-main: #F1F5F9;
+      --bg-elevated: #FFFFFF;
+      --card-bg: linear-gradient(160deg, #FFFFFF 0%, #F8FAFC 100%);
+      --card-solid: #FFFFFF;
+      --card-hover: #F1F5F9;
+      --glass-border: rgba(15, 23, 42, 0.08);
+      --glass-highlight: rgba(15, 23, 42, 0.15);
+      --text-main: #0F172A;
+      --text-sub: #475569;
+      --text-muted: #64748B;
+      --blue: #1D6FF2;
+      --blue-light: #2563EB;
+      --blue-glow: rgba(29, 111, 242, 0.25);
+      --emerald: #059669;
+      --emerald-soft: rgba(16, 185, 129, 0.12);
+      --danger: #E11D48;
+      --danger-soft: rgba(225, 29, 72, 0.1);
+      --input-bg: #F8FAFC;
+      --shadow-card: 0 12px 28px -8px rgba(15, 23, 42, 0.07);
     }
 
     * {
@@ -40,39 +70,81 @@
     }
 
     body {
-      background: var(--bg);
-      color: var(--text);
+      background-color: var(--bg-main);
+      background-image:
+        radial-gradient(circle at 15% 0%, rgba(29, 111, 242, 0.13), transparent 42%),
+        radial-gradient(circle at 85% 15%, rgba(0, 229, 143, 0.07), transparent 38%);
+      background-attachment: fixed;
+      color: var(--text-main);
       min-height: 100vh;
       display: flex;
       overflow-x: hidden;
+      transition: background-color 0.35s var(--ease-spring), color 0.35s var(--ease-spring);
     }
 
-    /* Toast notification */
+    svg {
+      display: block;
+      flex-shrink: 0;
+    }
+
+    /* Smooth Keyframes */
+    @keyframes fadeUpSpring {
+      0% { opacity: 0; transform: translateY(14px) scale(0.985); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes drawLine {
+      0% { stroke-dashoffset: 900; }
+      100% { stroke-dashoffset: 0; }
+    }
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.35); opacity: 0.65; }
+    }
+
+    .anim-in {
+      animation: fadeUpSpring 0.48s var(--ease-spring) both;
+    }
+    .d-1 { animation-delay: 0.04s; }
+    .d-2 { animation-delay: 0.08s; }
+    .d-3 { animation-delay: 0.12s; }
+    .d-4 { animation-delay: 0.16s; }
+
+    /* Toast */
     .toast {
       position: fixed;
-      top: 16px;
+      top: 18px;
       left: 50%;
-      transform: translateX(-50%) translateY(-100px);
-      background: #0F2942;
+      transform: translateX(-50%) translateY(-100px) scale(0.9);
+      background: rgba(20, 25, 38, 0.94);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.14);
       padding: 11px 20px;
       border-radius: 99px;
       font-size: 13px;
       font-weight: 700;
       z-index: 999;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-      transition: transform 0.25s ease;
+      box-shadow: 0 14px 35px rgba(0, 0, 0, 0.45);
+      transition: transform 0.38s var(--ease-spring), opacity 0.3s ease;
+      opacity: 0;
       white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
     .toast.show {
-      transform: translateX(-50%) translateY(0);
+      transform: translateX(-50%) translateY(0) scale(1);
+      opacity: 1;
     }
 
-    /* ==================== SIDEBAR (DESKTOP) & BOTTOM NAV (MOBILE) ==================== */
+    /* ==================== SIDEBAR / NAVIGATION ==================== */
     .sidebar {
-      width: 230px;
-      background: linear-gradient(180deg, var(--navy-top) 0%, var(--navy-bottom) 100%);
-      color: #fff;
+      width: 240px;
+      background: rgba(14, 18, 28, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-right: 1px solid var(--glass-border);
       position: fixed;
       top: 0;
       bottom: 0;
@@ -80,63 +152,95 @@
       z-index: 40;
       display: flex;
       flex-direction: column;
-      padding: 20px 12px;
+      padding: 24px 14px;
+      transition: background 0.3s ease;
+    }
+    html[data-theme="light"] .sidebar {
+      background: rgba(255, 255, 255, 0.9);
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
-      padding: 4px 10px 24px;
+      gap: 11px;
+      padding: 4px 12px 28px;
     }
-    .brand-icon {
+    .brand-logo {
       width: 36px;
       height: 36px;
-      border-radius: 50%;
-      background: #fff;
+      border-radius: 11px;
+      background: linear-gradient(135deg, rgba(29, 111, 242, 0.2), rgba(29, 111, 242, 0.05));
+      border: 1px solid rgba(29, 111, 242, 0.35);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
+      box-shadow: 0 4px 15px rgba(29, 111, 242, 0.25);
     }
     .brand-text {
       font-size: 18px;
       font-weight: 800;
-      letter-spacing: 1.5px;
+      letter-spacing: -0.3px;
+      color: var(--text-main);
+    }
+    .brand-pro {
+      font-size: 10px;
+      font-weight: 800;
+      color: var(--blue-light);
+      background: rgba(29, 111, 242, 0.14);
+      padding: 2px 6px;
+      border-radius: 6px;
+      margin-left: 4px;
+      vertical-align: middle;
     }
 
     .nav-list {
       display: flex;
       flex-direction: column;
-      gap: 4px;
+      gap: 6px;
     }
     .nav-btn {
-      border: none;
+      border: 1px solid transparent;
       background: transparent;
-      color: rgba(255, 255, 255, 0.72);
+      color: var(--text-sub);
       display: flex;
       align-items: center;
       gap: 12px;
       padding: 12px 14px;
-      border-radius: 10px;
+      border-radius: 13px;
       font-size: 13.5px;
       font-weight: 600;
       cursor: pointer;
       text-align: left;
+      transition: all 0.24s var(--ease-spring);
+    }
+    .nav-btn:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .nav-btn:active {
+      transform: scale(0.96);
     }
     .nav-btn.active {
-      background: rgba(140, 198, 63, 0.2);
-      color: var(--green);
-      font-weight: 800;
+      background: linear-gradient(135deg, rgba(29, 111, 242, 0.22) 0%, rgba(29, 111, 242, 0.06) 100%);
+      border-color: rgba(29, 111, 242, 0.35);
+      color: #fff;
+      font-weight: 700;
+      box-shadow: 0 6px 20px -4px rgba(29, 111, 242, 0.28);
     }
-    .nav-icon {
-      font-size: 18px;
-      line-height: 1;
+    html[data-theme="light"] .nav-btn.active {
+      background: var(--blue);
+      color: #fff;
+    }
+    .nav-btn.active svg {
+      color: var(--blue-light);
+    }
+    html[data-theme="light"] .nav-btn.active svg {
+      color: #fff;
     }
 
-    /* ==================== MAIN CONTENT ==================== */
+    /* ==================== MAIN & TOPBAR ==================== */
     .main {
-      margin-left: 230px;
+      margin-left: 240px;
       flex: 1;
       min-width: 0;
       display: flex;
@@ -144,10 +248,12 @@
     }
 
     .topbar {
-      height: 60px;
-      background: var(--card);
-      border-bottom: 1px solid var(--border);
-      padding: 0 20px;
+      height: 68px;
+      background: rgba(14, 18, 28, 0.72);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--glass-border);
+      padding: 0 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -155,37 +261,51 @@
       top: 0;
       z-index: 30;
     }
+    html[data-theme="light"] .topbar {
+      background: rgba(255, 255, 255, 0.82);
+    }
+
     .user-chip {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 11px;
       cursor: pointer;
-      padding: 4px 8px 4px 4px;
-      border-radius: 12px;
-      border: none;
-      background: transparent;
+      padding: 5px 10px 5px 5px;
+      border-radius: 99px;
+      border: 1px solid var(--glass-border);
+      background: rgba(255, 255, 255, 0.03);
       text-align: left;
+      transition: all 0.22s var(--ease-spring);
+    }
+    .user-chip:hover {
+      border-color: var(--glass-highlight);
+      transform: translateY(-1px);
     }
     .user-avatar {
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       border-radius: 50%;
-      background: #ECF6DF;
-      border: 1.5px solid #B7DC82;
+      background: linear-gradient(135deg, #1D6FF2, #00E58F);
+      color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      font-weight: 800;
+      font-size: 13px;
+      box-shadow: 0 4px 10px rgba(29, 111, 242, 0.35);
+    }
+    .user-greeting {
+      font-size: 10.5px;
+      color: var(--text-sub);
+      font-weight: 600;
     }
     .user-name {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 800;
-      color: var(--text);
-    }
-    .user-sub {
-      font-size: 11px;
-      color: var(--blue);
-      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 4px;
     }
 
     .topbar-actions {
@@ -193,10 +313,40 @@
       align-items: center;
       gap: 8px;
     }
+
+    /* FinPro Theme Switcher Pill */
+    .theme-pill {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--glass-border);
+      border-radius: 99px;
+      padding: 3px;
+      gap: 2px;
+    }
+    .theme-pill-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: none;
+      background: transparent;
+      color: var(--text-sub);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.22s var(--ease-spring);
+    }
+    .theme-pill-btn.active {
+      background: var(--blue);
+      color: #fff;
+      box-shadow: 0 2px 8px var(--blue-glow);
+    }
+
     .top-btn {
-      border: 1px solid var(--border);
-      background: #F8FAFC;
-      color: var(--text);
+      border: 1px solid var(--glass-border);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
       height: 36px;
       padding: 0 12px;
       border-radius: 99px;
@@ -205,181 +355,360 @@
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
+      gap: 6px;
+      transition: all 0.22s var(--ease-spring);
+    }
+    .top-btn:hover {
+      border-color: var(--glass-highlight);
+      transform: translateY(-1px);
+    }
+    .top-btn:active {
+      transform: scale(0.95);
     }
     .top-btn.danger {
-      border-color: #FECDD3;
-      background: #FFF1F2;
+      border-color: rgba(255, 77, 106, 0.28);
+      background: var(--danger-soft);
       color: var(--danger);
     }
 
     .container {
-      padding: 18px 20px 96px;
-      max-width: 1220px;
+      padding: 22px 24px 104px;
+      max-width: 1240px;
       width: 100%;
       margin: 0 auto;
     }
 
-    /* ==================== TOP SUMMARY CARDS ==================== */
-    .summary-grid {
+    /* ==================== FINPRO CARDS & DASHBOARD GRID ==================== */
+    .finpro-top-grid {
       display: grid;
-      grid-template-columns: 1.35fr 1fr 1fr;
-      gap: 14px;
-      margin-bottom: 20px;
+      grid-template-columns: 1.35fr 1.15fr 0.85fr;
+      gap: 16px;
+      margin-bottom: 18px;
     }
 
-    .hero-card {
-      background: linear-gradient(125deg, #7BB642 0%, #3E885B 40%, #164B68 80%, #0E314A 100%);
-      border-radius: 16px;
-      padding: 18px;
-      color: #fff;
-      box-shadow: 0 8px 20px rgba(14, 49, 74, 0.16);
+    .f-card {
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: var(--shadow-card);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.28s var(--ease-spring), border-color 0.28s ease;
+    }
+    .f-card:hover {
+      border-color: var(--glass-highlight);
+    }
+
+    /* Card 1: Total Balance (FinPro Top-Center Widget Style) */
+    .balance-card {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      background:
+        radial-gradient(circle at 90% 10%, rgba(29, 111, 242, 0.22), transparent 55%),
+        var(--card-bg);
     }
-    .hero-top {
+    .bal-header {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
-      font-size: 12.5px;
-      font-weight: 700;
+      gap: 10px;
     }
-    .pill-btn {
-      background: rgba(255, 255, 255, 0.22);
-      border: 1px solid rgba(255, 255, 255, 0.4);
+    .bal-label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-sub);
+      letter-spacing: 0.2px;
+    }
+    .bank-filter-select {
+      margin-top: 4px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      color: var(--text-main);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 10px;
+      border-radius: 8px;
+      outline: none;
+      cursor: pointer;
+    }
+    .bank-filter-select option {
+      background: #151A26;
       color: #fff;
-      padding: 5px 11px;
+    }
+    .pill-edit-btn {
+      background: rgba(29, 111, 242, 0.14);
+      border: 1px solid rgba(29, 111, 242, 0.35);
+      color: #60A5FA;
+      padding: 6px 12px;
       border-radius: 99px;
       font-size: 11.5px;
-      font-weight: 800;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.22s var(--ease-spring);
+    }
+    html[data-theme="light"] .pill-edit-btn {
+      color: var(--blue);
+    }
+    .pill-edit-btn:hover {
+      background: var(--blue);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    .bal-amount-wrap {
+      margin: 16px 0 18px;
       cursor: pointer;
     }
-    .hero-balance {
+    .bal-currency {
+      color: var(--blue-light);
+      font-weight: 800;
       font-size: 28px;
+      margin-right: 4px;
+    }
+    .bal-digits {
+      font-size: 32px;
       font-weight: 800;
-      margin: 10px 0 14px;
-      letter-spacing: -0.5px;
+      letter-spacing: -0.8px;
+      color: var(--text-main);
     }
-    .hero-btn-row {
-      display: flex;
-      gap: 8px;
+
+    .bal-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
-    .hero-btn {
-      flex: 1;
+    .btn-finpro-primary {
       border: none;
-      padding: 11px 12px;
-      border-radius: 10px;
+      background: linear-gradient(135deg, #2575FC 0%, #1D6FF2 100%);
+      color: #fff;
+      padding: 12px 14px;
+      border-radius: 13px;
       font-size: 13px;
-      font-weight: 800;
+      font-weight: 700;
       cursor: pointer;
-      display: flex;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 5px;
+      gap: 7px;
+      box-shadow: 0 8px 22px -4px var(--blue-glow);
+      transition: all 0.24s var(--ease-spring);
     }
-    .hero-btn.in {
-      background: var(--green);
-      color: #fff;
+    .btn-finpro-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 26px -4px var(--blue-glow);
     }
-    .hero-btn.out {
-      background: rgba(255, 255, 255, 0.18);
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-    }
-    .hero-footer {
-      border-top: 1px solid rgba(255, 255, 255, 0.2);
-      margin-top: 14px;
-      padding-top: 10px;
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      font-weight: 600;
+    .btn-finpro-primary:active {
+      transform: scale(0.96);
     }
 
-    .stat-card {
-      background: var(--card);
-      border-radius: 16px;
-      padding: 16px 18px;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .stat-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 12.5px;
+    .btn-finpro-secondary {
+      border: 1px solid rgba(29, 111, 242, 0.32);
+      background: rgba(29, 111, 242, 0.08);
+      color: #60A5FA;
+      padding: 12px 14px;
+      border-radius: 13px;
+      font-size: 13px;
       font-weight: 700;
-      color: var(--muted);
-    }
-    .stat-val {
-      font-size: 21px;
-      font-weight: 800;
-      color: var(--text);
-      margin: 8px 0 10px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--border);
-    }
-    .stat-sub {
-      display: flex;
-      justify-content: space-between;
-      font-size: 12px;
-      font-weight: 700;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .stat-link {
-      background: none;
-      border: none;
-      color: var(--blue);
-      font-size: 12.5px;
-      font-weight: 800;
       cursor: pointer;
-      text-align: right;
-      margin-top: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      transition: all 0.24s var(--ease-spring);
+    }
+    html[data-theme="light"] .btn-finpro-secondary {
+      color: var(--blue);
+    }
+    .btn-finpro-secondary:hover {
+      background: rgba(29, 111, 242, 0.16);
+      transform: translateY(-2px);
+    }
+    .btn-finpro-secondary:active {
+      transform: scale(0.96);
     }
 
-    /* ==================== CONTENT LAYOUT ==================== */
-    .section-title {
+    /* Card 2: Cashflow & Smooth Spline Chart */
+    .card-head-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .card-subtitle {
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-sub);
+    }
+    .card-main-title {
       font-size: 15px;
       font-weight: 800;
-      color: var(--text);
-      margin-bottom: 12px;
+      color: var(--text-main);
+    }
+    .period-pills {
+      display: inline-flex;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--glass-border);
+      border-radius: 99px;
+      padding: 2px;
+      gap: 2px;
+    }
+    .period-pill {
+      border: none;
+      background: transparent;
+      color: var(--text-sub);
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 4px 9px;
+      border-radius: 99px;
+      cursor: pointer;
+      transition: all 0.2s var(--ease-spring);
+    }
+    .period-pill.active {
+      background: var(--blue);
+      color: #fff;
+      box-shadow: 0 2px 8px var(--blue-glow);
+    }
+
+    .cashflow-mini-stats {
+      display: flex;
+      gap: 14px;
+      margin: 8px 0 10px;
+      flex-wrap: wrap;
+    }
+    .cf-pill {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
     }
+    .cf-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .spline-svg {
+      width: 100%;
+      height: 92px;
+      overflow: visible;
+    }
+    .spline-path {
+      stroke-dasharray: 900;
+      stroke-dashoffset: 0;
+      animation: drawLine 1.1s var(--ease-spring) forwards;
+    }
+
+    /* Card 3: Radial Score / Target Tabungan Gauge */
+    .gauge-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      text-align: center;
+    }
+    .gauge-wrap {
+      position: relative;
+      width: 160px;
+      height: 105px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      margin: 4px 0;
+    }
+    .gauge-score-text {
+      position: absolute;
+      bottom: 4px;
+      left: 0;
+      right: 0;
+      text-align: center;
+    }
+    .gauge-num {
+      font-size: 30px;
+      font-weight: 800;
+      color: var(--text-main);
+      line-height: 1;
+    }
+    .gauge-caption {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: var(--blue-light);
+      text-transform: uppercase;
+      margin-top: 4px;
+    }
+
+    /* ==================== LOWER TWO-COLUMN LAYOUT ==================== */
     .two-col {
       display: grid;
-      grid-template-columns: 1.35fr 1fr;
+      grid-template-columns: 1.05fr 1.35fr;
       gap: 16px;
       align-items: start;
     }
-    .card-box {
-      background: var(--card);
-      border-radius: 16px;
-      padding: 16px;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border);
-      margin-bottom: 16px;
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .section-title {
+      font-size: 15.5px;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .link-action {
+      background: rgba(29, 111, 242, 0.12);
+      border: 1px solid rgba(29, 111, 242, 0.28);
+      color: #60A5FA;
+      padding: 6px 12px;
+      border-radius: 99px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.22s var(--ease-spring);
+    }
+    html[data-theme="light"] .link-action {
+      color: var(--blue);
+    }
+    .link-action:hover {
+      background: var(--blue);
+      color: #fff;
+      transform: translateY(-1px);
     }
 
-    /* Item Row */
+    /* Item Rows (Wallets & Transactions) */
     .item-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 11px 6px;
-      border-bottom: 1px solid var(--border);
-      gap: 10px;
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--glass-border);
+      gap: 12px;
       cursor: pointer;
-      border-radius: 10px;
+      border-radius: 14px;
+      transition: all 0.22s var(--ease-spring);
     }
-    .item-row:hover, .item-row:active {
-      background: #F8FAFC;
+    .item-row:hover {
+      background: rgba(255, 255, 255, 0.035);
+      transform: translateX(3px);
+    }
+    html[data-theme="light"] .item-row:hover {
+      background: rgba(15, 23, 42, 0.035);
+    }
+    .item-row:active {
+      transform: scale(0.985);
     }
     .item-row:last-child {
       border-bottom: none;
@@ -387,19 +716,22 @@
     .item-left {
       display: flex;
       align-items: center;
-      gap: 11px;
+      gap: 12px;
       min-width: 0;
       flex: 1;
     }
-    .item-badge {
+    .icon-squircle {
       width: 40px;
       height: 40px;
       border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 19px;
       flex-shrink: 0;
+      font-weight: 800;
+      font-size: 11.5px;
+      letter-spacing: -0.3px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
     .item-info {
       min-width: 0;
@@ -407,15 +739,15 @@
     }
     .item-title {
       font-size: 13.5px;
-      font-weight: 800;
-      color: var(--text);
+      font-weight: 700;
+      color: var(--text-main);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
     .item-meta {
       font-size: 11.5px;
-      color: var(--muted);
+      color: var(--text-sub);
       margin-top: 2px;
       white-space: nowrap;
       overflow: hidden;
@@ -429,94 +761,168 @@
       font-size: 13.5px;
       font-weight: 800;
     }
-    .edit-tag {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 800;
-      color: var(--blue);
-      background: #EFF6FF;
+    .edit-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10.5px;
+      font-weight: 700;
+      color: #60A5FA;
+      background: rgba(29, 111, 242, 0.12);
       padding: 2px 8px;
       border-radius: 6px;
       margin-top: 3px;
     }
+    html[data-theme="light"] .edit-pill {
+      color: var(--blue);
+    }
 
+    /* FinPro Transaction Table Header */
+    .tx-table-head {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 0.8fr 0.9fr;
+      padding: 6px 10px 10px;
+      border-bottom: 1px solid var(--glass-border);
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+    }
+    .tx-grid-row {
+      display: grid;
+      grid-template-columns: 1.6fr 1fr 0.8fr 0.9fr;
+      align-items: center;
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--glass-border);
+      border-radius: 13px;
+      cursor: pointer;
+      gap: 8px;
+      transition: all 0.22s var(--ease-spring);
+    }
+    .tx-grid-row:hover {
+      background: rgba(255, 255, 255, 0.04);
+      transform: translateX(3px);
+    }
+    .tx-grid-row:last-child {
+      border-bottom: none;
+    }
+
+    /* Progress Track (FinPro Glowing Bar) */
     .progress-track {
-      height: 8px;
-      background: #E2E8F0;
+      height: 7px;
+      background: rgba(255, 255, 255, 0.07);
       border-radius: 99px;
       overflow: hidden;
-      margin: 6px 0;
+      margin: 8px 0;
+    }
+    html[data-theme="light"] .progress-track {
+      background: #E2E8F0;
     }
     .progress-fill {
       height: 100%;
       border-radius: 99px;
+      background: linear-gradient(90deg, #1D6FF2 0%, #00E58F 100%);
+      box-shadow: 0 0 12px rgba(0, 229, 143, 0.45);
+      transition: width 0.6s var(--ease-spring);
     }
 
-    /* ==================== MODAL ==================== */
+    /* ==================== SMOOTH SPRING MODAL ==================== */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(11, 37, 58, 0.6);
+      background: rgba(6, 9, 15, 0.72);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
       z-index: 100;
-      display: none;
+      display: flex;
       align-items: center;
       justify-content: center;
       padding: 14px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.28s var(--ease-spring);
     }
     .modal-backdrop.open {
-      display: flex;
+      opacity: 1;
+      pointer-events: auto;
     }
     .modal-box {
-      background: #fff;
+      background: var(--card-solid);
+      border: 1px solid var(--glass-highlight);
       width: 100%;
-      max-width: 460px;
-      border-radius: 20px;
-      padding: 18px;
+      max-width: 470px;
+      border-radius: 24px;
+      padding: 20px;
       max-height: 90vh;
       overflow-y: auto;
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65);
+      transform: translateY(24px) scale(0.96);
+      transition: transform 0.34s var(--ease-spring);
+    }
+    .modal-backdrop.open .modal-box {
+      transform: translateY(0) scale(1);
     }
     .modal-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding-bottom: 12px;
-      margin-bottom: 12px;
-      border-bottom: 1px solid var(--border);
+      padding-bottom: 14px;
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--glass-border);
     }
     .modal-title {
-      font-size: 15.5px;
+      font-size: 16px;
       font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
     .close-btn {
       width: 32px;
       height: 32px;
       border-radius: 50%;
-      border: none;
-      background: #F1F5F9;
+      border: 1px solid var(--glass-border);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
       font-weight: 800;
       cursor: pointer;
-      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
     }
+    .close-btn:hover {
+      background: var(--danger-soft);
+      color: var(--danger);
+    }
+
     .form-label {
       display: block;
       font-size: 12px;
       font-weight: 700;
-      color: var(--text);
+      color: var(--text-sub);
       margin: 12px 0 6px;
     }
     .form-control {
       width: 100%;
-      border: 1.5px solid var(--border);
-      border-radius: 10px;
-      padding: 11px 12px;
+      border: 1.5px solid var(--glass-border);
+      border-radius: 12px;
+      padding: 11px 13px;
       font-size: 14px;
-      color: var(--text);
+      color: var(--text-main);
       outline: none;
-      background: #fff;
+      background: var(--input-bg);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
     .form-control:focus {
       border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(29, 111, 242, 0.2);
+    }
+    .form-control option {
+      background: var(--card-solid);
+      color: var(--text-main);
     }
 
     .chip-row {
@@ -526,18 +932,28 @@
       margin-top: 8px;
     }
     .chip-btn {
-      border: 1px solid var(--border);
-      background: #F8FAFC;
-      color: var(--text);
-      padding: 6px 10px;
+      border: 1px solid var(--glass-border);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-main);
+      padding: 7px 11px;
       border-radius: 99px;
       font-size: 11.5px;
       font-weight: 700;
       cursor: pointer;
+      transition: all 0.2s var(--ease-spring);
+    }
+    .chip-btn:hover {
+      border-color: var(--blue-light);
+    }
+    .chip-btn:active {
+      transform: scale(0.95);
     }
     .chip-btn.active {
-      background: #EFF6FF;
+      background: rgba(29, 111, 242, 0.2);
       border-color: var(--blue);
+      color: #60A5FA;
+    }
+    html[data-theme="light"] .chip-btn.active {
       color: var(--blue);
     }
 
@@ -545,102 +961,125 @@
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 7px;
-      max-height: 220px;
+      max-height: 225px;
       overflow-y: auto;
       padding: 2px;
     }
     .cat-btn {
-      border: 1.5px solid var(--border);
-      background: #F8FAFC;
-      border-radius: 10px;
-      padding: 8px 4px;
+      border: 1.5px solid var(--glass-border);
+      background: rgba(255, 255, 255, 0.025);
+      border-radius: 12px;
+      padding: 9px 4px;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 4px;
+      gap: 6px;
       font-size: 10.5px;
       font-weight: 700;
-      color: var(--text);
+      color: var(--text-sub);
       text-align: center;
-      min-height: 60px;
+      min-height: 66px;
+      transition: all 0.2s var(--ease-spring);
+    }
+    .cat-btn:active {
+      transform: scale(0.95);
     }
     .cat-btn.selected {
       border-color: var(--blue);
-      background: #EFF6FF;
-      color: var(--blue);
+      background: rgba(29, 111, 242, 0.16);
+      color: var(--text-main);
+      box-shadow: 0 4px 14px rgba(29, 111, 242, 0.22);
     }
 
     .preset-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
-      max-height: 165px;
+      gap: 7px;
+      max-height: 170px;
       overflow-y: auto;
       padding: 2px;
     }
     .preset-btn {
-      border: 1.5px solid var(--border);
-      background: #F8FAFC;
-      border-radius: 9px;
-      padding: 8px 6px;
+      border: 1.5px solid var(--glass-border);
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 11px;
+      padding: 8px 8px;
       font-size: 11.5px;
       font-weight: 700;
-      color: var(--text);
+      color: var(--text-main);
       cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 7px;
       text-align: left;
+      transition: all 0.2s var(--ease-spring);
+    }
+    .preset-btn:active {
+      transform: scale(0.95);
     }
     .preset-btn.selected {
       border-color: var(--blue);
-      background: #EFF6FF;
-      color: var(--blue);
+      background: rgba(29, 111, 242, 0.18);
+      box-shadow: 0 4px 12px rgba(29, 111, 242, 0.2);
     }
 
     .btn-submit {
       width: 100%;
       border: none;
-      border-radius: 12px;
-      padding: 13px;
+      border-radius: 14px;
+      padding: 13.5px;
       font-size: 14px;
       font-weight: 800;
       color: #fff;
-      background: var(--green);
+      background: linear-gradient(135deg, #2575FC 0%, #1D6FF2 100%);
+      box-shadow: 0 8px 24px -4px var(--blue-glow);
       cursor: pointer;
-      margin-top: 14px;
+      margin-top: 16px;
+      transition: all 0.24s var(--ease-spring);
+    }
+    .btn-submit:hover {
+      transform: translateY(-1px);
+    }
+    .btn-submit:active {
+      transform: scale(0.97);
     }
     .btn-danger {
       width: 100%;
-      border: none;
-      border-radius: 12px;
+      border: 1px solid rgba(255, 77, 106, 0.35);
+      border-radius: 14px;
       padding: 12px;
       font-size: 13.5px;
       font-weight: 800;
-      color: #fff;
-      background: var(--danger);
+      color: var(--danger);
+      background: var(--danger-soft);
       cursor: pointer;
       margin-top: 8px;
+      transition: all 0.22s var(--ease-spring);
+    }
+    .btn-danger:active {
+      transform: scale(0.97);
     }
 
-    @media (max-width: 960px) {
-      .summary-grid { grid-template-columns: 1fr; }
+    @media (max-width: 1024px) {
+      .finpro-top-grid { grid-template-columns: 1fr; }
       .two-col { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 768px) {
       .sidebar {
         width: 100%;
-        height: 62px;
+        height: 66px;
         top: auto;
         bottom: 0;
         left: 0;
         right: 0;
         flex-direction: row;
-        padding: 4px 6px;
-        box-shadow: 0 -4px 14px rgba(0, 0, 0, 0.12);
+        padding: 6px 8px;
+        border-right: none;
+        border-top: 1px solid var(--glass-border);
+        box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.45);
       }
       .brand { display: none; }
       .nav-list {
@@ -648,88 +1087,108 @@
         width: 100%;
         justify-content: space-around;
         align-items: center;
-        gap: 2px;
+        gap: 4px;
       }
       .nav-btn {
         flex: 1;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        padding: 5px 2px;
-        gap: 2px;
+        padding: 6px 2px;
+        gap: 4px;
         font-size: 10.5px;
-        border-radius: 8px;
+        border-radius: 12px;
         text-align: center;
       }
-      .nav-icon { font-size: 18px; }
       .main { margin-left: 0; }
-      .topbar { padding: 0 12px; height: 56px; }
-      .container { padding: 12px 12px 84px; }
-      .hero-balance { font-size: 25px; }
+      .topbar { padding: 0 12px; height: 60px; }
+      .container { padding: 14px 12px 92px; }
+      .bal-digits { font-size: 27px; }
+      .bal-currency { font-size: 23px; }
+      .tx-table-head { display: none; }
+      .tx-grid-row {
+        display: flex;
+        justify-content: space-between;
+      }
       .modal-backdrop { align-items: flex-end; padding: 0; }
       .modal-box {
         max-width: 100%;
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
-        padding: 16px 14px 26px;
+        padding: 18px 15px 28px;
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="toast" id="toastMsg">✅ Tersimpan!</div>
+  <div class="toast" id="toastMsg"></div>
 
-  <!-- SIDEBAR / BOTTOM BAR -->
+  <!-- SIDEBAR / BOTTOM NAVIGATION -->
   <aside class="sidebar">
     <div class="brand">
-      <div class="brand-icon">💰</div>
-      <span class="brand-text">DOMPETKU</span>
+      <div class="brand-logo" id="brandLogo"></div>
+      <div>
+        <span class="brand-text">DompetKu</span>
+        <span class="brand-pro">PRO</span>
+      </div>
     </div>
     <nav class="nav-list">
       <button type="button" class="nav-btn active" data-page="dashboard" onclick="navigate('dashboard')">
-        <span class="nav-icon">🏠</span>
+        <span class="nav-ico" data-ico="dashboard"></span>
         <span>Beranda</span>
       </button>
       <button type="button" class="nav-btn" data-page="wallets" onclick="navigate('wallets')">
-        <span class="nav-icon">🏦</span>
-        <span>Bank/Dompet</span>
+        <span class="nav-ico" data-ico="bank"></span>
+        <span>Bank/Akun</span>
       </button>
       <button type="button" class="nav-btn" data-page="income" onclick="navigate('income')">
-        <span class="nav-icon">📥</span>
-        <span>Masuk</span>
+        <span class="nav-ico" data-ico="income"></span>
+        <span>Pemasukan</span>
       </button>
       <button type="button" class="nav-btn" data-page="expense" onclick="navigate('expense')">
-        <span class="nav-icon">📤</span>
-        <span>Keluar</span>
+        <span class="nav-ico" data-ico="expense"></span>
+        <span>Pengeluaran</span>
       </button>
       <button type="button" class="nav-btn" data-page="savings" onclick="navigate('savings')">
-        <span class="nav-icon">🐷</span>
-        <span>Tabungan</span>
+        <span class="nav-ico" data-ico="vault"></span>
+        <span>Target Dana</span>
       </button>
     </nav>
   </aside>
 
-  <!-- MAIN AREA -->
+  <!-- MAIN CONTENT -->
   <div class="main">
     <header class="topbar">
       <button type="button" class="user-chip" onclick="openProfileModal()">
-        <div class="user-avatar">👤</div>
+        <div class="user-avatar" id="userAvatar">AD</div>
         <div>
-          <div class="user-name"><span id="userNameText">Alfian Dimas</span> ✏️</div>
-          <div class="user-sub">Ganti Nama</div>
+          <div class="user-greeting">Halo, Selamat Datang</div>
+          <div class="user-name">
+            <span id="userNameText">Alfian Dimas</span>
+            <span id="editUserIco" style="color:var(--blue-light);display:inline-flex;"></span>
+          </div>
         </div>
       </button>
 
       <div class="topbar-actions">
-        <button type="button" class="top-btn" onclick="hideBalance=!hideBalance;saveState();">
-          <span id="eyeIcon">👁️</span>
+        <!-- Theme Switcher Pill (Just like FinPro Screenshot) -->
+        <div class="theme-pill" title="Ganti Tema Gelap / Terang">
+          <button type="button" class="theme-pill-btn" id="themeLightBtn" onclick="setTheme('light')"></button>
+          <button type="button" class="theme-pill-btn active" id="themeDarkBtn" onclick="setTheme('dark')"></button>
+        </div>
+
+        <button type="button" class="top-btn" onclick="hideBalance=!hideBalance;saveState();" title="Sembunyikan/Tampilkan Angka">
+          <span id="eyeIcon"></span>
         </button>
+
         <button type="button" class="top-btn danger" onclick="resetAllToZero()">
-          🗑️ Nolkan Rp 0
+          <span id="resetIco"></span>
+          <span>Nolkan Rp 0</span>
         </button>
-        <button type="button" class="top-btn" onclick="openDataModal()">
-          ⚙️
+
+        <button type="button" class="top-btn" onclick="openDataModal()" title="Pengaturan Data">
+          <span id="settingsIco"></span>
         </button>
       </div>
     </header>
@@ -743,7 +1202,7 @@
   </div>
 
   <script>
-    // 1. Force unregister any old Service Worker & clear stale caches immediately
+    // Clear any stale Service Worker or old caches immediately
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.unregister())).catch(() => {});
     }
@@ -751,96 +1210,149 @@
       caches.keys().then(keys => keys.forEach(k => caches.delete(k))).catch(() => {});
     }
 
-    function showToast(msg) {
-      const t = document.getElementById('toastMsg');
-      t.textContent = msg;
-      t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2200);
+    /* ==================== PROFESSIONAL VECTOR SVG ICON SYSTEM ==================== */
+    const SVG_PATHS = {
+      finpro: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="4" y="10" width="4.5" height="12" rx="2.25" transform="rotate(-28 4 10)" fill="#3B82F6" opacity="0.55"/><rect x="10" y="4" width="4.5" height="17" rx="2.25" transform="rotate(-28 10 4)" fill="#1D6FF2"/><circle cx="19" cy="6" r="2.3" fill="#00E58F"/></svg>`,
+      dashboard: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="2"/><rect x="14" y="3" width="7" height="5" rx="2"/><rect x="14" y="12" width="7" height="9" rx="2"/><rect x="3" y="16" width="7" height="5" rx="2"/></svg>`,
+      bank: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="3"/><line x1="2" y1="10" x2="22" y2="10"/><line x1="6" y1="15" x2="10" y2="15"/></svg>`,
+      income: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v14"/><path d="m7 12 5 5 5-5"/><path d="M5 21h14"/></svg>`,
+      expense: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 17V3"/><path d="m7 8 5-5 5 5"/><path d="M5 21h14"/></svg>`,
+      vault: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>`,
+      plus: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
+      minus: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
+      edit: `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>`,
+      trash: `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>`,
+      eye: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>`,
+      eyeOff: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" y1="2" x2="22" y2="22"/></svg>`,
+      sun: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>`,
+      moon: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>`,
+      settings: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`,
+      ewallet: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="3"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>`,
+      cash: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></svg>`,
+      utensils: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>`,
+      coffee: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" y1="2" x2="6" y2="4"/><line x1="10" y1="2" x2="10" y2="4"/><line x1="14" y1="2" x2="14" y2="4"/></svg>`,
+      bag: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>`,
+      cart: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>`,
+      fuel: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="15" y2="22"/><line x1="4" y1="9" x2="14" y2="9"/><path d="M14 22V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v18"/><path d="M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2h0a2 2 0 0 0 2-2V9.83a2 2 0 0 0-.59-1.42L18 5"/></svg>`,
+      car: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>`,
+      zap: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+      wifi: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.859a10 10 0 0 1 14 0"/><path d="M8.5 16.429a5 5 0 0 1 7 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>`,
+      house: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
+      gamepad: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="4"/></svg>`,
+      heart: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>`,
+      wrench: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
+      briefcase: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>`,
+      trending: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>`,
+      gift: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>`,
+      laptop: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><line x1="2" y1="20" x2="22" y2="20"/></svg>`,
+      plane: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg>`,
+      layers: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>`,
+    };
+
+    function getSvg(key) {
+      return SVG_PATHS[key] || SVG_PATHS.layers;
     }
 
-    /* ==================== DETAILED INDONESIAN CATEGORIES ==================== */
+    // Mount static topbar/sidebar SVG icons
+    document.getElementById('brandLogo').innerHTML = SVG_PATHS.finpro;
+    document.getElementById('editUserIco').innerHTML = SVG_PATHS.edit;
+    document.getElementById('themeLightBtn').innerHTML = SVG_PATHS.sun;
+    document.getElementById('themeDarkBtn').innerHTML = SVG_PATHS.moon;
+    document.getElementById('resetIco').innerHTML = SVG_PATHS.trash;
+    document.getElementById('settingsIco').innerHTML = SVG_PATHS.settings;
+    document.querySelectorAll('.nav-ico').forEach(el => {
+      el.innerHTML = getSvg(el.dataset.ico);
+    });
+
+    function showToast(msg) {
+      const t = document.getElementById('toastMsg');
+      t.innerHTML = `<span style="color:var(--emerald)">●</span> <span>${msg}</span>`;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2300);
+    }
+
+    /* ==================== INDONESIAN CATEGORIES (ALL PROFESSIONAL VECTOR ICONS) ==================== */
     const DEFAULT_EXPENSE_CATEGORIES = [
-      { id: 'makan', name: 'Makan (Warteg/RM)', icon: '🍛', color: '#F97316' },
-      { id: 'ngopi', name: 'Ngopi & Minuman', icon: '☕', color: '#D97706' },
-      { id: 'jajan', name: 'Jajan & Camilan', icon: '🍢', color: '#EAB308' },
-      { id: 'gofood', name: 'GoFood / GrabFood', icon: '🛵', color: '#10B981' },
-      { id: 'bensin', name: 'Bensin Motor/Mobil', icon: '⛽', color: '#3B82F6' },
-      { id: 'parkir', name: 'Parkir & Tol', icon: '🅿️', color: '#6366F1' },
-      { id: 'ojol', name: 'Ojol / Kereta / Bus', icon: '🚆', color: '#0EA5E9' },
-      { id: 'minimarket', name: 'Indomaret / Alfamart', icon: '🏪', color: '#EC4899' },
-      { id: 'dapur', name: 'Belanja Dapur/Pasar', icon: '🛒', color: '#14B8A6' },
-      { id: 'olshop', name: 'Shopee / Tokped / TikTok', icon: '📦', color: '#F43F5E' },
-      { id: 'kuota', name: 'Pulsa & Paket Kuota', icon: '📱', color: '#8B5CF6' },
-      { id: 'listrik', name: 'Token Listrik PLN', icon: '⚡', color: '#F59E0B' },
-      { id: 'wifi', name: 'WiFi & Internet', icon: '🛜', color: '#0284C7' },
-      { id: 'kost', name: 'Kost / Kontrakan / KPR', icon: '🏠', color: '#4F46E5' },
-      { id: 'cicilan', name: 'Cicilan / Paylater', icon: '💳', color: '#E11D48' },
-      { id: 'skincare', name: 'Skincare / Cukur / Laundry', icon: '🧴', color: '#0D9488' },
-      { id: 'hiburan', name: 'Top Up Game / Netflix', icon: '🎮', color: '#9333EA' },
-      { id: 'nongkrong', name: 'Nongkrong & Bioskop', icon: '🍻', color: '#EA580C' },
-      { id: 'ortu', name: 'Kasih Ortu / Keluarga', icon: '🤲', color: '#059669' },
-      { id: 'sedekah', name: 'Sedekah / Kondangan', icon: '🕌', color: '#16A34A' },
-      { id: 'kesehatan', name: 'Obat & Kesehatan', icon: '💊', color: '#DC2626' },
-      { id: 'servis', name: 'Servis Kendaraan', icon: '🔧', color: '#475569' },
-      { id: 'hewan', name: 'Peliharaan / Kucing', icon: '🐱', color: '#D97706' },
-      { id: 'other_exp', name: 'Pengeluaran Lainnya', icon: '📋', color: '#64748B' },
+      { id: 'makan', name: 'Makan & Resto', icon: 'utensils', color: '#F97316' },
+      { id: 'ngopi', name: 'Ngopi & Minuman', icon: 'coffee', color: '#F59E0B' },
+      { id: 'jajan', name: 'Jajan & Camilan', icon: 'utensils', color: '#EAB308' },
+      { id: 'gofood', name: 'GoFood / GrabFood', icon: 'bag', color: '#10B981' },
+      { id: 'bensin', name: 'Bensin Kendaraan', icon: 'fuel', color: '#3B82F6' },
+      { id: 'parkir', name: 'Parkir & Tol', icon: 'car', color: '#6366F1' },
+      { id: 'ojol', name: 'Ojol / Transport', icon: 'car', color: '#0EA5E9' },
+      { id: 'minimarket', name: 'Indomaret / Alfamart', icon: 'cart', color: '#EC4899' },
+      { id: 'dapur', name: 'Belanja Dapur', icon: 'cart', color: '#14B8A6' },
+      { id: 'olshop', name: 'Shopee / Tokped', icon: 'bag', color: '#F43F5E' },
+      { id: 'kuota', name: 'Pulsa & Paket Data', icon: 'ewallet', color: '#8B5CF6' },
+      { id: 'listrik', name: 'Token Listrik PLN', icon: 'zap', color: '#F59E0B' },
+      { id: 'wifi', name: 'WiFi & Internet', icon: 'wifi', color: '#0284C7' },
+      { id: 'kost', name: 'Kost / Kontrakan / KPR', icon: 'house', color: '#4F46E5' },
+      { id: 'cicilan', name: 'Cicilan & Tagihan', icon: 'bank', color: '#E11D48' },
+      { id: 'skincare', name: 'Perawatan & Laundry', icon: 'layers', color: '#0D9488' },
+      { id: 'hiburan', name: 'Langganan & Game', icon: 'gamepad', color: '#9333EA' },
+      { id: 'nongkrong', name: 'Nongkrong & Hiburan', icon: 'coffee', color: '#EA580C' },
+      { id: 'ortu', name: 'Transfer Keluarga', icon: 'heart', color: '#059669' },
+      { id: 'sedekah', name: 'Amal & Sosial', icon: 'heart', color: '#16A34A' },
+      { id: 'kesehatan', name: 'Obat & Medis', icon: 'heart', color: '#DC2626' },
+      { id: 'servis', name: 'Servis & Bengkel', icon: 'wrench', color: '#64748B' },
+      { id: 'hewan', name: 'Kebutuhan Hobi', icon: 'layers', color: '#D97706' },
+      { id: 'other_exp', name: 'Pengeluaran Lain', icon: 'layers', color: '#64748B' },
     ];
 
     const DEFAULT_INCOME_CATEGORIES = [
-      { id: 'gaji', name: 'Gaji Bulanan', icon: '💰', color: '#10B981' },
-      { id: 'tunjangan', name: 'Uang Makan / Tunjangan', icon: '🍱', color: '#059669' },
-      { id: 'thr', name: 'Bonus / THR / Insentif', icon: '🎁', color: '#F59E0B' },
-      { id: 'freelance', name: 'Freelance / Sampingan', icon: '💻', color: '#3B82F6' },
-      { id: 'jualan', name: 'Hasil Jualan / Usaha', icon: '🏪', color: '#0EA5E9' },
-      { id: 'investasi', name: 'Profit Investasi / Crypto', icon: '📈', color: '#6366F1' },
-      { id: 'transferan', name: 'Dikasih Ortu / Keluarga', icon: '🤲', color: '#8B5CF6' },
-      { id: 'piutang', name: 'Utang Dibayar Teman', icon: '💸', color: '#14B8A6' },
-      { id: 'cashback', name: 'Cashback / Refund', icon: '🔄', color: '#EC4899' },
-      { id: 'preloved', name: 'Jual Barang Bekas', icon: '📦', color: '#F97316' },
-      { id: 'hadiah', name: 'Hadiah / Rezeki', icon: '🏆', color: '#EAB308' },
-      { id: 'other_inc', name: 'Pemasukan Lainnya', icon: '✨', color: '#64748B' },
+      { id: 'gaji', name: 'Gaji Utama', icon: 'briefcase', color: '#00E58F' },
+      { id: 'tunjangan', name: 'Tunjangan & Insentif', icon: 'cash', color: '#10B981' },
+      { id: 'thr', name: 'Bonus / THR', icon: 'gift', color: '#F59E0B' },
+      { id: 'freelance', name: 'Proyek / Freelance', icon: 'laptop', color: '#3B82F6' },
+      { id: 'jualan', name: 'Profit Bisnis / Usaha', icon: 'trending', color: '#0EA5E9' },
+      { id: 'investasi', name: 'Return Investasi', icon: 'trending', color: '#6366F1' },
+      { id: 'transferan', name: 'Dana Masuk Keluarga', icon: 'bank', color: '#8B5CF6' },
+      { id: 'piutang', name: 'Pelunasan Piutang', icon: 'cash', color: '#14B8A6' },
+      { id: 'cashback', name: 'Cashback / Refund', icon: 'gift', color: '#EC4899' },
+      { id: 'preloved', name: 'Penjualan Aset/Barang', icon: 'bag', color: '#F97316' },
+      { id: 'hadiah', name: 'Komisi & Apresiasi', icon: 'gift', color: '#EAB308' },
+      { id: 'other_inc', name: 'Pemasukan Lainnya', icon: 'layers', color: '#64748B' },
     ];
 
     const BANK_PRESETS = [
-      { name: 'BCA', type: 'bank', icon: '🏦' },
-      { name: 'Mandiri', type: 'bank', icon: '🏦' },
-      { name: 'BRI', type: 'bank', icon: '🏦' },
-      { name: 'BNI', type: 'bank', icon: '🏦' },
-      { name: 'BSI (Syariah)', type: 'bank', icon: '🏦' },
-      { name: 'SeaBank', type: 'bank', icon: '🏦' },
-      { name: 'Bank Jago', type: 'bank', icon: '🏦' },
-      { name: 'Blu by BCA', type: 'bank', icon: '🏦' },
-      { name: 'CIMB Niaga', type: 'bank', icon: '🏦' },
-      { name: 'BTN', type: 'bank', icon: '🏦' },
-      { name: 'Permata', type: 'bank', icon: '🏦' },
-      { name: 'Superbank', type: 'bank', icon: '🏦' },
-      { name: 'GoPay', type: 'ewallet', icon: '📱' },
-      { name: 'DANA', type: 'ewallet', icon: '📱' },
-      { name: 'OVO', type: 'ewallet', icon: '📱' },
-      { name: 'ShopeePay', type: 'ewallet', icon: '📱' },
-      { name: 'LinkAja', type: 'ewallet', icon: '📱' },
-      { name: 'Dompet Tunai (Cash)', type: 'cash', icon: '💵' },
+      { name: 'BCA', code: 'BCA', type: 'bank', color: '#1D6FF2' },
+      { name: 'Mandiri', code: 'MDR', type: 'bank', color: '#F59E0B' },
+      { name: 'BRI', code: 'BRI', type: 'bank', color: '#0284C7' },
+      { name: 'BNI', code: 'BNI', type: 'bank', color: '#EA580C' },
+      { name: 'BSI (Syariah)', code: 'BSI', type: 'bank', color: '#0D9488' },
+      { name: 'SeaBank', code: 'SEA', type: 'bank', color: '#F97316' },
+      { name: 'Bank Jago', code: 'JGO', type: 'bank', color: '#EAB308' },
+      { name: 'Blu by BCA', code: 'BLU', type: 'bank', color: '#06B6D4' },
+      { name: 'CIMB Niaga', code: 'CMB', type: 'bank', color: '#E11D48' },
+      { name: 'Permata', code: 'PMT', type: 'bank', color: '#10B981' },
+      { name: 'Superbank', code: 'SUP', type: 'bank', color: '#8B5CF6' },
+      { name: 'GoPay', code: 'GPY', type: 'ewallet', color: '#00AED6' },
+      { name: 'DANA', code: 'DNA', type: 'ewallet', color: '#118EEA' },
+      { name: 'OVO', code: 'OVO', type: 'ewallet', color: '#6366F1' },
+      { name: 'ShopeePay', code: 'SPY', type: 'ewallet', color: '#EE4D2D' },
+      { name: 'LinkAja', code: 'LNK', type: 'ewallet', color: '#E11D48' },
+      { name: 'Dompet Tunai (Cash)', code: 'CSH', type: 'cash', color: '#10B981' },
     ];
 
     const SAVING_PRESETS = [
-      { name: 'Dana Darurat', icon: '🛡️' },
-      { name: 'Beli HP / iPhone', icon: '📱' },
-      { name: 'Rakit PC / Laptop', icon: '💻' },
-      { name: 'Beli Motor', icon: '🛵' },
-      { name: 'Beli Mobil', icon: '🚗' },
-      { name: 'Liburan / Healing', icon: '✈️' },
-      { name: 'Modal Nikah', icon: '💍' },
-      { name: 'Beli Rumah / Kost', icon: '🏠' },
-      { name: 'Nonton Konser', icon: '🎫' },
-      { name: 'Tabungan Kurban', icon: '🐐' },
-      { name: 'Umroh / Haji', icon: '🕋' },
-      { name: 'Investasi / Emas', icon: '🪙' },
+      { name: 'Dana Darurat', icon: 'vault' },
+      { name: 'Upgrade Gadget / HP', icon: 'ewallet' },
+      { name: 'Workstation / Laptop', icon: 'laptop' },
+      { name: 'Kendaraan Pribadi', icon: 'car' },
+      { name: 'Portofolio Investasi', icon: 'trending' },
+      { name: 'Liburan & Travel', icon: 'plane' },
+      { name: 'Dana Pernikahan', icon: 'heart' },
+      { name: 'Properti / Hunian', icon: 'house' },
+      { name: 'Pendidikan & Kursus', icon: 'briefcase' },
+      { name: 'Dana Sosial / Ibadah', icon: 'vault' },
+      { name: 'Modal Bisnis', icon: 'trending' },
+      { name: 'Target Khusus Lainnya', icon: 'layers' },
     ];
 
     const WALLET_TYPES = [
-      { id: 'bank', name: 'Rekening Bank', icon: '🏦' },
-      { id: 'ewallet', name: 'E-Wallet', icon: '📱' },
-      { id: 'cash', name: 'Uang Tunai', icon: '💵' },
+      { id: 'bank', name: 'Rekening Bank', icon: 'bank' },
+      { id: 'ewallet', name: 'E-Wallet', icon: 'ewallet' },
+      { id: 'cash', name: 'Kas Tunai', icon: 'cash' },
     ];
 
     const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
@@ -848,6 +1360,20 @@
 
     let currentPage = 'dashboard';
     let hideBalance = false;
+    let selectedBankFilter = 'all';
+    let chartPeriod = 'month';
+
+    function setTheme(mode) {
+      document.documentElement.setAttribute('data-theme', mode);
+      localStorage.setItem('dompetku_theme', mode);
+      document.getElementById('themeLightBtn').classList.toggle('active', mode === 'light');
+      document.getElementById('themeDarkBtn').classList.toggle('active', mode === 'dark');
+    }
+
+    (function initTheme() {
+      const savedTheme = localStorage.getItem('dompetku_theme') || 'dark';
+      setTheme(savedTheme);
+    })();
 
     function getCleanZeroData() {
       return {
@@ -862,7 +1388,7 @@
         ],
         transactions: [],
         savings: [
-          { id: 's1', name: 'Dana Darurat', icon: '🛡️', current: 0, target: 5000000 },
+          { id: 's1', name: 'Dana Darurat', icon: 'vault', current: 0, target: 10000000 },
         ],
       };
     }
@@ -872,19 +1398,20 @@
         userName: 'Alfian Dimas',
         customCategories: [],
         wallets: [
-          { id: 'w_bca', name: 'BCA', type: 'bank', initialBalance: 2500000 },
-          { id: 'w_gopay', name: 'GoPay', type: 'ewallet', initialBalance: 350000 },
-          { id: 'w_dana', name: 'DANA', type: 'ewallet', initialBalance: 200000 },
-          { id: 'w_cash', name: 'Dompet Tunai (Cash)', type: 'cash', initialBalance: 150000 },
+          { id: 'w_bca', name: 'BCA', type: 'bank', initialBalance: 4200000 },
+          { id: 'w_mandiri', name: 'Mandiri', type: 'bank', initialBalance: 1850000 },
+          { id: 'w_gopay', name: 'GoPay', type: 'ewallet', initialBalance: 450000 },
+          { id: 'w_dana', name: 'DANA', type: 'ewallet', initialBalance: 250000 },
         ],
         transactions: [
-          { id: 't1', type: 'income', amount: 5000000, categoryId: 'gaji', walletId: 'w_bca', note: 'Gaji Bulanan', date: '2026-10-01' },
-          { id: 't2', type: 'expense', amount: 35000, categoryId: 'makan', walletId: 'w_gopay', note: 'Nasi Padang', date: '2026-10-16' },
-          { id: 't3', type: 'expense', amount: 20000, categoryId: 'ngopi', walletId: 'w_dana', note: 'Es Kopi Susu', date: '2026-10-16' },
+          { id: 't1', type: 'income', amount: 6500000, categoryId: 'gaji', walletId: 'w_bca', note: 'Gaji Bulanan', date: '2026-10-01' },
+          { id: 't2', type: 'expense', amount: 45000, categoryId: 'makan', walletId: 'w_gopay', note: 'Makan Siang', date: '2026-10-15' },
+          { id: 't3', type: 'expense', amount: 28000, categoryId: 'ngopi', walletId: 'w_dana', note: 'Kopi Espresso', date: '2026-10-16' },
+          { id: 't4', type: 'income', amount: 1200000, categoryId: 'freelance', walletId: 'w_mandiri', note: 'Proyek Desain UI', date: '2026-10-17' },
         ],
         savings: [
-          { id: 's1', name: 'Dana Darurat', icon: '🛡️', current: 2000000, target: 10000000 },
-          { id: 's2', name: 'Beli Laptop / HP', icon: '💻', current: 1500000, target: 6000000 },
+          { id: 's1', name: 'Dana Darurat', icon: 'vault', current: 4500000, target: 10000000 },
+          { id: 's2', name: 'Workstation / Laptop', icon: 'laptop', current: 3200000, target: 8000000 },
         ],
       };
     }
@@ -897,34 +1424,53 @@
         if (raw) {
           const parsed = JSON.parse(raw);
           if (!parsed.customCategories) parsed.customCategories = [];
+          // Sanitize any legacy emoji icons in savings to clean SVG keys
+          if (Array.isArray(parsed.savings)) {
+            parsed.savings.forEach(s => {
+              if (!SVG_PATHS[s.icon]) s.icon = 'vault';
+            });
+          }
           return parsed;
         }
       } catch (e) {}
-      // Start clean at Rp 0 as requested by user!
       const clean = getCleanZeroData();
       localStorage.setItem(STORAGE_KEY, JSON.stringify(clean));
       return clean;
     }
 
+    function getInitials(name) {
+      const parts = String(name || 'AD').trim().split(/\s+/);
+      if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+      return String(parts[0] || 'AD').slice(0, 2).toUpperCase();
+    }
+
     function saveState() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      document.getElementById('userNameText').textContent = state.userName || 'Alfian Dimas';
-      document.getElementById('eyeIcon').textContent = hideBalance ? '🙈' : '👁️';
+      const uName = state.userName || 'Alfian Dimas';
+      document.getElementById('userNameText').textContent = uName;
+      document.getElementById('userAvatar').textContent = getInitials(uName);
+      document.getElementById('eyeIcon').innerHTML = hideBalance ? SVG_PATHS.eyeOff : SVG_PATHS.eye;
       renderPage();
     }
 
-    // 1-Click Instant Reset to Rp 0 (No blocked window.confirm!)
     function resetAllToZero() {
       state.transactions = [];
       state.wallets.forEach(w => { w.initialBalance = 0; });
       state.savings.forEach(s => { s.current = 0; });
       closeModal();
       saveState();
-      showToast('✅ Semua saldo & transaksi di-reset ke Rp 0!');
+      showToast('Semua saldo & transaksi berhasil di-reset ke Rp 0');
     }
 
     function uid() {
       return Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+    }
+
+    function formatNumberOnly(n, masked = false) {
+      if (masked && hideBalance) return '•••••••';
+      const num = Number(n) || 0;
+      const formatted = Math.round(Math.abs(num)).toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+      return `${num < 0 ? '-' : ''}${formatted}`;
     }
 
     function formatRupiah(n, masked = false) {
@@ -943,7 +1489,7 @@
     function formatDateIndo(dateStr) {
       const d = new Date(dateStr);
       if (isNaN(d)) return dateStr;
-      return `${d.getDate()} ${MONTHS_SHORT[d.getMonth()]} ${d.getFullYear()}`;
+      return `${d.getDate()} ${MONTHS_SHORT[d.getMonth()]}`;
     }
 
     function getExpenseCategories() {
@@ -957,12 +1503,25 @@
     }
 
     function getCategory(id) {
-      return [...getExpenseCategories(), ...getIncomeCategories()].find(c => c.id === id) ||
-        { id, name: 'Lainnya', icon: '📋', color: '#64748B' };
+      const found = [...getExpenseCategories(), ...getIncomeCategories()].find(c => c.id === id);
+      if (found) {
+        return {
+          ...found,
+          svg: getSvg(found.icon),
+        };
+      }
+      return { id, name: 'Transaksi', icon: 'layers', svg: SVG_PATHS.layers, color: '#3B82F6' };
     }
 
     function getWallet(id) {
       return state.wallets.find(w => w.id === id) || state.wallets[0] || { id: '', name: 'Utama', type: 'bank' };
+    }
+
+    function getWalletBadge(wallet) {
+      const preset = BANK_PRESETS.find(p => p.name.toLowerCase() === String(wallet.name || '').toLowerCase());
+      const color = preset ? preset.color : (wallet.type === 'ewallet' ? '#0EA5E9' : wallet.type === 'cash' ? '#10B981' : '#1D6FF2');
+      const code = preset ? preset.code : String(wallet.name || 'BNK').slice(0, 3).toUpperCase();
+      return { color, code };
     }
 
     function getWalletType(typeId) {
@@ -1017,28 +1576,34 @@
       document.querySelectorAll('.nav-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.page === page);
       });
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
       renderPage();
     }
 
-    function renderTxRow(tx) {
+    function renderTxTableRow(tx) {
       const cat = getCategory(tx.categoryId);
       const w = getWallet(tx.walletId);
       const isInc = tx.type === 'income';
       return `
-        <div class="item-row" onclick="openTxModal('${tx.type}', '${tx.id}')">
+        <div class="tx-grid-row" onclick="openTxModal('${tx.type}', '${tx.id}')">
           <div class="item-left">
-            <div class="item-badge" style="background:${cat.color}18;">${cat.icon}</div>
+            <div class="icon-squircle" style="background:${cat.color}1F;color:${cat.color};">
+              ${cat.svg}
+            </div>
             <div class="item-info">
               <div class="item-title">${escapeHtml(tx.note || cat.name)}</div>
-              <div class="item-meta">${formatDateIndo(tx.date)} • ${cat.name} • ${escapeHtml(w.name)}</div>
+              <div class="item-meta">${cat.name}</div>
             </div>
           </div>
-          <div class="item-right">
-            <div class="item-amt" style="color:${isInc ? '#5C9E23' : '#E11D48'};">
-              ${isInc ? '+' : '-'}${formatRupiah(tx.amount, true)}
-            </div>
-            <span class="edit-tag">✏️ Edit</span>
+          <div style="font-weight:800;font-size:13.5px;color:${isInc ? 'var(--emerald)' : 'var(--danger)'};">
+            ${isInc ? '+' : '-'} ${formatRupiah(tx.amount, true)}
+          </div>
+          <div style="font-size:12px;color:var(--text-sub);font-weight:600;">
+            ${formatDateIndo(tx.date)}
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;">
+            <span style="font-size:12px;color:var(--text-sub);font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(w.name)}</span>
+            <span class="edit-pill">${SVG_PATHS.edit}</span>
           </div>
         </div>
       `;
@@ -1053,85 +1618,173 @@
       else if (currentPage === 'savings') el.innerHTML = renderSavingsPage();
     }
 
-    /* ==================== PAGE 1: BERANDA ==================== */
+    /* ==================== PAGE 1: FINPRO DASHBOARD ==================== */
     function renderDashboard() {
       const t = computeTotals();
-      const recentTx = state.transactions.slice(0, 8);
-      const firstWalletId = state.wallets[0] ? state.wallets[0].id : null;
+      const recentTx = state.transactions.slice(0, 7);
+
+      const displayedBalance = selectedBankFilter === 'all'
+        ? t.totalWalletBalance
+        : (t.walletBalances[selectedBankFilter] || 0);
+
+      // Compute Financial & Savings Score (0 - 100) for the FinPro Arc Gauge
+      let savPct = t.totalSavingsTarget > 0 ? Math.round((t.totalSavings / t.totalSavingsTarget) * 100) : 0;
+      savPct = Math.max(0, Math.min(100, savPct));
+      const arcLength = 176;
+      const arcOffset = arcLength - (arcLength * savPct) / 100;
+
+      const netCashflow = t.totalIncome - t.totalExpense;
 
       return `
-        <div class="summary-grid">
-          <!-- Card 1: Total Saldo -->
-          <div class="hero-card">
+        <div class="finpro-top-grid">
+          <!-- WIDGET 1: TOTAL BALANCE (FinPro Style) -->
+          <div class="f-card balance-card anim-in d-1">
             <div>
-              <div class="hero-top">
-                <span>Total Saldo Semua Bank/Dompet</span>
-                <button type="button" class="pill-btn" onclick="openBulkWalletModal()">✏️ Atur Saldo & Bank</button>
+              <div class="bal-header">
+                <div>
+                  <div class="bal-label">Total Saldo Aktif</div>
+                  <select class="bank-filter-select" onchange="selectedBankFilter=this.value;renderPage();">
+                    <option value="all" ${selectedBankFilter==='all'?'selected':''}>Semua Akun (${state.wallets.length})</option>
+                    ${state.wallets.map(w => `
+                      <option value="${w.id}" ${selectedBankFilter===w.id?'selected':''}>${escapeHtml(w.name)}</option>
+                    `).join('')}
+                  </select>
+                </div>
+                <button type="button" class="pill-edit-btn" onclick="openBulkWalletModal()">
+                  ${SVG_PATHS.edit}
+                  <span>Atur Saldo & Bank</span>
+                </button>
               </div>
-              <div class="hero-balance" style="cursor:pointer;" onclick="openBulkWalletModal()">
-                ${formatRupiah(t.totalWalletBalance, true)}
-              </div>
-              <div class="hero-btn-row">
-                <button type="button" class="hero-btn in" onclick="openTxModal('income')">＋ Pemasukan</button>
-                <button type="button" class="hero-btn out" onclick="openTxModal('expense')">－ Pengeluaran</button>
+
+              <div class="bal-amount-wrap" onclick="openBulkWalletModal()" title="Ketuk untuk ubah saldo">
+                <span class="bal-currency">Rp</span>
+                <span class="bal-digits">${formatNumberOnly(displayedBalance, true)}</span>
               </div>
             </div>
-            <div class="hero-footer">
-              <span>Total Tabungan Terkumpul 🐷</span>
-              <strong>${formatRupiah(t.totalSavings, true)}</strong>
+
+            <div class="bal-actions">
+              <button type="button" class="btn-finpro-primary" onclick="openTxModal('income')">
+                ${SVG_PATHS.income}
+                <span>Pemasukan</span>
+              </button>
+              <button type="button" class="btn-finpro-secondary" onclick="openTxModal('expense')">
+                ${SVG_PATHS.expense}
+                <span>Pengeluaran</span>
+              </button>
             </div>
           </div>
 
-          <!-- Card 2: Pemasukan vs Pengeluaran -->
-          <div class="stat-card">
-            <div>
-              <div class="stat-head">
-                <span>Pemasukan vs Pengeluaran</span>
-                <span>📊</span>
+          <!-- WIDGET 2: ARUS KAS & SMOOTH SPLINE GRAPH (FinPro Statistics Card) -->
+          <div class="f-card anim-in d-2">
+            <div class="card-head-row">
+              <div>
+                <div class="card-subtitle">Statistik Arus Kas</div>
+                <div class="card-main-title" style="color:${netCashflow >= 0 ? 'var(--emerald)' : 'var(--danger)'};">
+                  ${netCashflow >= 0 ? '+' : ''}${formatRupiah(netCashflow, true)}
+                </div>
               </div>
-              <div class="stat-val" style="color:${t.totalIncome - t.totalExpense >= 0 ? 'var(--text)' : 'var(--danger)'}">
-                ${t.totalIncome - t.totalExpense >= 0 ? '+' : ''}${formatRupiah(t.totalIncome - t.totalExpense, true)}
-              </div>
-              <div class="stat-sub">
-                <span style="color:#5C9E23;">↓ Masuk: ${formatRupiah(t.totalIncome, true)}</span>
-                <span style="color:#E11D48;">↑ Keluar: ${formatRupiah(t.totalExpense, true)}</span>
+              <div class="period-pills">
+                <button type="button" class="period-pill ${chartPeriod==='week'?'active':''}" onclick="chartPeriod='week';renderPage();">Minggu</button>
+                <button type="button" class="period-pill ${chartPeriod==='month'?'active':''}" onclick="chartPeriod='month';renderPage();">Bulan</button>
               </div>
             </div>
-            <button type="button" class="stat-link" onclick="openTxModal('expense')">+ Catat Transaksi ›</button>
+
+            <div class="cashflow-mini-stats">
+              <div class="cf-pill">
+                <span class="cf-dot" style="background:var(--blue-light);box-shadow:0 0 8px var(--blue-light);"></span>
+                <span style="color:var(--text-sub);">Masuk:</span>
+                <span style="color:var(--text-main);">${formatRupiah(t.totalIncome, true)}</span>
+              </div>
+              <div class="cf-pill">
+                <span class="cf-dot" style="background:var(--emerald);box-shadow:0 0 8px var(--emerald);"></span>
+                <span style="color:var(--text-sub);">Keluar:</span>
+                <span style="color:var(--text-main);">${formatRupiah(t.totalExpense, true)}</span>
+              </div>
+            </div>
+
+            <!-- FinPro Dual Smooth Spline SVG -->
+            <svg class="spline-svg" viewBox="0 0 320 92" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="emeraldGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#00E58F" stop-opacity="0.28"/>
+                  <stop offset="100%" stop-color="#00E58F" stop-opacity="0.0"/>
+                </linearGradient>
+                <linearGradient id="blueGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#1D6FF2" stop-opacity="0.26"/>
+                  <stop offset="100%" stop-color="#1D6FF2" stop-opacity="0.0"/>
+                </linearGradient>
+              </defs>
+              <path d="M 4 76 C 45 70, 75 28, 120 42 C 160 54, 195 16, 240 28 C 275 38, 295 18, 316 14 L 316 88 L 4 88 Z" fill="url(#blueGrad)" />
+              <path class="spline-path" d="M 4 76 C 45 70, 75 28, 120 42 C 160 54, 195 16, 240 28 C 275 38, 295 18, 316 14" fill="none" stroke="#1D6FF2" stroke-width="2.6" stroke-linecap="round" />
+              <path d="M 4 82 C 50 76, 85 52, 130 58 C 175 64, 210 34, 250 44 L 250 88 L 4 88 Z" fill="url(#emeraldGrad)" />
+              <path class="spline-path" d="M 4 82 C 50 76, 85 52, 130 58 C 175 64, 210 34, 250 44" fill="none" stroke="#00E58F" stroke-width="2.5" stroke-linecap="round" />
+              <path d="M 250 44 C 275 50, 295 28, 316 32" fill="none" stroke="rgba(148,163,184,0.45)" stroke-width="2" stroke-dasharray="4 4" stroke-linecap="round" />
+              <circle cx="240" cy="28" r="4.5" fill="#1D6FF2" stroke="#fff" stroke-width="1.8" />
+              <circle cx="250" cy="44" r="4.5" fill="#00E58F" stroke="#0A0D14" stroke-width="1.8" />
+            </svg>
           </div>
 
-          <!-- Card 3: Tabungan -->
-          <div class="stat-card">
-            <div>
-              <div class="stat-head">
-                <span>Celengan Tabungan</span>
-                <span>🐷</span>
-              </div>
-              <div class="stat-val">${formatRupiah(t.totalSavings, true)}</div>
-              <div class="stat-sub" style="color:var(--muted);">
-                <span>${state.savings.length} Target</span>
-                <span>Target: ${formatRupiah(t.totalSavingsTarget, true)}</span>
+          <!-- WIDGET 3: TARGET DANA & SKOR PROGRES (FinPro Radial Gauge Style) -->
+          <div class="f-card gauge-card anim-in d-3">
+            <div style="width:100%;display:flex;justify-content:space-between;align-items:center;">
+              <span class="card-subtitle">Target Dana Simpanan</span>
+              <button type="button" class="pill-edit-btn" style="padding:4px 10px;" onclick="openSavingDepositModal()">+ Setor</button>
+            </div>
+
+            <div class="gauge-wrap" onclick="navigate('savings')" style="cursor:pointer;">
+              <svg width="160" height="100" viewBox="0 0 160 100">
+                <!-- Background Arc -->
+                <path d="M 24 86 A 56 56 0 0 1 136 86" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="11" stroke-linecap="round" />
+                <!-- Dashed Outer Scale Ticks -->
+                <path d="M 14 86 A 66 66 0 0 1 146 86" fill="none" stroke="rgba(148,163,184,0.22)" stroke-width="3" stroke-dasharray="2 6" />
+                <!-- Active Blue Arc -->
+                <path d="M 24 86 A 56 56 0 0 1 136 86" fill="none" stroke="url(#gaugeBlue)" stroke-width="11" stroke-linecap="round" stroke-dasharray="${arcLength}" stroke-dashoffset="${arcOffset}" style="transition:stroke-dashoffset 0.8s var(--ease-spring);" />
+                <defs>
+                  <linearGradient id="gaugeBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#1D6FF2" />
+                    <stop offset="100%" stop-color="#00E58F" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div class="gauge-score-text">
+                <div class="gauge-num">${savPct}%</div>
+                <div class="gauge-caption">PROGRES DANA</div>
               </div>
             </div>
-            <button type="button" class="stat-link" onclick="openSavingDepositModal()">+ Isi / Tarik Tabungan ›</button>
+
+            <div style="width:100%;display:flex;justify-content:space-between;font-size:12px;border-top:1px solid var(--glass-border);padding-top:10px;">
+              <span style="color:var(--text-sub);">Terkumpul:</span>
+              <strong style="color:var(--text-main);">${formatRupiah(t.totalSavings, true)}</strong>
+            </div>
           </div>
         </div>
 
+        <!-- LOWER TWO-COLUMN AREA -->
         <div class="two-col">
-          <!-- Left: Bank & Dompet (Always visible & easy to edit!) -->
-          <div>
-            <div class="card-box">
-              <div class="section-title">
-                <span>🏦 Saldo Bank & E-Wallet Kamu</span>
-                <button type="button" class="stat-link" style="margin:0;" onclick="openWalletModal()">＋ Tambah Bank</button>
+          <!-- Left Column: Bank Accounts & Savings Goals -->
+          <div class="anim-in d-3">
+            <div class="f-card" style="margin-bottom:16px;">
+              <div class="section-head">
+                <div class="section-title">
+                  <span style="color:var(--blue-light);">${SVG_PATHS.bank}</span>
+                  <span>Rekening Bank & E-Wallet</span>
+                </div>
+                <button type="button" class="link-action" onclick="openWalletModal()">
+                  ${SVG_PATHS.plus}
+                  <span>Tambah Akun</span>
+                </button>
               </div>
+
               ${state.wallets.map(w => {
                 const wt = getWalletType(w.type);
+                const badge = getWalletBadge(w);
                 const bal = t.walletBalances[w.id] || 0;
                 return `
                   <div class="item-row" onclick="openWalletModal('${w.id}')">
                     <div class="item-left">
-                      <div class="item-badge" style="background:#EFF6FF;">${wt.icon}</div>
+                      <div class="icon-squircle" style="background:${badge.color}20;color:${badge.color};">
+                        ${badge.code}
+                      </div>
                       <div class="item-info">
                         <div class="item-title">${escapeHtml(w.name)}</div>
                         <div class="item-meta">${wt.name}</div>
@@ -1139,34 +1792,46 @@
                     </div>
                     <div class="item-right">
                       <div class="item-amt">${formatRupiah(bal, true)}</div>
-                      <span class="edit-tag">✏️ Ubah Nama / Saldo</span>
+                      <span class="edit-pill">${SVG_PATHS.edit} Ubah Nama / Saldo</span>
                     </div>
                   </div>
                 `;
               }).join('')}
             </div>
 
-            <!-- Target Tabungan -->
-            <div class="card-box">
-              <div class="section-title">
-                <span>🐷 Target Tabungan</span>
-                <button type="button" class="stat-link" style="margin:0;" onclick="openSavingModal()">＋ Target Baru</button>
+            <!-- Target Dana (Professional Vault Style) -->
+            <div class="f-card">
+              <div class="section-head">
+                <div class="section-title">
+                  <span style="color:var(--emerald);">${SVG_PATHS.vault}</span>
+                  <span>Target Dana & Alokasi</span>
+                </div>
+                <button type="button" class="link-action" onclick="openSavingModal()">
+                  ${SVG_PATHS.plus}
+                  <span>Target Baru</span>
+                </button>
               </div>
+
               ${state.savings.length === 0
-                ? `<p style="color:var(--muted);font-size:12.5px;">Belum ada celengan tabungan.</p>`
+                ? `<p style="color:var(--text-sub);font-size:12.5px;">Belum ada target dana simpanan.</p>`
                 : state.savings.map(s => {
                   const pct = s.target ? Math.min(100, Math.round((s.current / s.target) * 100)) : 0;
                   return `
                     <div class="item-row" style="display:block;" onclick="openSavingModal('${s.id}')">
                       <div style="display:flex;justify-content:space-between;align-items:center;">
-                        <strong style="font-size:13.5px;">${s.icon} ${escapeHtml(s.name)}</strong>
-                        <span class="edit-tag">✏️ Edit (${pct}%)</span>
+                        <div style="display:flex;align-items:center;gap:10px;">
+                          <div class="icon-squircle" style="width:34px;height:34px;background:rgba(29,111,242,0.15);color:var(--blue-light);">
+                            ${getSvg(s.icon)}
+                          </div>
+                          <div>
+                            <div style="font-size:13.5px;font-weight:700;">${escapeHtml(s.name)}</div>
+                            <div style="font-size:11px;color:var(--text-sub);">${formatRupiah(s.current, true)} / ${formatRupiah(s.target, true)}</div>
+                          </div>
+                        </div>
+                        <span class="edit-pill">${pct}%</span>
                       </div>
                       <div class="progress-track">
-                        <div class="progress-fill" style="width:${pct}%;background:#8CC63F;"></div>
-                      </div>
-                      <div style="font-size:12px;color:var(--muted);">
-                        Terkumpul <strong>${formatRupiah(s.current, true)}</strong> dari ${formatRupiah(s.target, true)}
+                        <div class="progress-fill" style="width:${pct}%;"></div>
                       </div>
                     </div>
                   `;
@@ -1174,47 +1839,81 @@
             </div>
           </div>
 
-          <!-- Right: Recent Transactions -->
-          <div class="card-box">
-            <div class="section-title">
-              <span>📝 Riwayat Transaksi Terakhir</span>
-              <button type="button" class="stat-link" style="margin:0;" onclick="openTxModal('expense')">＋ Catat</button>
+          <!-- Right Column: Recent Transactions (FinPro Table Widget Style) -->
+          <div class="f-card anim-in d-4">
+            <div class="section-head">
+              <div class="section-title">
+                <span>Riwayat Transaksi Terkini</span>
+              </div>
+              <button type="button" class="link-action" onclick="openTxModal('expense')">
+                ${SVG_PATHS.plus}
+                <span>Catat Baru</span>
+              </button>
             </div>
+
             ${recentTx.length === 0
-              ? `<p style="color:var(--muted);font-size:13px;padding:24px 0;text-align:center;">Masih kosong (Rp 0).<br>Ketuk <strong>＋ Pemasukan</strong>, <strong>－ Pengeluaran</strong>, atau <strong>✏️ Ubah Nama / Saldo</strong> pada daftar Bank di samping.</p>`
-              : recentTx.map(renderTxRow).join('')}
+              ? `
+                <div style="padding:36px 16px;text-align:center;">
+                  <div style="width:48px;height:48px;border-radius:16px;background:rgba(29,111,242,0.12);color:var(--blue-light);display:inline-flex;align-items:center;justify-content:center;margin-bottom:12px;">
+                    ${SVG_PATHS.bank}
+                  </div>
+                  <div style="font-size:14px;font-weight:700;color:var(--text-main);">Saldo Bersih (Rp 0)</div>
+                  <p style="color:var(--text-sub);font-size:12.5px;margin-top:4px;line-height:1.5;">
+                    Ketuk <strong>Atur Saldo & Bank</strong> di kartu utama untuk mengisi saldo awal rekening kamu, atau catat transaksi baru.
+                  </p>
+                </div>
+              `
+              : `
+                <div class="tx-table-head">
+                  <span>Transaksi</span>
+                  <span>Nominal</span>
+                  <span>Tanggal</span>
+                  <span>Akun</span>
+                </div>
+                ${recentTx.map(renderTxTableRow).join('')}
+              `}
           </div>
         </div>
       `;
     }
 
-    /* ==================== PAGE 2: BANK & DOMPET ==================== */
+    /* ==================== PAGE 2: BANK & AKUN ==================== */
     function renderWalletsPage() {
       const t = computeTotals();
       return `
-        <div class="card-box" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+        <div class="f-card anim-in d-1" style="margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;">
           <div>
-            <div style="font-size:12px;color:var(--muted);font-weight:700;">TOTAL SALDO SEMUA BANK & DOMPET</div>
-            <div style="font-size:24px;font-weight:800;color:var(--text);margin-top:2px;">
-              ${formatRupiah(t.totalWalletBalance, true)}
+            <div class="card-subtitle">TOTAL SALDO SEMUA AKUN</div>
+            <div style="font-size:28px;font-weight:800;margin-top:4px;">
+              <span style="color:var(--blue-light);">Rp</span> ${formatNumberOnly(t.totalWalletBalance, true)}
             </div>
           </div>
-          <button type="button" class="hero-btn" style="flex:0;padding:10px 16px;background:var(--green);color:#fff;" onclick="openWalletModal()">
-            ＋ Tambah Bank / E-Wallet
-          </button>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button type="button" class="btn-finpro-secondary" onclick="openBulkWalletModal()">
+              ${SVG_PATHS.edit}
+              <span>Edit Sekaligus</span>
+            </button>
+            <button type="button" class="btn-finpro-primary" onclick="openWalletModal()">
+              ${SVG_PATHS.plus}
+              <span>Tambah Bank / E-Wallet</span>
+            </button>
+          </div>
         </div>
 
-        <div class="card-box">
-          <div class="section-title">
-            <span>Ketuk Bank/Dompet untuk Ubah Nama & Saldo</span>
+        <div class="f-card anim-in d-2">
+          <div class="section-head">
+            <span class="section-title">Daftar Akun Bank, E-Wallet & Kas (Ketuk untuk Edit)</span>
           </div>
           ${state.wallets.map(w => {
             const wt = getWalletType(w.type);
+            const badge = getWalletBadge(w);
             const bal = t.walletBalances[w.id] || 0;
             return `
               <div class="item-row" onclick="openWalletModal('${w.id}')">
                 <div class="item-left">
-                  <div class="item-badge" style="background:#EFF6FF;">${wt.icon}</div>
+                  <div class="icon-squircle" style="background:${badge.color}20;color:${badge.color};">
+                    ${badge.code}
+                  </div>
                   <div class="item-info">
                     <div class="item-title">${escapeHtml(w.name)}</div>
                     <div class="item-meta">${wt.name}</div>
@@ -1222,7 +1921,7 @@
                 </div>
                 <div class="item-right">
                   <div class="item-amt">${formatRupiah(bal, true)}</div>
-                  <span class="edit-tag">✏️ Ubah Nama / Saldo</span>
+                  <span class="edit-pill">${SVG_PATHS.edit} Ubah Nama / Saldo</span>
                 </div>
               </div>
             `;
@@ -1231,68 +1930,92 @@
       `;
     }
 
-    /* ==================== PAGE 3 & 4: MASUK / KELUAR ==================== */
+    /* ==================== PAGE 3 & 4: PEMASUKAN / PENGELUARAN ==================== */
     function renderTxListPage(type) {
       const isInc = type === 'income';
       const list = state.transactions.filter(tx => tx.type === type);
       const total = list.reduce((s, tx) => s + (Number(tx.amount) || 0), 0);
 
       return `
-        <div class="card-box" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+        <div class="f-card anim-in d-1" style="margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;">
           <div>
-            <div style="font-size:12px;color:var(--muted);font-weight:700;">TOTAL ${isInc ? 'PEMASUKAN' : 'PENGELUARAN'}</div>
-            <div style="font-size:24px;font-weight:800;color:${isInc ? '#5C9E23' : '#E11D48'};margin-top:2px;">
+            <div class="card-subtitle">TOTAL ${isInc ? 'PEMASUKAN' : 'PENGELUARAN'} TERCATAT</div>
+            <div style="font-size:28px;font-weight:800;color:${isInc ? 'var(--emerald)' : 'var(--danger)'};margin-top:4px;">
               ${formatRupiah(total, true)}
             </div>
           </div>
-          <button type="button" class="hero-btn" style="flex:0;padding:10px 18px;background:${isInc ? 'var(--green)' : 'var(--danger)'};color:#fff;" onclick="openTxModal('${type}')">
-            ＋ Catat ${isInc ? 'Pemasukan' : 'Pengeluaran'}
+          <button type="button" class="btn-finpro-primary" onclick="openTxModal('${type}')">
+            ${SVG_PATHS.plus}
+            <span>Catat ${isInc ? 'Pemasukan' : 'Pengeluaran'}</span>
           </button>
         </div>
 
-        <div class="card-box">
-          <div class="section-title">
-            <span>Daftar ${isInc ? 'Pemasukan' : 'Pengeluaran'} (${list.length})</span>
+        <div class="f-card anim-in d-2">
+          <div class="section-head">
+            <span class="section-title">Riwayat ${isInc ? 'Pemasukan' : 'Pengeluaran'} (${list.length})</span>
           </div>
           ${list.length === 0
-            ? `<p style="color:var(--muted);font-size:13px;padding:20px 0;text-align:center;">Belum ada catatan.</p>`
-            : list.map(renderTxRow).join('')}
+            ? `<p style="color:var(--text-sub);font-size:13px;padding:24px 0;text-align:center;">Belum ada catatan transaksi.</p>`
+            : `
+              <div class="tx-table-head">
+                <span>Transaksi</span>
+                <span>Nominal</span>
+                <span>Tanggal</span>
+                <span>Akun</span>
+              </div>
+              ${list.map(renderTxTableRow).join('')}
+            `}
         </div>
       `;
     }
 
-    /* ==================== PAGE 5: TABUNGAN ==================== */
+    /* ==================== PAGE 5: TARGET DANA ==================== */
     function renderSavingsPage() {
       const t = computeTotals();
       return `
-        <div class="card-box" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+        <div class="f-card anim-in d-1" style="margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;">
           <div>
-            <div style="font-size:12px;color:var(--muted);font-weight:700;">TOTAL TABUNGAN TERKUMPUL</div>
-            <div style="font-size:24px;font-weight:800;color:var(--text);margin-top:2px;">
-              ${formatRupiah(t.totalSavings, true)}
+            <div class="card-subtitle">TOTAL DANA SIMPANAN TERKUMPUL</div>
+            <div style="font-size:28px;font-weight:800;margin-top:4px;">
+              <span style="color:var(--emerald);">Rp</span> ${formatNumberOnly(t.totalSavings, true)}
             </div>
           </div>
           <div style="display:flex;gap:8px;flex-wrap:wrap;">
-            <button type="button" class="hero-btn" style="flex:0;padding:10px 14px;background:var(--blue);color:#fff;" onclick="openSavingDepositModal()">＋ Setor / Tarik</button>
-            <button type="button" class="hero-btn" style="flex:0;padding:10px 14px;background:var(--green);color:#fff;" onclick="openSavingModal()">＋ Target Baru</button>
+            <button type="button" class="btn-finpro-secondary" onclick="openSavingDepositModal()">
+              ${SVG_PATHS.income}
+              <span>Setor / Tarik Dana</span>
+            </button>
+            <button type="button" class="btn-finpro-primary" onclick="openSavingModal()">
+              ${SVG_PATHS.plus}
+              <span>Target Baru</span>
+            </button>
           </div>
         </div>
 
-        <div class="card-box">
-          <div class="section-title"><span>Daftar Celengan Tabungan (Ketuk untuk Edit)</span></div>
+        <div class="f-card anim-in d-2">
+          <div class="section-head">
+            <span class="section-title">Daftar Target Simpanan & Alokasi Dana</span>
+          </div>
           ${state.savings.map(s => {
             const pct = s.target ? Math.min(100, Math.round((s.current / s.target) * 100)) : 0;
             return `
               <div class="item-row" style="display:block;" onclick="openSavingModal('${s.id}')">
                 <div style="display:flex;justify-content:space-between;align-items:center;">
-                  <strong style="font-size:14px;">${s.icon} ${escapeHtml(s.name)}</strong>
-                  <span class="edit-tag">✏️ Edit Nominal / Target</span>
+                  <div style="display:flex;align-items:center;gap:10px;">
+                    <div class="icon-squircle" style="background:rgba(29,111,242,0.16);color:var(--blue-light);">
+                      ${getSvg(s.icon)}
+                    </div>
+                    <div>
+                      <strong style="font-size:14px;">${escapeHtml(s.name)}</strong>
+                      <div style="font-size:12px;color:var(--text-sub);margin-top:2px;">
+                        Terkumpul <strong>${formatRupiah(s.current, true)}</strong> dari Target ${formatRupiah(s.target, true)}
+                      </div>
+                    </div>
+                  </div>
+                  <span class="edit-pill">${SVG_PATHS.edit} ${pct}%</span>
                 </div>
                 <div class="progress-track">
-                  <div class="progress-fill" style="width:${pct}%;background:#8CC63F;"></div>
-                </div>
-                <div style="font-size:12px;color:var(--muted);">
-                  Terkumpul <strong>${formatRupiah(s.current, true)}</strong> dari Target ${formatRupiah(s.target, true)} (${pct}%)
+                  <div class="progress-fill" style="width:${pct}%;"></div>
                 </div>
               </div>
             `;
@@ -1317,37 +2040,37 @@
       const totals = computeTotals();
       openModal(`
         <div class="modal-header">
-          <span class="modal-title">🏦 Atur Nama Bank & Saldo</span>
+          <span class="modal-title">${SVG_PATHS.bank} <span>Atur Nama Bank & Saldo</span></span>
           <button type="button" class="close-btn" onclick="closeModal()">✕</button>
         </div>
-        <p style="font-size:12px;color:var(--muted);margin-bottom:10px;">
-          Ketik langsung <strong>Nama Bank/E-Wallet</strong> dan <strong>Nominal Saldo</strong> di bawah, lalu klik Simpan:
+        <p style="font-size:12px;color:var(--text-sub);margin-bottom:12px;">
+          Ubah langsung <strong>Nama Bank/E-Wallet</strong> dan <strong>Nominal Saldo</strong> di bawah, lalu klik Simpan:
         </p>
-        <div style="display:flex;flex-direction:column;gap:10px;max-height:52vh;overflow-y:auto;padding-right:2px;">
-          ${state.wallets.map((w, idx) => {
+        <div style="display:flex;flex-direction:column;gap:10px;max-height:50vh;overflow-y:auto;padding-right:2px;">
+          ${state.wallets.map(w => {
             const bal = Math.max(0, totals.walletBalances[w.id] || 0);
-            const wt = getWalletType(w.type);
+            const badge = getWalletBadge(w);
             return `
-              <div style="border:1.5px solid var(--border);border-radius:12px;padding:10px;background:#F8FAFC;">
-                <div style="display:flex;gap:8px;align-items:center;margin-bottom:6px;">
-                  <span style="font-size:18px;">${wt.icon}</span>
-                  <input type="text" class="form-control bulk-w-name" data-id="${w.id}" style="font-weight:800;padding:8px 10px;" value="${escapeHtml(w.name)}" placeholder="Nama Bank / Dompet" />
-                  <button type="button" class="chip-btn" style="padding:7px 10px;" onclick="openWalletModal('${w.id}')">Pilih Bank</button>
+              <div style="border:1px solid var(--glass-border);border-radius:14px;padding:11px;background:rgba(255,255,255,0.025);">
+                <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
+                  <div class="icon-squircle" style="width:34px;height:34px;background:${badge.color}22;color:${badge.color};">${badge.code}</div>
+                  <input type="text" class="form-control bulk-w-name" data-id="${w.id}" style="font-weight:700;padding:8px 11px;" value="${escapeHtml(w.name)}" placeholder="Nama Bank / Akun" />
+                  <button type="button" class="chip-btn" onclick="openWalletModal('${w.id}')">Detail</button>
                 </div>
                 <div style="display:flex;gap:8px;align-items:center;">
-                  <span style="font-size:13px;font-weight:800;color:var(--muted);padding-left:4px;">Rp</span>
-                  <input type="text" inputmode="numeric" class="form-control bulk-w-bal" data-id="${w.id}" style="font-size:17px;font-weight:800;padding:8px 10px;" value="${formatThousands(bal)}" placeholder="0" oninput="this.value=formatThousands(this.value)" />
-                  <button type="button" class="chip-btn" style="color:var(--danger);padding:7px 10px;" onclick="this.previousElementSibling.value='0'">Rp 0</button>
+                  <span style="font-size:13px;font-weight:800;color:var(--blue-light);padding-left:6px;">Rp</span>
+                  <input type="text" inputmode="numeric" class="form-control bulk-w-bal" data-id="${w.id}" style="font-size:17px;font-weight:800;padding:8px 11px;" value="${formatThousands(bal)}" placeholder="0" oninput="this.value=formatThousands(this.value)" />
+                  <button type="button" class="chip-btn" style="color:var(--danger);" onclick="this.previousElementSibling.value='0'">Rp 0</button>
                 </div>
               </div>
             `;
           }).join('')}
         </div>
         <div style="display:flex;gap:8px;margin-top:12px;">
-          <button type="button" class="chip-btn" style="flex:1;padding:10px;color:var(--blue);border-color:var(--blue);" onclick="openWalletModal()">＋ Tambah Bank Baru</button>
-          <button type="button" class="chip-btn" style="flex:1;padding:10px;color:var(--danger);border-color:#FECDD3;background:#FFF1F2;" onclick="resetAllToZero()">🗑️ Nolkan Semua Rp 0</button>
+          <button type="button" class="chip-btn" style="flex:1;padding:10px;color:#60A5FA;border-color:rgba(29,111,242,0.4);" onclick="openWalletModal()">+ Tambah Bank Baru</button>
+          <button type="button" class="chip-btn" style="flex:1;padding:10px;color:var(--danger);border-color:rgba(255,77,106,0.35);" onclick="resetAllToZero()">Nolkan Semua Rp 0</button>
         </div>
-        <button type="button" class="btn-submit" onclick="saveBulkWallets()">💾 Simpan Semua Saldo & Nama Bank</button>
+        <button type="button" class="btn-submit" onclick="saveBulkWallets()">Simpan Semua Perubahan</button>
       `);
     }
 
@@ -1372,10 +2095,10 @@
       });
       closeModal();
       saveState();
-      showToast('✅ Semua Nama Bank & Saldo berhasil disimpan!');
+      showToast('Semua Nama Bank & Saldo berhasil diperbarui');
     }
 
-    /* 1. MODAL BANK / DOMPET INDIVIDUAL */
+    /* 1. MODAL BANK / AKUN INDIVIDUAL */
     function openWalletModal(walletId = null) {
       const totals = computeTotals();
       const w = walletId ? state.wallets.find(x => x.id === walletId) : null;
@@ -1390,7 +2113,7 @@
       renderWalletModal();
     }
 
-    function pickBankPreset(name, type, btnEl) {
+    function pickBankPreset(name, type) {
       form.name = name;
       form.type = type;
       const nameInp = document.getElementById('walletNameInput');
@@ -1422,28 +2145,29 @@
       const isEdit = !!form.id;
       openModal(`
         <div class="modal-header">
-          <span class="modal-title">${isEdit ? '✏️ Edit Bank / Dompet & Saldo' : '🏦 Tambah Bank / Dompet Baru'}</span>
+          <span class="modal-title">${SVG_PATHS.bank} <span>${isEdit ? 'Edit Akun Bank & Saldo' : 'Tambah Bank / E-Wallet'}</span></span>
           <button type="button" class="close-btn" onclick="closeModal()">✕</button>
         </div>
 
-        <label class="form-label" style="margin-top:0;">Pilih Cepat Bank / E-Wallet (Atau ketik bebas di bawah)</label>
+        <label class="form-label" style="margin-top:0;">Pilih Cepat Bank / E-Wallet</label>
         <div class="preset-grid" id="bankPresetGrid">
           ${BANK_PRESETS.map(p => `
-            <button type="button" class="preset-btn ${form.name === p.name ? 'selected' : ''}" data-name="${escapeHtml(p.name)}" onclick="pickBankPreset('${p.name}', '${p.type}', this)">
-              <span>${p.icon}</span>
-              <span>${p.name}</span>
+            <button type="button" class="preset-btn ${form.name === p.name ? 'selected' : ''}" data-name="${escapeHtml(p.name)}" onclick="pickBankPreset('${p.name}', '${p.type}')">
+              <span style="width:22px;height:22px;border-radius:6px;background:${p.color}25;color:${p.color};display:inline-flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;flex-shrink:0;">${p.code}</span>
+              <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name}</span>
             </button>
           `).join('')}
         </div>
 
-        <label class="form-label">Nama Bank / E-Wallet / Dompet (Bisa Diketik Bebas)</label>
-        <input id="walletNameInput" type="text" class="form-control" style="font-weight:700;" placeholder="Ketik nama bank/dompet..." value="${escapeHtml(form.name)}" oninput="form.name=this.value" />
+        <label class="form-label">Nama Bank / E-Wallet / Akun (Bisa Diketik Bebas)</label>
+        <input id="walletNameInput" type="text" class="form-control" style="font-weight:700;" placeholder="Ketik nama bank atau dompet..." value="${escapeHtml(form.name)}" oninput="form.name=this.value" />
 
         <label class="form-label">Jenis Akun</label>
         <div style="display:flex;gap:6px;" id="walletTypeRow">
           ${WALLET_TYPES.map(t => `
-            <button type="button" class="chip-btn ${form.type === t.id ? 'active' : ''}" data-type="${t.id}" style="flex:1;padding:9px 4px;" onclick="selectWalletType('${t.id}')">
-              ${t.icon} ${t.name}
+            <button type="button" class="chip-btn ${form.type === t.id ? 'active' : ''}" data-type="${t.id}" style="flex:1;padding:9px 6px;display:inline-flex;align-items:center;justify-content:center;gap:5px;" onclick="selectWalletType('${t.id}')">
+              ${getSvg(t.icon)}
+              <span>${t.name}</span>
             </button>
           `).join('')}
         </div>
@@ -1458,9 +2182,9 @@
           <button type="button" class="chip-btn" style="color:var(--danger);" onclick="form.targetBalance='0';document.getElementById('walletBalInput').value='0';">Nolkan (Rp 0)</button>
         </div>
 
-        <button type="button" class="btn-submit" onclick="saveWallet()">💾 Simpan Perubahan</button>
+        <button type="button" class="btn-submit" onclick="saveWallet()">Simpan Akun & Saldo</button>
         ${isEdit && state.wallets.length > 1 ? `
-          <button type="button" class="btn-danger" onclick="deleteWallet('${form.id}')">🗑️ Hapus Dompet Ini</button>
+          <button type="button" class="btn-danger" onclick="deleteWallet('${form.id}')">Hapus Akun Ini</button>
         ` : ''}
       `);
     }
@@ -1468,7 +2192,7 @@
     function saveWallet() {
       const nameEl = document.getElementById('walletNameInput');
       const balEl = document.getElementById('walletBalInput');
-      const cleanName = ((nameEl ? nameEl.value : form.name) || '').trim() || 'Dompet Baru';
+      const cleanName = ((nameEl ? nameEl.value : form.name) || '').trim() || 'Akun Baru';
       const rawBal = (balEl ? balEl.value : form.targetBalance) || '0';
       const desiredBalance = parseInt(String(rawBal).replace(/\D/g, ''), 10) || 0;
       const totals = computeTotals();
@@ -1489,14 +2213,15 @@
       }
       closeModal();
       saveState();
-      showToast(`✅ ${cleanName} disimpan (${formatRupiah(desiredBalance)})`);
+      showToast(`${cleanName} disimpan (${formatRupiah(desiredBalance)})`);
     }
 
     function deleteWallet(id) {
       state.wallets = state.wallets.filter(w => w.id !== id);
+      if (selectedBankFilter === id) selectedBankFilter = 'all';
       closeModal();
       saveState();
-      showToast('🗑️ Dompet dihapus');
+      showToast('Akun dihapus');
     }
 
     /* 2. MODAL TRANSAKSI */
@@ -1539,13 +2264,13 @@
 
       openModal(`
         <div class="modal-header">
-          <span class="modal-title">${form.id ? '✏️ Edit Transaksi' : (form.type === 'income' ? '📥 Catat Pemasukan' : '📤 Catat Pengeluaran')}</span>
+          <span class="modal-title">${form.type === 'income' ? SVG_PATHS.income : SVG_PATHS.expense} <span>${form.id ? 'Edit Transaksi' : (form.type === 'income' ? 'Catat Pemasukan' : 'Catat Pengeluaran')}</span></span>
           <button type="button" class="close-btn" onclick="closeModal()">✕</button>
         </div>
 
-        <div style="display:flex;gap:8px;margin-bottom:8px;">
-          <button type="button" class="hero-btn" style="background:${form.type==='income'?'var(--green)':'#E2E8F0'};color:${form.type==='income'?'#fff':'var(--text)'}" onclick="form.type='income';renderTxModal();">📥 Pemasukan</button>
-          <button type="button" class="hero-btn" style="background:${form.type==='expense'?'var(--danger)':'#E2E8F0'};color:${form.type==='expense'?'#fff':'var(--text)'}" onclick="form.type='expense';renderTxModal();">📤 Pengeluaran</button>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+          <button type="button" class="${form.type==='income'?'btn-finpro-primary':'btn-finpro-secondary'}" onclick="form.type='income';renderTxModal();">Pemasukan</button>
+          <button type="button" class="${form.type==='expense'?'btn-finpro-primary':'btn-finpro-secondary'}" onclick="form.type='expense';renderTxModal();">Pengeluaran</button>
         </div>
 
         <label class="form-label">Nominal (Rp)</label>
@@ -1559,27 +2284,27 @@
           <button type="button" class="chip-btn" style="color:var(--danger);" onclick="form.amount='0';document.getElementById('txAmountInput').value='';">Nolkan</button>
         </div>
 
-        <label class="form-label">Catatan / Keterangan</label>
-        <input id="txNoteInput" type="text" class="form-control" placeholder="Cth: Nasi Padang, Kopi, Bensin, Gaji..." value="${escapeHtml(form.note)}" oninput="form.note=this.value" />
+        <label class="form-label">Keterangan Transaksi</label>
+        <input id="txNoteInput" type="text" class="form-control" placeholder="Cth: Makan Siang, Kopi, Bensin, Gaji..." value="${escapeHtml(form.note)}" oninput="form.note=this.value" />
 
         <div style="display:flex;justify-content:space-between;align-items:center;margin:12px 0 6px;">
-          <label class="form-label" style="margin:0;">Pilih Kategori (${cats.length} Pilihan Spesifik)</label>
-          <button type="button" style="background:none;border:none;color:var(--blue);font-size:12px;font-weight:800;cursor:pointer;" onclick="form.addingCustomCat=!form.addingCustomCat;renderTxModal();">
-            ${form.addingCustomCat ? 'Tutup' : '＋ Buat Kategori Sendiri'}
+          <label class="form-label" style="margin:0;">Kategori (${cats.length} Pilihan)</label>
+          <button type="button" style="background:none;border:none;color:#60A5FA;font-size:12px;font-weight:700;cursor:pointer;" onclick="form.addingCustomCat=!form.addingCustomCat;renderTxModal();">
+            ${form.addingCustomCat ? 'Tutup' : '+ Buat Kategori Sendiri'}
           </button>
         </div>
 
         ${form.addingCustomCat ? `
-          <div style="background:#EFF6FF;border:1.5px solid var(--blue);border-radius:10px;padding:10px;margin-bottom:8px;display:flex;gap:6px;">
+          <div style="background:rgba(29,111,242,0.1);border:1px solid var(--blue);border-radius:12px;padding:10px;margin-bottom:8px;display:flex;gap:6px;">
             <input id="customCatInput" class="form-control" style="flex:1;" placeholder="Ketik nama kategori baru..." value="${escapeHtml(form.customCatName)}" oninput="form.customCatName=this.value" />
-            <button type="button" class="hero-btn" style="flex:0;padding:0 14px;background:var(--blue);color:#fff;" onclick="saveCustomCategory()">Tambah</button>
+            <button type="button" class="btn-finpro-primary" style="padding:0 14px;" onclick="saveCustomCategory()">Tambah</button>
           </div>
         ` : ''}
 
         <div class="cat-grid" id="txCatGrid">
           ${cats.map(c => `
             <button type="button" class="cat-btn ${form.categoryId === c.id ? 'selected' : ''}" data-id="${c.id}" onclick="selectTxCategory('${c.id}')">
-              <span style="font-size:19px;">${c.icon}</span>
+              <span style="color:${c.color};">${getSvg(c.icon)}</span>
               <span>${escapeHtml(c.name)}</span>
             </button>
           `).join('')}
@@ -1587,7 +2312,7 @@
 
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
           <div>
-            <label class="form-label">Pakai Bank / Dompet</label>
+            <label class="form-label">Akun Bank / Dompet</label>
             <select class="form-control" onchange="form.walletId=this.value">
               ${state.wallets.map(w => `<option value="${w.id}" ${form.walletId===w.id?'selected':''}>${escapeHtml(w.name)}</option>`).join('')}
             </select>
@@ -1598,9 +2323,9 @@
           </div>
         </div>
 
-        <button type="button" class="btn-submit" onclick="saveTx()">💾 Simpan Transaksi</button>
+        <button type="button" class="btn-submit" onclick="saveTx()">Simpan Transaksi</button>
         ${form.id ? `
-          <button type="button" class="btn-danger" onclick="deleteTx('${form.id}')">🗑️ Hapus Transaksi Ini</button>
+          <button type="button" class="btn-danger" onclick="deleteTx('${form.id}')">Hapus Transaksi Ini</button>
         ` : ''}
       `);
     }
@@ -1613,8 +2338,8 @@
         id: 'cust_' + uid(),
         type: form.type,
         name,
-        icon: form.type === 'income' ? '💵' : '🏷️',
-        color: '#2563EB',
+        icon: form.type === 'income' ? 'trending' : 'layers',
+        color: '#3B82F6',
       };
       state.customCategories.push(newCat);
       form.categoryId = newCat.id;
@@ -1631,7 +2356,7 @@
       const amt = parseInt(String(rawAmt).replace(/\D/g, ''), 10) || 0;
       if (amt <= 0) {
         if (amtEl) amtEl.focus();
-        showToast('⚠️ Masukkan nominal lebih dari Rp 0');
+        showToast('Masukkan nominal lebih dari Rp 0');
         return;
       }
       const cat = getCategory(form.categoryId);
@@ -1649,17 +2374,17 @@
       else state.transactions.unshift(payload);
       closeModal();
       saveState();
-      showToast('✅ Transaksi berhasil disimpan!');
+      showToast('Transaksi berhasil disimpan');
     }
 
     function deleteTx(id) {
       state.transactions = state.transactions.filter(t => t.id !== id);
       closeModal();
       saveState();
-      showToast('🗑️ Transaksi dihapus');
+      showToast('Transaksi dihapus');
     }
 
-    /* 3. MODAL SETOR / TARIK TABUNGAN */
+    /* 3. MODAL SETOR / TARIK TARGET DANA */
     function openSavingDepositModal() {
       if (!state.savings.length) return openSavingModal();
       form = {
@@ -1674,24 +2399,24 @@
     function renderSavingDepositModal() {
       openModal(`
         <div class="modal-header">
-          <span class="modal-title">🐷 Setor / Tarik Tabungan</span>
+          <span class="modal-title">${SVG_PATHS.vault} <span>Setor / Tarik Dana Simpanan</span></span>
           <button type="button" class="close-btn" onclick="closeModal()">✕</button>
         </div>
-        <div style="display:flex;gap:8px;margin-bottom:8px;">
-          <button type="button" class="hero-btn" style="background:${form.mode==='deposit'?'var(--green)':'#E2E8F0'};color:${form.mode==='deposit'?'#fff':'var(--text)'}" onclick="form.mode='deposit';renderSavingDepositModal();">＋ Setor Nabung</button>
-          <button type="button" class="hero-btn" style="background:${form.mode==='withdraw'?'var(--warning)':'#E2E8F0'};color:${form.mode==='withdraw'?'#fff':'var(--text)'}" onclick="form.mode='withdraw';renderSavingDepositModal();">－ Tarik Tabungan</button>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+          <button type="button" class="${form.mode==='deposit'?'btn-finpro-primary':'btn-finpro-secondary'}" onclick="form.mode='deposit';renderSavingDepositModal();">Setor Dana</button>
+          <button type="button" class="${form.mode==='withdraw'?'btn-finpro-primary':'btn-finpro-secondary'}" onclick="form.mode='withdraw';renderSavingDepositModal();">Tarik Dana</button>
         </div>
-        <label class="form-label">Pilih Celengan Tabungan</label>
+        <label class="form-label">Pilih Target Dana</label>
         <select class="form-control" onchange="form.savingId=this.value">
-          ${state.savings.map(s => `<option value="${s.id}" ${form.savingId===s.id?'selected':''}>${s.icon} ${escapeHtml(s.name)} (${formatRupiah(s.current)})</option>`).join('')}
+          ${state.savings.map(s => `<option value="${s.id}" ${form.savingId===s.id?'selected':''}>${escapeHtml(s.name)} (${formatRupiah(s.current)})</option>`).join('')}
         </select>
-        <label class="form-label">${form.mode === 'deposit' ? 'Ambil dari Bank/Dompet' : 'Masukkan ke Bank/Dompet'}</label>
+        <label class="form-label">${form.mode === 'deposit' ? 'Sumber Akun Bank/Dompet' : 'Tujuan Akun Bank/Dompet'}</label>
         <select class="form-control" onchange="form.walletId=this.value">
           ${state.wallets.map(w => `<option value="${w.id}" ${form.walletId===w.id?'selected':''}>${escapeHtml(w.name)}</option>`).join('')}
         </select>
         <label class="form-label">Nominal (Rp)</label>
         <input id="savDepInput" type="text" inputmode="numeric" class="form-control" style="font-size:20px;font-weight:800;" placeholder="0" value="${formatThousands(form.amount)}" oninput="form.amount=this.value.replace(/\\D/g,'');this.value=formatThousands(form.amount);" />
-        <button type="button" class="btn-submit" onclick="saveSavingDeposit()">💾 Simpan</button>
+        <button type="button" class="btn-submit" onclick="saveSavingDeposit()">Simpan Perubahan</button>
       `);
     }
 
@@ -1706,27 +2431,27 @@
         target.current = (Number(target.current) || 0) + amt;
         state.transactions.unshift({
           id: uid(), type: 'expense', amount: amt, categoryId: 'other_exp',
-          walletId: form.walletId, note: `Nabung ke ${target.name}`, date: new Date().toISOString().slice(0, 10)
+          walletId: form.walletId, note: `Alokasi ke ${target.name}`, date: new Date().toISOString().slice(0, 10)
         });
       } else {
         target.current = Math.max(0, (Number(target.current) || 0) - amt);
         state.transactions.unshift({
           id: uid(), type: 'income', amount: amt, categoryId: 'cashback',
-          walletId: form.walletId, note: `Tarik dari ${target.name}`, date: new Date().toISOString().slice(0, 10)
+          walletId: form.walletId, note: `Pencairan ${target.name}`, date: new Date().toISOString().slice(0, 10)
         });
       }
       closeModal();
       saveState();
-      showToast('✅ Tabungan diperbarui!');
+      showToast('Alokasi dana simpanan diperbarui');
     }
 
-    /* 4. MODAL TARGET TABUNGAN */
+    /* 4. MODAL TARGET DANA */
     function openSavingModal(savingId = null) {
       const s = savingId ? state.savings.find(x => x.id === savingId) : null;
       form = {
         id: s ? s.id : null,
         name: s ? s.name : '',
-        icon: s ? s.icon : '🐷',
+        icon: s && SVG_PATHS[s.icon] ? s.icon : 'vault',
         current: s ? String(s.current || '') : '',
         target: s ? String(s.target || '') : '',
       };
@@ -1747,32 +2472,32 @@
       const isEdit = !!form.id;
       openModal(`
         <div class="modal-header">
-          <span class="modal-title">${isEdit ? '✏️ Edit Target Tabungan' : '🐷 Buat Target Tabungan'}</span>
+          <span class="modal-title">${SVG_PATHS.vault} <span>${isEdit ? 'Edit Target Dana' : 'Buat Target Dana Baru'}</span></span>
           <button type="button" class="close-btn" onclick="closeModal()">✕</button>
         </div>
 
-        <label class="form-label" style="margin-top:0;">Pilih Cepat Tujuan Tabungan (Atau ketik di bawah)</label>
+        <label class="form-label" style="margin-top:0;">Pilih Cepat Tujuan Dana (Atau ketik bebas)</label>
         <div class="preset-grid" id="savingPresetGrid">
           ${SAVING_PRESETS.map(p => `
             <button type="button" class="preset-btn ${form.name === p.name ? 'selected' : ''}" data-name="${escapeHtml(p.name)}" onclick="pickSavingPreset('${p.name}', '${p.icon}')">
-              <span>${p.icon}</span>
-              <span>${p.name}</span>
+              <span style="color:var(--blue-light);">${getSvg(p.icon)}</span>
+              <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${p.name}</span>
             </button>
           `).join('')}
         </div>
 
-        <label class="form-label">Nama Target Tabungan</label>
-        <input id="savNameInput" type="text" class="form-control" style="font-weight:700;" placeholder="Ketik nama tabungan..." value="${escapeHtml(form.name)}" oninput="form.name=this.value" />
+        <label class="form-label">Nama Target Dana</label>
+        <input id="savNameInput" type="text" class="form-control" style="font-weight:700;" placeholder="Ketik nama target dana..." value="${escapeHtml(form.name)}" oninput="form.name=this.value" />
 
-        <label class="form-label">Saldo Tabungan Saat Ini (Rp)</label>
+        <label class="form-label">Dana Terkumpul Saat Ini (Rp)</label>
         <input id="savCurInput" type="text" inputmode="numeric" class="form-control" style="font-size:18px;font-weight:800;" placeholder="0" value="${formatThousands(form.current)}" oninput="form.current=this.value.replace(/\\D/g,'');this.value=formatThousands(form.current);" />
 
-        <label class="form-label">Target yang Ingin Dicapai (Rp)</label>
+        <label class="form-label">Target Nominal (Rp)</label>
         <input id="savTarInput" type="text" inputmode="numeric" class="form-control" style="font-size:18px;font-weight:800;" placeholder="0" value="${formatThousands(form.target)}" oninput="form.target=this.value.replace(/\\D/g,'');this.value=formatThousands(form.target);" />
 
-        <button type="button" class="btn-submit" onclick="saveSavingGoal()">💾 Simpan Tabungan</button>
+        <button type="button" class="btn-submit" onclick="saveSavingGoal()">Simpan Target Dana</button>
         ${isEdit ? `
-          <button type="button" class="btn-danger" onclick="deleteSavingGoal('${form.id}')">🗑️ Hapus Celengan Ini</button>
+          <button type="button" class="btn-danger" onclick="deleteSavingGoal('${form.id}')">Hapus Target Ini</button>
         ` : ''}
       `);
     }
@@ -1781,14 +2506,14 @@
       const nameEl = document.getElementById('savNameInput');
       const curEl = document.getElementById('savCurInput');
       const tarEl = document.getElementById('savTarInput');
-      const cleanName = ((nameEl ? nameEl.value : form.name) || '').trim() || 'Tabungan Baru';
+      const cleanName = ((nameEl ? nameEl.value : form.name) || '').trim() || 'Target Baru';
       const curVal = parseInt(String((curEl ? curEl.value : form.current) || '0').replace(/\D/g, ''), 10) || 0;
       const tarVal = parseInt(String((tarEl ? tarEl.value : form.target) || '0').replace(/\D/g, ''), 10) || 1000000;
 
       const payload = {
         id: form.id || uid(),
         name: cleanName,
-        icon: form.icon || '🐷',
+        icon: SVG_PATHS[form.icon] ? form.icon : 'vault',
         current: curVal,
         target: tarVal,
       };
@@ -1796,27 +2521,27 @@
       else state.savings.push(payload);
       closeModal();
       saveState();
-      showToast('✅ Target tabungan disimpan!');
+      showToast('Target dana berhasil disimpan');
     }
 
     function deleteSavingGoal(id) {
       state.savings = state.savings.filter(s => s.id !== id);
       closeModal();
       saveState();
-      showToast('🗑️ Celengan dihapus');
+      showToast('Target dana dihapus');
     }
 
-    /* 5. MODAL EDIT NAMA PROFIL */
+    /* 5. MODAL PROFIL */
     function openProfileModal() {
       form = { userName: state.userName || 'Alfian Dimas' };
       openModal(`
         <div class="modal-header">
-          <span class="modal-title">👤 Ganti Nama Kamu</span>
+          <span class="modal-title">Ubah Nama Profil</span>
           <button type="button" class="close-btn" onclick="closeModal()">✕</button>
         </div>
-        <label class="form-label" style="margin-top:0;">Nama Panggilan / Lengkap</label>
+        <label class="form-label" style="margin-top:0;">Nama Lengkap / Panggilan</label>
         <input id="profNameInput" type="text" class="form-control" style="font-size:16px;font-weight:700;" value="${escapeHtml(form.userName)}" oninput="form.userName=this.value" />
-        <button type="button" class="btn-submit" onclick="saveProfileName()">💾 Simpan Nama</button>
+        <button type="button" class="btn-submit" onclick="saveProfileName()">Simpan Nama</button>
       `);
     }
 
@@ -1827,28 +2552,28 @@
         state.userName = val;
         closeModal();
         saveState();
-        showToast('✅ Nama berhasil diubah!');
+        showToast('Nama profil berhasil diperbarui');
       }
     }
 
-    /* 6. MODAL DATA & PENGATURAN */
+    /* 6. MODAL PENGATURAN DATA */
     function openDataModal() {
       openModal(`
         <div class="modal-header">
-          <span class="modal-title">⚙️ Kelola Data Keuangan</span>
+          <span class="modal-title">${SVG_PATHS.settings} <span>Kelola Data Keuangan</span></span>
           <button type="button" class="close-btn" onclick="closeModal()">✕</button>
         </div>
-        <p style="font-size:13px;color:var(--muted);margin-bottom:12px;line-height:1.5;">
-          Pilih aksi di bawah untuk mereset saldo ke Rp 0, mengatur ulang nama bank ke awal, atau memuat contoh data:
+        <p style="font-size:13px;color:var(--text-sub);margin-bottom:12px;line-height:1.5;">
+          Pilih aksi di bawah untuk mengosongkan seluruh saldo ke Rp 0, mengembalikan setelan awal, atau memuat contoh data:
         </p>
         <button type="button" class="btn-danger" onclick="resetAllToZero()">
-          🗑️ Nolkan Semua Saldo & Transaksi (Rp 0)
+          Nolkan Semua Saldo & Transaksi (Rp 0)
         </button>
-        <button type="button" class="btn-danger" style="background:#0F2942;" onclick="state=getCleanZeroData();closeModal();saveState();showToast('✅ Direset total ke setelan awal Rp 0!');">
-          🔄 Reset Total ke Setelan Awal (Rp 0)
+        <button type="button" class="btn-danger" style="color:var(--text-main);border-color:var(--glass-border);background:rgba(255,255,255,0.05);" onclick="state=getCleanZeroData();closeModal();saveState();showToast('Direset penuh ke setelan awal Rp 0');">
+          Reset Penuh ke Setelan Awal (Rp 0)
         </button>
-        <button type="button" class="btn-submit" style="background:var(--blue);" onclick="state=getSampleData();closeModal();saveState();showToast('✅ Data contoh dimuat!');">
-          📊 Isi Data Contoh
+        <button type="button" class="btn-submit" onclick="state=getSampleData();closeModal();saveState();showToast('Contoh data FinPro dimuat');">
+          Muat Contoh Data Dashboard
         </button>
       `);
     }
