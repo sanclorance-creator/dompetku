@@ -1461,6 +1461,261 @@
       transform: translateY(-12px) scale(0.93);
     }
 
+    /* ==================== NEW WIDGETS PART 2: ASET & KEKAYAAN BERSIH, PORTOFOLIO DONUT, SKOR FINANSIAL, DOMPET & KREDIT ==================== */
+    .networth-hero-card {
+      background: radial-gradient(120% 120% at 85% 15%, rgba(132, 204, 22, 0.16) 0%, rgba(16, 22, 32, 0.96) 52%, #0B0F17 100%);
+      border: 1px solid rgba(163, 230, 53, 0.28);
+      border-radius: 26px;
+      padding: 22px 20px;
+      color: #F8FAFC;
+      box-shadow: 0 22px 48px -12px rgba(0, 0, 0, 0.65);
+      position: relative;
+      overflow: hidden;
+    }
+    .nw-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: #A3E635;
+    }
+    .nw-big-val {
+      font-size: 32px;
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin: 6px 0 16px;
+      color: #FFFFFF;
+      line-height: 1.15;
+    }
+    @media (max-width: 480px) {
+      .nw-big-val { font-size: 26px; }
+    }
+    .nw-runway-box {
+      display: inline-flex;
+      align-items: center;
+      gap: 13px;
+      padding: 12px 16px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.045);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      margin-bottom: 18px;
+      max-width: 100%;
+    }
+    .nw-rocket-ico {
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      background: #A3E635;
+      color: #0B1305;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 8px 20px -4px rgba(163, 230, 53, 0.5);
+    }
+    .nw-level-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .nw-trophy-circle {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: rgba(163, 230, 53, 0.12);
+      border: 1px solid rgba(163, 230, 53, 0.3);
+      color: #A3E635;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .nw-subcards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 16px;
+    }
+    .nw-subcard {
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .nw-subcard:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(163, 230, 53, 0.35);
+    }
+    .nw-subcard.full-span {
+      grid-column: 1 / -1;
+    }
+    .nw-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* Portfolio Donut & Segmented Switch */
+    .portfolio-seg-wrap {
+      display: inline-flex;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      padding: 3px;
+      border-radius: 99px;
+      gap: 4px;
+      margin-bottom: 14px;
+    }
+    html[data-theme="light"] .portfolio-seg-wrap {
+      background: #F1F5F9;
+    }
+    .portfolio-seg-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-sub);
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 99px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s var(--ease-spring);
+    }
+    .portfolio-seg-btn.active {
+      background: var(--card-solid);
+      color: var(--text-main);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+    }
+    .donut-wrap {
+      position: relative;
+      width: 210px;
+      height: 210px;
+      margin: 6px auto 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .donut-center-text {
+      position: absolute;
+      text-align: center;
+      pointer-events: none;
+    }
+    .alloc-legend-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7.5px 4px;
+      font-size: 13.5px;
+      border-bottom: 1px dashed rgba(148, 163, 184, 0.12);
+    }
+    .alloc-legend-row:last-child {
+      border-bottom: none;
+    }
+    .alloc-color-sq {
+      width: 11px;
+      height: 11px;
+      border-radius: 3.5px;
+      flex-shrink: 0;
+    }
+
+    /* Skor Kesehatan Finansial (Screenshot 4) */
+    .health-ring-wrap {
+      position: relative;
+      width: 148px;
+      height: 148px;
+      margin: 6px auto 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .health-status-pill {
+      display: inline-block;
+      padding: 5px 14px;
+      border-radius: 99px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      margin: 10px 0 16px;
+    }
+    .health-metric-box {
+      padding: 12px 14px;
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--glass-border);
+      margin-bottom: 10px;
+      text-align: left;
+    }
+    html[data-theme="light"] .health-metric-box {
+      background: #F8FAFC;
+    }
+    .health-metric-box:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Dompet Cards & Kartu Kredit (Screenshot 3) */
+    .dompet-sec-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 18px 2px 10px;
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      color: var(--text-sub);
+    }
+    .dompet-acc-card {
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 16px 18px;
+      margin-bottom: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.22s var(--ease-spring);
+    }
+    .dompet-acc-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(29, 111, 242, 0.45);
+      box-shadow: var(--shadow-card);
+    }
+    .dompet-acc-card.credit-style {
+      background: linear-gradient(145deg, rgba(15, 23, 42, 0.95) 0%, rgba(30, 41, 59, 0.88) 100%);
+      border-color: rgba(255, 77, 106, 0.28);
+      color: #F8FAFC;
+    }
+    .badge-dot-wrap {
+      position: relative;
+      display: inline-flex;
+    }
+    .badge-active-dot {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: #FACC15;
+      border: 2px solid var(--card-solid);
+    }
+
     @media (max-width: 1024px) {
       .finpro-top-grid { grid-template-columns: 1fr; }
       .two-col { grid-template-columns: 1fr; }
@@ -1475,7 +1730,7 @@
         left: 0;
         right: 0;
         flex-direction: row;
-        padding: 6px 10px;
+        padding: 6px 8px;
         border-right: none;
         border-top: 1px solid var(--glass-border);
         box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.45);
@@ -1495,7 +1750,7 @@
         align-items: center;
         padding: 6px 2px;
         gap: 3px;
-        font-size: 10.5px;
+        font-size: 10px;
         border-radius: 12px;
         text-align: center;
       }
@@ -1590,23 +1845,27 @@
         <span class="nav-ico" data-ico="dashboard"></span>
         <span>Beranda</span>
       </button>
-      <button type="button" class="nav-btn" data-page="budget" onclick="navigate('budget')">
-        <span class="nav-ico" data-ico="pie"></span>
-        <span>Budget</span>
+      <button type="button" class="nav-btn" data-page="wallets" onclick="navigate('wallets')">
+        <span class="nav-ico" data-ico="bank"></span>
+        <span>Dompet</span>
       </button>
 
-      <!-- TOMBOL TENGAH (+) FLOATING KHUSUS MOBILE (Screenshot 3) -->
+      <!-- TOMBOL TENGAH (+) FLOATING KHUSUS MOBILE -->
       <button type="button" class="nav-fab-btn" onclick="openTxModal('expense')" title="Catat Transaksi Baru" aria-label="Catat Transaksi Baru">
         <span class="nav-ico" data-ico="plusBold"></span>
       </button>
 
-      <button type="button" class="nav-btn" data-page="savings" onclick="navigate('savings')">
+      <button type="button" class="nav-btn" data-page="assets" onclick="navigate('assets')">
+        <span class="nav-ico" data-ico="trending"></span>
+        <span>Aset</span>
+      </button>
+      <button type="button" class="nav-btn" data-page="budget" onclick="navigate('budget')">
+        <span class="nav-ico" data-ico="pie"></span>
+        <span>Budget</span>
+      </button>
+      <button type="button" class="nav-btn desktop-only" data-page="savings" onclick="navigate('savings')">
         <span class="nav-ico" data-ico="vault"></span>
         <span>Goals</span>
-      </button>
-      <button type="button" class="nav-btn" data-page="wallets" onclick="navigate('wallets')">
-        <span class="nav-ico" data-ico="bank"></span>
-        <span>Bank/Akun</span>
       </button>
       <button type="button" class="nav-btn desktop-only" data-page="income" onclick="navigate('income')">
         <span class="nav-ico" data-ico="income"></span>
@@ -1703,6 +1962,12 @@
       pie: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>`,
       calendar: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
       link: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`,
+      rocket: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>`,
+      trophy: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>`,
+      diamond: `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 22 12 12 22 2 12 12 2z"/></svg>`,
+      globe: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
+      pulse: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/></svg>`,
+      trendDown: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg>`,
       chevLeft: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>`,
       chevRight: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>`,
       plus: `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
@@ -1798,6 +2063,41 @@
       { id: 'b_sedekah', categoryId: 'sedekah', limit: 100000 },
     ];
 
+    const PORTFOLIO_INSTRUMENTS = [
+      { id: 'Saham', name: 'Saham', color: '#16A34A', fixed: false },
+      { id: 'Kripto', name: 'Kripto', color: '#F97316', fixed: false },
+      { id: 'Obligasi', name: 'Obligasi', color: '#F59E0B', fixed: false },
+      { id: 'ETF', name: 'ETF', color: '#14B8A6', fixed: false },
+      { id: 'Deposito', name: 'Deposito', color: '#3B82F6', fixed: false },
+      { id: 'Emas', name: 'Emas', color: '#EAB308', fixed: false },
+      { id: 'Valas', name: 'Valas', color: '#06B6D4', fixed: false },
+      { id: 'Reksa Dana', name: 'Reksa Dana', color: '#A855F7', fixed: false },
+      { id: 'Aset Tetap', name: 'Properti / Aset Tetap', color: '#6366F1', fixed: true },
+    ];
+
+    const PORTFOLIO_CURRENCIES = [
+      { id: 'IDR', name: 'IDR (Rupiah)', color: '#16A34A' },
+      { id: 'USD', name: 'USD (Dolar AS)', color: '#3B82F6' },
+      { id: 'USDT', name: 'USDT / Crypto', color: '#F97316' },
+      { id: 'XAU', name: 'Emas (XAU)', color: '#EAB308' },
+      { id: 'SGD', name: 'SGD / Valas Lain', color: '#06B6D4' },
+    ];
+
+    const DEFAULT_PORTFOLIO = [
+      { id: 'pf_saham', name: 'BBCA & Saham Bluechip', ticker: 'BBCA', instrument: 'Saham', currency: 'IDR', value: 105200000, changePct: 8.4 },
+      { id: 'pf_kripto', name: 'Bittensor / Bitcoin', ticker: 'BIT', instrument: 'Kripto', currency: 'USDT', value: 22100000, changePct: -5.05 },
+      { id: 'pf_obligasi', name: 'SBN Ritel (SBR / ORI)', ticker: 'SBN', instrument: 'Obligasi', currency: 'IDR', value: 13600000, changePct: 6.25 },
+      { id: 'pf_etf', name: 'S&P 500 / Indeks ETF', ticker: 'ETF', instrument: 'ETF', currency: 'USD', value: 11900000, changePct: 11.2 },
+      { id: 'pf_deposito', name: 'Deposito Bank Digital', ticker: 'DEP', instrument: 'Deposito', currency: 'IDR', value: 6800000, changePct: 5.0 },
+      { id: 'pf_emas', name: 'Emas Antam / Pegadaian', ticker: 'ANTM', instrument: 'Emas', currency: 'XAU', value: 5100000, changePct: 14.8 },
+      { id: 'pf_valas', name: 'Tabungan Valas USD', ticker: 'USD', instrument: 'Valas', currency: 'USD', value: 2500000, changePct: 2.1 },
+      { id: 'pf_reksa', name: 'Reksa Dana Pasar Uang', ticker: 'RDPU', instrument: 'Reksa Dana', currency: 'IDR', value: 2475659, changePct: 4.6 },
+    ];
+
+    const DEFAULT_LIABILITIES = [
+      { id: 'lb_bca', name: 'BCA KrisFlyer / Everyday', provider: 'BCA', type: 'Kartu Kredit', usedAmount: 184000, limitAmount: 15000000 },
+    ];
+
     const DEFAULT_INCOME_CATEGORIES = [
       { id: 'gaji', name: 'Gaji Utama', icon: 'briefcase', color: '#00E58F' },
       { id: 'tunjangan', name: 'Tunjangan & Insentif', icon: 'cash', color: '#10B981' },
@@ -1822,6 +2122,7 @@
       { name: 'SeaBank', code: 'SEA', type: 'bank', color: '#F97316' },
       { name: 'Bank Jago', code: 'JGO', type: 'bank', color: '#EAB308' },
       { name: 'Blu by BCA', code: 'BLU', type: 'bank', color: '#06B6D4' },
+      { name: 'Krom Bank', code: 'KRM', type: 'bank', color: '#7C3AED' },
       { name: 'CIMB Niaga', code: 'CMB', type: 'bank', color: '#E11D48' },
       { name: 'Permata', code: 'PMT', type: 'bank', color: '#10B981' },
       { name: 'Superbank', code: 'SUP', type: 'bank', color: '#8B5CF6' },
@@ -1849,9 +2150,9 @@
     ];
 
     const WALLET_TYPES = [
-      { id: 'bank', name: 'Rekening Bank', icon: 'bank' },
-      { id: 'ewallet', name: 'E-Wallet', icon: 'ewallet' },
-      { id: 'cash', name: 'Kas Tunai', icon: 'cash' },
+      { id: 'bank', name: 'BANK', icon: 'bank' },
+      { id: 'ewallet', name: 'E-WALLET', icon: 'ewallet' },
+      { id: 'cash', name: 'KAS TUNAI', icon: 'cash' },
     ];
 
     const MONTHS_SHORT = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
@@ -1863,6 +2164,7 @@
     let selectedBankFilter = 'all';
     let chartPeriod = 'month';
     let calendarMonthOffset = 0; // 0 = bulan ini, -1 = bulan lalu, +1 = bulan depan
+    let portfolioTab = 'instrument'; // 'instrument' | 'currency'
 
     function setTheme(mode) {
       document.documentElement.setAttribute('data-theme', mode);
@@ -1882,9 +2184,9 @@
         customCategories: [],
         wallets: [
           { id: 'w_bca', name: 'BCA', type: 'bank', initialBalance: 0 },
-          { id: 'w_mandiri', name: 'Mandiri', type: 'bank', initialBalance: 0 },
+          { id: 'w_mandiri', name: 'Bank Mandiri', type: 'bank', initialBalance: 0 },
           { id: 'w_gopay', name: 'GoPay', type: 'ewallet', initialBalance: 0 },
-          { id: 'w_dana', name: 'DANA', type: 'ewallet', initialBalance: 0 },
+          { id: 'w_krom', name: 'Krom Bank', type: 'bank', initialBalance: 0 },
           { id: 'w_cash', name: 'Dompet Tunai (Cash)', type: 'cash', initialBalance: 0 },
         ],
         transactions: [],
@@ -1892,6 +2194,8 @@
           { id: 's1', name: 'Dana Darurat', icon: 'vault', current: 0, target: 10000000, targetDate: '2027-12-31' },
         ],
         budgets: DEFAULT_BUDGETS.map(b => ({ ...b })),
+        portfolio: DEFAULT_PORTFOLIO.map(p => ({ ...p })),
+        liabilities: DEFAULT_LIABILITIES.map(l => ({ ...l })),
       };
     }
 
@@ -1905,26 +2209,28 @@
         userName: 'Alfian Dimas',
         customCategories: [],
         wallets: [
-          { id: 'w_bca', name: 'BCA', type: 'bank', initialBalance: 4200000 },
-          { id: 'w_mandiri', name: 'Mandiri', type: 'bank', initialBalance: 1850000 },
-          { id: 'w_gopay', name: 'GoPay', type: 'ewallet', initialBalance: 450000 },
-          { id: 'w_dana', name: 'DANA', type: 'ewallet', initialBalance: 250000 },
+          { id: 'w_bca', name: 'BCA', type: 'bank', initialBalance: 11273534 },
+          { id: 'w_mandiri', name: 'Bank Mandiri', type: 'bank', initialBalance: 11388070 },
+          { id: 'w_gopay', name: 'GoPay', type: 'ewallet', initialBalance: 1087500 },
+          { id: 'w_krom', name: 'Krom Bank', type: 'bank', initialBalance: 4500214 },
         ],
         transactions: [
           { id: 't1', type: 'income', amount: 10000000, categoryId: 'gaji', walletId: 'w_bca', note: 'Gaji Bulanan', date: dFirst },
           { id: 't2', type: 'expense', amount: 890500, categoryId: 'makan', walletId: 'w_gopay', note: 'Bahan Makanan & Resto', date: d2 },
           { id: 't3', type: 'expense', amount: 700000, categoryId: 'kost', walletId: 'w_bca', note: 'Bayar Sewa / Kost', date: d2 },
-          { id: 't4', type: 'expense', amount: 200000, categoryId: 'listrik', walletId: 'w_dana', note: 'Token Listrik PLN', date: d1 },
+          { id: 't4', type: 'expense', amount: 200000, categoryId: 'listrik', walletId: 'w_bca', note: 'Token Listrik PLN', date: d1 },
           { id: 't5', type: 'expense', amount: 230000, categoryId: 'wifi', walletId: 'w_bca', note: 'WiFi & Paket Data', date: d1 },
           { id: 't6', type: 'expense', amount: 72000, categoryId: 'bensin', walletId: 'w_gopay', note: 'Isi Bensin Pertamax', date: d1 },
           { id: 't7', type: 'income', amount: 1200000, categoryId: 'freelance', walletId: 'w_mandiri', note: 'Proyek Desain UI', date: d0 },
         ],
         savings: [
-          { id: 's1', name: 'Dana Darurat', icon: 'vault', current: 4500000, target: 10000000, targetDate: '2027-12-31' },
+          { id: 's1', name: 'Dana Darurat', icon: 'vault', current: 10000000, target: 10000000, targetDate: '2027-12-31' },
           { id: 's2', name: 'Beli Rumah', icon: 'house', current: 29000000, target: 350000000, targetDate: '2035-12-31' },
           { id: 's3', name: 'Dana Pensiun', icon: 'briefcase', current: 66000000, target: 600000000, targetDate: '2045-12-31' },
         ],
         budgets: DEFAULT_BUDGETS.map(b => ({ ...b })),
+        portfolio: DEFAULT_PORTFOLIO.map(p => ({ ...p })),
+        liabilities: DEFAULT_LIABILITIES.map(l => ({ ...l })),
       };
     }
 
@@ -1973,6 +2279,27 @@
               limit: Math.max(0, Number(b.limit) || 0),
             }))
           : DEFAULT_BUDGETS.map(b => ({ ...b })),
+        portfolio: Array.isArray(s.portfolio)
+          ? s.portfolio.map(p => ({
+              id: String(p.id || uid()),
+              name: String(p.name || 'Instrumen'),
+              ticker: String(p.ticker || String(p.name || 'AST').slice(0, 4).toUpperCase()),
+              instrument: PORTFOLIO_INSTRUMENTS.some(i => i.id === p.instrument) ? p.instrument : 'Saham',
+              currency: PORTFOLIO_CURRENCIES.some(c => c.id === p.currency) ? p.currency : 'IDR',
+              value: Math.max(0, Number(p.value) || 0),
+              changePct: Number(p.changePct) || 0,
+            }))
+          : DEFAULT_PORTFOLIO.map(p => ({ ...p })),
+        liabilities: Array.isArray(s.liabilities)
+          ? s.liabilities.map(l => ({
+              id: String(l.id || uid()),
+              name: String(l.name || 'Kartu Kredit / Cicilan'),
+              provider: String(l.provider || 'BCA'),
+              type: String(l.type || 'Kartu Kredit'),
+              usedAmount: Math.max(0, Number(l.usedAmount) || 0),
+              limitAmount: Math.max(0, Number(l.limitAmount) || 0),
+            }))
+          : DEFAULT_LIABILITIES.map(l => ({ ...l })),
       };
       return out;
     }
@@ -2053,6 +2380,12 @@
       state.transactions = [];
       state.wallets.forEach(w => { w.initialBalance = 0; });
       state.savings.forEach(s => { s.current = 0; });
+      if (Array.isArray(state.portfolio)) {
+        state.portfolio.forEach(p => { p.value = 0; });
+      }
+      if (Array.isArray(state.liabilities)) {
+        state.liabilities.forEach(l => { l.usedAmount = 0; });
+      }
       closeModal();
       saveState();
       showToast('Direset ke Rp 0 — bisa dipulihkan dari menu ⚙️');
@@ -2186,6 +2519,23 @@
       const totalSavings = (state.savings || []).reduce((s, item) => s + (Number(item.current) || 0), 0);
       const totalSavingsTarget = (state.savings || []).reduce((s, item) => s + (Number(item.target) || 0), 0);
 
+      let totalPortfolioLiquid = 0;
+      let totalFixedAssets = 0;
+      (state.portfolio || []).forEach(p => {
+        const val = Math.max(0, Number(p.value) || 0);
+        if (p.instrument === 'Aset Tetap') totalFixedAssets += val;
+        else totalPortfolioLiquid += val;
+      });
+      const totalPortfolioAll = totalPortfolioLiquid + totalFixedAssets;
+
+      const totalLiabilities = (state.liabilities || []).reduce((s, l) => s + (Math.max(0, Number(l.usedAmount) || 0)), 0);
+      const totalLiabilityLimit = (state.liabilities || []).reduce((s, l) => s + (Math.max(0, Number(l.limitAmount) || 0)), 0);
+
+      // Total Kekayaan Bersih = (Saldo Dompet + Tabungan Goals + Aset Likuid + Aset Tetap) - Utang Kartu Kredit/Cicilan
+      const dompetDanAkun = totalWalletBalance + totalSavings;
+      const grossAssets = dompetDanAkun + totalPortfolioLiquid + totalFixedAssets;
+      const netWorth = grossAssets - totalLiabilities;
+
       return {
         walletBalances,
         walletTxNet,
@@ -2194,6 +2544,14 @@
         totalExpense,
         totalSavings,
         totalSavingsTarget,
+        totalPortfolioLiquid,
+        totalFixedAssets,
+        totalPortfolioAll,
+        totalLiabilities,
+        totalLiabilityLimit,
+        dompetDanAkun,
+        grossAssets,
+        netWorth,
       };
     }
 
@@ -2568,16 +2926,29 @@
       }
     }
 
+    function scrollToHealthScore() {
+      if (currentPage !== 'assets') {
+        navigate('assets');
+        setTimeout(() => {
+          const el = document.getElementById('financialHealthCard');
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 120);
+      } else {
+        const el = document.getElementById('financialHealthCard');
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
+
     function renderMainMenuGrid() {
       const items = [
         { label: 'Budget', icon: 'pie', color: '#10B981', action: "navigate('budget')" },
         { label: 'Goals', icon: 'vault', color: '#3B82F6', action: "navigate('savings')" },
         { label: 'Kalender', icon: 'calendar', color: '#F59E0B', action: 'scrollToCalendarWidget()' },
-        { label: 'Bank & Akun', icon: 'bank', color: '#06B6D4', action: "navigate('wallets')" },
-        { label: 'Pemasukan', icon: 'income', color: '#00E58F', action: "openTxModal('income')" },
+        { label: 'Dompet & CC', icon: 'bank', color: '#06B6D4', action: "navigate('wallets')" },
+        { label: 'Aset & Portofolio', icon: 'diamond', color: '#A3E635', action: "navigate('assets')" },
+        { label: 'Skor Finansial', icon: 'pulse', color: '#00E58F', action: 'scrollToHealthScore()' },
+        { label: 'Pemasukan', icon: 'income', color: '#38BDF8', action: "openTxModal('income')" },
         { label: 'Pengeluaran', icon: 'expense', color: '#FF4D6A', action: "openTxModal('expense')" },
-        { label: 'Setor Goal', icon: 'trending', color: '#8B5CF6', action: 'openSavingDepositModal()' },
-        { label: 'Backup Data', icon: 'settings', color: '#64748B', action: 'openDataModal()' },
       ];
       return `
         <div class="f-card anim-in d-2" style="margin-bottom:16px;">
@@ -2795,6 +3166,7 @@
       const el = document.getElementById('pageContent');
       if (currentPage === 'dashboard') el.innerHTML = renderDashboard();
       else if (currentPage === 'budget') el.innerHTML = renderBudgetPage();
+      else if (currentPage === 'assets') el.innerHTML = renderAssetsPage();
       else if (currentPage === 'wallets') el.innerHTML = renderWalletsPage();
       else if (currentPage === 'income') el.innerHTML = renderTxListPage('income');
       else if (currentPage === 'expense') el.innerHTML = renderTxListPage('expense');
@@ -3156,55 +3528,525 @@
       `;
     }
 
-    /* ==================== PAGE 2: BANK & AKUN ==================== */
-    function renderWalletsPage() {
-      const t = computeTotals();
+    /* ==================== BATCH 2: PAGE ASET (KEKAYAAN BERSIH + ALOKASI PORTOFOLIO + SKOR KESEHATAN FINANSIAL) ==================== */
+    function getInstrumentMeta(instId) {
+      return PORTFOLIO_INSTRUMENTS.find(i => i.id === instId) || PORTFOLIO_INSTRUMENTS[0];
+    }
+
+    function getCurrencyMeta(curId) {
+      return PORTFOLIO_CURRENCIES.find(c => c.id === curId) || PORTFOLIO_CURRENCIES[0];
+    }
+
+    function getWealthLevelInfo(netWorth) {
+      const nw = Math.max(0, Number(netWorth) || 0);
+      if (nw < 10000000) {
+        return { level: 'Pemula', prev: 0, next: 10000000, pct: Math.min(100, Math.round((nw / 10000000) * 100)) };
+      }
+      if (nw < 100000000) {
+        return { level: 'Aman', prev: 10000000, next: 100000000, pct: Math.min(100, Math.round((nw / 100000000) * 100)) };
+      }
+      if (nw < 500000000) {
+        return { level: 'Mapan', prev: 100000000, next: 500000000, pct: Math.min(100, Math.round((nw / 500000000) * 100)) };
+      }
+      if (nw < 1000000000) {
+        return { level: 'Sultan', prev: 500000000, next: 1000000000, pct: Math.min(100, Math.round((nw / 1000000000) * 100)) };
+      }
+      return { level: 'Merdeka Finansial', prev: 1000000000, next: 5000000000, pct: Math.min(100, Math.round((nw / 5000000000) * 100)) };
+    }
+
+    function renderHoldingSparkline(changePct) {
+      const up = Number(changePct) >= 0;
+      const stroke = up ? '#00E58F' : '#FF4D6A';
+      const path = up
+        ? 'M 2 22 C 14 21, 20 14, 32 16 C 44 18, 50 7, 66 4'
+        : 'M 2 5 C 14 6, 22 14, 34 12 C 46 10, 52 20, 66 23';
       return `
-        <div class="f-card anim-in d-1" style="margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;">
-          <div>
-            <div class="card-subtitle">TOTAL SALDO SEMUA AKUN</div>
-            <div style="font-size:28px;font-weight:800;margin-top:4px;">
-              <span style="color:var(--blue-light);">Rp</span> ${formatNumberOnly(t.totalWalletBalance, true)}
+        <svg class="holding-spark" viewBox="0 0 68 28">
+          <path d="${path}" fill="none" stroke="${stroke}" stroke-width="2.2" stroke-linecap="round" />
+        </svg>
+      `;
+    }
+
+    function renderPortfolioDonutSection(t) {
+      const portfolio = state.portfolio || [];
+      const byCurrency = portfolioAllocTab === 'currency';
+      const metaList = byCurrency ? PORTFOLIO_CURRENCIES : PORTFOLIO_INSTRUMENTS.filter(i => i.id !== 'Aset Tetap');
+      const groupTotals = {};
+      let totalChartVal = 0;
+
+      portfolio.forEach(p => {
+        const val = Math.max(0, Number(p.value) || 0);
+        const key = byCurrency ? (p.currency || 'IDR') : (p.instrument || 'Saham');
+        groupTotals[key] = (groupTotals[key] || 0) + val;
+        totalChartVal += val;
+      });
+
+      const segments = [];
+      Object.keys(groupTotals).forEach(k => {
+        const val = groupTotals[k];
+        if (val <= 0) return;
+        const found = (byCurrency ? PORTFOLIO_CURRENCIES : PORTFOLIO_INSTRUMENTS).find(m => m.id === k);
+        segments.push({
+          id: k,
+          label: found ? found.label : k,
+          color: found ? found.color : '#10B981',
+          value: val,
+          pct: totalChartVal > 0 ? Math.max(1, Math.round((val / totalChartVal) * 100)) : 0,
+        });
+      });
+      segments.sort((a, b) => b.value - a.value);
+
+      const r = 76;
+      const circ = 2 * Math.PI * r;
+      let accumLen = 0;
+
+      const svgCircles = segments.length === 0
+        ? `<circle cx="105" cy="105" r="${r}" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="24" />`
+        : segments.map(seg => {
+            const frac = totalChartVal > 0 ? seg.value / totalChartVal : 0;
+            const segLen = Math.max(2, frac * circ - (segments.length > 1 ? 3 : 0));
+            const dashArray = `${segLen.toFixed(2)} ${(circ - segLen).toFixed(2)}`;
+            const dashOffset = (-accumLen).toFixed(2);
+            accumLen += frac * circ;
+            return `<circle cx="105" cy="105" r="${r}" fill="none" stroke="${seg.color}" stroke-width="24" stroke-dasharray="${dashArray}" stroke-dashoffset="${dashOffset}" />`;
+          }).join('');
+
+      const displayLegend = segments.length > 0
+        ? segments
+        : metaList.slice(0, 8).map(m => ({ id: m.id, label: m.label, color: m.color, value: 0, pct: 0 }));
+
+      return `
+        <div class="f-card anim-in d-2" style="margin-bottom:16px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+            <span class="section-title" style="font-size:17px;">Alokasi Portofolio</span>
+            <div class="alloc-seg-wrap">
+              <button type="button" class="alloc-seg-btn ${portfolioAllocTab === 'instrument' ? 'active' : ''}" onclick="portfolioAllocTab='instrument';renderPage();">
+                ${SVG_PATHS.briefcase}
+                <span>Instrumen</span>
+              </button>
+              <button type="button" class="alloc-seg-btn ${portfolioAllocTab === 'currency' ? 'active' : ''}" onclick="portfolioAllocTab='currency';renderPage();">
+                ${SVG_PATHS.globe}
+                <span>Mata Uang</span>
+              </button>
             </div>
           </div>
+
+          <div class="alloc-donut-wrap">
+            <svg width="210" height="210" viewBox="0 0 210 210" style="transform:rotate(-90deg);">
+              <circle cx="105" cy="105" r="${r}" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="24" />
+              ${svgCircles}
+            </svg>
+            <div class="alloc-donut-center">
+              <div class="alloc-donut-lbl">TOTAL</div>
+              <div class="alloc-donut-val">${hideBalance ? 'Rp •••' : 'Rp' + formatCompactIdr(totalChartVal)}</div>
+              <div class="alloc-donut-sub">${portfolio.length} instrumen</div>
+            </div>
+          </div>
+
+          <div class="alloc-legend-grid">
+            ${displayLegend.map(seg => `
+              <div class="alloc-legend-row">
+                <div class="alloc-legend-left">
+                  <span class="alloc-dot" style="background:${seg.color};"></span>
+                  <span>${escapeHtml(seg.label)}</span>
+                </div>
+                <span class="alloc-legend-pct">${seg.pct}%</span>
+              </div>
+            `).join('')}
+          </div>
+
+          <!-- Holdings List (BBCA, Bittensor, SBN, Antam, dst. sesuai Screenshot 1) -->
+          <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--glass-border);">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+              <span style="font-size:13.5px;font-weight:800;color:var(--text-sub);letter-spacing:0.3px;">DAFTAR INSTRUMEN & ASET (${portfolio.length})</span>
+              <button type="button" class="link-action" onclick="openPortfolioModal()">
+                ${SVG_PATHS.plus}
+                <span>Tambah Instrumen</span>
+              </button>
+            </div>
+
+            ${portfolio.length === 0
+              ? `<p style="font-size:12.5px;color:var(--text-sub);text-align:center;padding:18px 0;">Belum ada instrumen investasi tercatat. Klik <strong>+ Tambah Instrumen</strong> untuk mencatat Saham, Kripto, Obligasi, Emas, atau Deposito.</p>`
+              : portfolio.map(p => {
+                  const instMeta = getInstrumentMeta(p.instrument);
+                  const up = Number(p.changePct) >= 0;
+                  const pctStr = `${up ? '+' : ''}${Number(p.changePct || 0)}%`;
+                  return `
+                    <div class="holding-card" onclick="openPortfolioModal('${p.id}')">
+                      <div style="display:flex;align-items:center;gap:12px;min-width:0;">
+                        <div class="icon-squircle" style="width:42px;height:42px;background:${instMeta.color}20;color:${instMeta.color};font-size:11px;font-weight:900;">
+                          ${escapeHtml(String(p.ticker || p.name).slice(0, 4).toUpperCase())}
+                        </div>
+                        <div style="min-width:0;">
+                          <div style="font-size:14.5px;font-weight:800;color:var(--text-main);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                            ${escapeHtml(p.name)}
+                          </div>
+                          <div style="font-size:11.5px;color:var(--text-sub);margin-top:2px;">
+                            ${escapeHtml(p.instrument)} • ${escapeHtml(p.currency || 'IDR')}
+                          </div>
+                        </div>
+                      </div>
+
+                      ${renderHoldingSparkline(p.changePct)}
+
+                      <div style="text-align:right;">
+                        <div style="font-size:12px;font-weight:800;color:${up ? 'var(--emerald)' : 'var(--danger)'};display:inline-flex;align-items:center;gap:3px;">
+                          <span>${up ? '↗' : '↘'} ${pctStr}</span>
+                        </div>
+                        <div style="font-size:14.5px;font-weight:800;color:var(--text-main);margin-top:2px;">
+                          ${formatRupiah(p.value, true)}
+                        </div>
+                      </div>
+                    </div>
+                  `;
+                }).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function renderFinancialHealthScoreCard(t, bs, runwayMonths) {
+      // 1. Rasio Tabungan (%)
+      let savRatio = 0;
+      if (bs.monthIncome > 0) {
+        savRatio = Math.max(0, Math.min(100, Math.round(((bs.monthIncome - bs.monthExpense) / bs.monthIncome) * 100)));
+      } else if (t.grossAssets > 0) {
+        savRatio = Math.max(0, Math.min(100, Math.round(((t.totalSavings + t.totalPortfolioLiquid) / t.grossAssets) * 100)));
+      }
+      const savScore = savRatio >= 20 ? 100 : Math.round((savRatio / 20) * 100);
+
+      // 2. Disiplin Anggaran (%)
+      let budgetDisc = 100;
+      if (bs.totalBudgetLimit > 0 && bs.monthExpense > 0) {
+        if (bs.monthExpense <= bs.totalBudgetLimit) {
+          budgetDisc = 100;
+        } else {
+          const overRatio = (bs.monthExpense - bs.totalBudgetLimit) / bs.totalBudgetLimit;
+          budgetDisc = Math.max(0, Math.round((1 - overRatio) * 100));
+        }
+      }
+
+      // 3. Dana Darurat (% terhadap ideal 6 bulan pengeluaran)
+      const emergencyPct = t.grossAssets === 0 && t.totalWalletBalance === 0
+        ? 0
+        : Math.min(100, Math.round((runwayMonths / 6) * 100));
+
+      // 4. Kesehatan Utang (%)
+      let debtHealth = 100;
+      if (t.totalLiabilities > 0) {
+        if (t.grossAssets > 0) {
+          const dti = t.totalLiabilities / t.grossAssets;
+          debtHealth = dti <= 0.15 ? 100 : Math.max(0, Math.round((1 - dti) * 100));
+        } else {
+          debtHealth = 35;
+        }
+      }
+
+      const overallScore = (t.grossAssets === 0 && t.totalIncome === 0 && t.totalExpense === 0)
+        ? 0
+        : Math.round((savScore * 0.25) + (budgetDisc * 0.25) + (emergencyPct * 0.25) + (debtHealth * 0.25));
+
+      let badgeText = 'SANGAT BAGUS';
+      let badgeColor = '#A3E635';
+      let badgeBg = 'rgba(163, 230, 53, 0.14)';
+      if (overallScore < 50) {
+        badgeText = 'PERLU PERHATIAN';
+        badgeColor = '#F59E0B';
+        badgeBg = 'rgba(245, 158, 11, 0.15)';
+      } else if (overallScore < 80) {
+        badgeText = 'SEHAT';
+        badgeColor = '#00E58F';
+        badgeBg = 'rgba(0, 229, 143, 0.14)';
+      }
+
+      const r = 48;
+      const circ = 2 * Math.PI * r;
+      const offset = circ - (circ * overallScore) / 100;
+
+      return `
+        <div class="f-card health-card anim-in d-3" id="financialHealthCard">
+          <div class="health-ring-wrap">
+            <svg width="118" height="118" viewBox="0 0 118 118" style="transform:rotate(-90deg);">
+              <circle cx="59" cy="59" r="${r}" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="10" />
+              <circle cx="59" cy="59" r="${r}" fill="none" stroke="#84CC16" stroke-width="10" stroke-linecap="round"
+                stroke-dasharray="${circ.toFixed(1)}" stroke-dashoffset="${offset.toFixed(1)}"
+                style="transition:stroke-dashoffset 0.8s var(--ease-spring);filter:drop-shadow(0 0 8px rgba(132,204,22,0.45));" />
+            </svg>
+            <div class="health-ring-center">
+              <div class="health-ring-score">${overallScore}</div>
+              <div class="health-ring-max">/ 100</div>
+            </div>
+          </div>
+
+          <div style="text-align:center;">
+            <div style="display:inline-flex;align-items:center;gap:7px;font-size:17px;font-weight:800;color:var(--text-main);">
+              <span style="color:#84CC16;display:inline-flex;">${SVG_PATHS.pulse}</span>
+              <span>Skor Kesehatan Finansial</span>
+            </div>
+            <p style="font-size:12px;color:var(--text-sub);max-width:340px;margin:6px auto 0;line-height:1.5;">
+              Skor hitungan berdasarkan tabungan, disiplin budget, dana darurat, dan kesehatan utang.
+            </p>
+            <div class="health-status-pill" style="color:${badgeColor};background:${badgeBg};border-color:${badgeColor}40;">
+              ${badgeText}
+            </div>
+          </div>
+
+          <div class="health-metric-list">
+            <div class="health-metric-box">
+              <div class="health-metric-head">
+                <span style="color:var(--text-main);">Rasio Tabungan</span>
+                <span style="color:#84CC16;">${savRatio}%</span>
+              </div>
+              <div class="progress-track" style="height:6px;margin:0;">
+                <div class="progress-fill" style="width:${savRatio}%;background:linear-gradient(90deg,#84CC16,#00E58F);box-shadow:none;"></div>
+              </div>
+            </div>
+
+            <div class="health-metric-box">
+              <div class="health-metric-head">
+                <span style="color:var(--text-main);">Disiplin Anggaran</span>
+                <span style="color:#84CC16;">${budgetDisc}%</span>
+              </div>
+              <div class="progress-track" style="height:6px;margin:0;">
+                <div class="progress-fill" style="width:${budgetDisc}%;background:linear-gradient(90deg,#84CC16,#00E58F);box-shadow:none;"></div>
+              </div>
+            </div>
+
+            <div class="health-metric-box">
+              <div class="health-metric-head">
+                <span style="color:var(--text-main);">Dana Darurat</span>
+                <div>
+                  <span style="color:#84CC16;">${emergencyPct}%</span>
+                  <span style="color:var(--text-muted);font-size:11.5px;font-weight:600;margin-left:4px;">(${Math.round(runwayMonths)} Bulan)</span>
+                </div>
+              </div>
+              <div class="progress-track" style="height:6px;margin:0;">
+                <div class="progress-fill" style="width:${emergencyPct}%;background:linear-gradient(90deg,#84CC16,#00E58F);box-shadow:none;"></div>
+              </div>
+            </div>
+
+            <div class="health-metric-box">
+              <div class="health-metric-head">
+                <span style="color:var(--text-main);">Kesehatan Utang</span>
+                <span style="color:#84CC16;">${debtHealth}%</span>
+              </div>
+              <div class="progress-track" style="height:6px;margin:0;">
+                <div class="progress-fill" style="width:${debtHealth}%;background:linear-gradient(90deg,#84CC16,#00E58F);box-shadow:none;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderAssetsPage() {
+      const t = computeTotals();
+      const bs = computeMonthlyBudgetStats();
+      const liquidTotal = Math.max(0, t.dompetDanAkun + t.totalPortfolioLiquid);
+      const monthlyBurn = bs.monthExpense > 0
+        ? bs.monthExpense
+        : (bs.totalBudgetLimit > 0 ? bs.totalBudgetLimit : 3500000);
+      const runwayMonths = liquidTotal > 0 ? Number((liquidTotal / monthlyBurn).toFixed(1)) : 0;
+      const lvl = getWealthLevelInfo(t.netWorth);
+
+      return `
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;" class="anim-in d-1">
+          <div>
+            <div style="font-size:26px;font-weight:800;letter-spacing:-0.6px;">Aset</div>
+            <div style="font-size:13px;color:var(--text-sub);">Tingkatkan kekayaanmu.</div>
+          </div>
+          <button type="button" class="btn-finpro-primary" style="border-radius:999px;padding:10px 16px;" onclick="openPortfolioModal()">
+            ${SVG_PATHS.plus}
+            <span>Tambah Aset</span>
+          </button>
+        </div>
+
+        <!-- SCREENSHOT 2: KEKAYAAN BERSIH HERO CARD -->
+        <div class="networth-hero-card anim-in d-1">
+          <div class="networth-badge">
+            <span style="color:#A3E635;display:inline-flex;">${SVG_PATHS.diamond}</span>
+            <span>KEKAYAAN BERSIH</span>
+          </div>
+          <div class="networth-big-val">${formatRupiah(t.netWorth, true)}</div>
+
+          <div class="networth-runway-box">
+            <div class="networth-rocket-icon">
+              ${SVG_PATHS.rocket}
+            </div>
+            <div>
+              <div style="font-size:10px;font-weight:800;letter-spacing:0.8px;color:var(--text-muted);text-transform:uppercase;">
+                SETARA PENGELUARAN
+              </div>
+              <div style="margin-top:2px;">
+                <strong style="font-size:16px;font-weight:800;color:#A3E635;">${runwayMonths} Bulan</strong>
+                <span style="font-size:12px;color:var(--text-sub);margin-left:4px;">dari aset yang bisa dicairkan</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="networth-level-row">
+            <div style="display:flex;align-items:center;gap:10px;">
+              <div style="width:36px;height:36px;border-radius:11px;background:rgba(163,230,53,0.14);color:#A3E635;display:flex;align-items:center;justify-content:center;">
+                ${SVG_PATHS.trophy}
+              </div>
+              <div>
+                <div style="font-size:9.5px;font-weight:800;letter-spacing:0.6px;color:var(--text-muted);">LEVEL SAAT INI</div>
+                <div style="font-size:15px;font-weight:800;color:var(--text-main);">${lvl.level}</div>
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:9.5px;font-weight:800;letter-spacing:0.6px;color:var(--text-muted);">TARGET BERIKUTNYA</div>
+              <div style="font-size:14.5px;font-weight:800;color:#A3E635;">Rp${formatCompactIdr(lvl.next)}</div>
+            </div>
+          </div>
+
+          <div style="display:flex;justify-content:space-between;font-size:10px;font-weight:800;color:var(--text-sub);letter-spacing:0.5px;">
+            <span>PROGRES KE LEVEL BERIKUTNYA</span>
+            <span style="color:var(--text-main);">${lvl.pct}%</span>
+          </div>
+          <div class="progress-track" style="height:8px;margin-top:6px;">
+            <div class="progress-fill" style="width:${lvl.pct}%;background:linear-gradient(90deg,#84CC16,#00E58F);"></div>
+          </div>
+
+          <div class="networth-subgrid">
+            <div class="networth-subcard" style="cursor:pointer;" onclick="navigate('wallets')">
+              <div class="networth-subcard-lbl">
+                <span style="width:7px;height:7px;border-radius:50%;background:#A855F7;display:inline-block;"></span>
+                <span>DOMPET & AKUN</span>
+              </div>
+              <div class="networth-subcard-val">${formatRupiah(t.dompetDanAkun, true)}</div>
+            </div>
+            <div class="networth-subcard" style="cursor:pointer;" onclick="openPortfolioModal()">
+              <div class="networth-subcard-lbl">
+                <span style="width:7px;height:7px;border-radius:50%;background:#A3E635;display:inline-block;"></span>
+                <span>ASET LIKUID</span>
+              </div>
+              <div class="networth-subcard-val">${formatRupiah(t.totalPortfolioLiquid, true)}</div>
+            </div>
+            <div class="networth-subcard" style="cursor:pointer;" onclick="openPortfolioModal(null, 'Aset Tetap')">
+              <div class="networth-subcard-lbl">
+                <span style="width:7px;height:7px;border-radius:50%;background:#38BDF8;display:inline-block;"></span>
+                <span>ASET TETAP</span>
+              </div>
+              <div class="networth-subcard-val">${formatRupiah(t.totalFixedAssets, true)}</div>
+            </div>
+          </div>
+          ${t.totalLiabilities > 0 ? `
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);font-size:11.5px;color:var(--text-sub);">
+              <span>Dikurangi Tagihan Kartu Kredit & Cicilan:</span>
+              <strong style="color:var(--danger);cursor:pointer;" onclick="navigate('wallets')">-${formatRupiah(t.totalLiabilities, true)}</strong>
+            </div>
+          ` : ''}
+        </div>
+
+        <!-- SCREENSHOT 1 & 4: ALOKASI PORTOFOLIO + SKOR KESEHATAN FINANSIAL -->
+        ${renderPortfolioDonutSection(t)}
+        ${renderFinancialHealthScoreCard(t, bs, runwayMonths)}
+      `;
+    }
+
+    /* ==================== SCREENSHOT 3: PAGE DOMPET (SALDO & TABUNGAN + KARTU KREDIT & CICILAN) ==================== */
+    function renderWalletsPage() {
+      const t = computeTotals();
+      const liabilities = state.liabilities || [];
+      return `
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:4px;" class="anim-in d-1">
+          <div>
+            <div style="font-size:26px;font-weight:800;letter-spacing:-0.6px;">Dompet</div>
+            <div style="font-size:13px;color:var(--text-sub);">Atur semua sumber uangmu.</div>
+          </div>
           <div style="display:flex;gap:8px;flex-wrap:wrap;">
-            <button type="button" class="btn-finpro-secondary" onclick="openBulkWalletModal()">
+            <button type="button" class="btn-finpro-secondary" style="border-radius:999px;padding:9px 14px;" onclick="openBulkWalletModal()">
               ${SVG_PATHS.edit}
               <span>Edit Sekaligus</span>
             </button>
-            <button type="button" class="btn-finpro-primary" onclick="openWalletModal()">
+            <button type="button" class="btn-finpro-primary" style="border-radius:999px;padding:9px 15px;" onclick="openWalletModal()">
               ${SVG_PATHS.plus}
-              <span>Tambah Bank / E-Wallet</span>
+              <span>Tambah Akun</span>
             </button>
           </div>
         </div>
 
-        <div class="f-card anim-in d-2">
-          <div class="section-head">
-            <span class="section-title">Daftar Akun Bank, E-Wallet & Kas (Ketuk untuk Edit)</span>
+        <!-- SECTION 1: SALDO & TABUNGAN -->
+        <div class="wallet-sec-head anim-in d-1">
+          <div class="wallet-sec-label">
+            <span style="color:var(--emerald);display:inline-flex;">${SVG_PATHS.trending}</span>
+            <span>SALDO & TABUNGAN</span>
           </div>
+          <div class="wallet-sec-total" style="color:var(--emerald);">
+            ${formatRupiah(t.totalWalletBalance, true)}
+          </div>
+        </div>
+
+        <div class="anim-in d-2">
           ${state.wallets.map(w => {
             const wt = getWalletType(w.type);
             const badge = getWalletBadge(w);
             const bal = t.walletBalances[w.id] || 0;
             return `
-              <div class="item-row" onclick="openWalletModal('${w.id}')">
+              <div class="dompet-acc-card" onclick="openWalletModal('${w.id}')">
                 <div class="item-left">
-                  <div class="icon-squircle" style="background:${badge.color}20;color:${badge.color};">
+                  <div class="icon-squircle" style="width:44px;height:44px;background:${badge.color}22;color:${badge.color};position:relative;">
                     ${badge.code}
+                    <span style="position:absolute;bottom:-2px;right:-2px;width:9px;height:9px;border-radius:50%;background:#EAB308;border:2px solid #131B2E;"></span>
                   </div>
                   <div class="item-info">
-                    <div class="item-title">${escapeHtml(w.name)}</div>
+                    <div class="item-title" style="font-size:15px;">${escapeHtml(w.name)}</div>
                     <div class="item-meta">${wt.name}</div>
                   </div>
                 </div>
                 <div class="item-right">
-                  <div class="item-amt">${formatRupiah(bal, true)}</div>
-                  <span class="edit-pill">${SVG_PATHS.edit} Ubah Nama / Saldo</span>
+                  <div class="item-amt" style="font-size:15.5px;">${formatRupiah(bal, true)}</div>
+                  <span class="edit-pill">${SVG_PATHS.edit} Edit</span>
                 </div>
               </div>
             `;
           }).join('')}
+        </div>
+
+        <!-- SECTION 2: KARTU KREDIT & CICILAN -->
+        <div class="wallet-sec-head anim-in d-3" style="margin-top:24px;">
+          <div class="wallet-sec-label">
+            <span style="color:var(--danger);display:inline-flex;">${SVG_PATHS.trendDown}</span>
+            <span>KARTU KREDIT & CICILAN</span>
+          </div>
+          <div class="wallet-sec-total" style="color:var(--danger);">
+            -${formatRupiah(t.totalLiabilities, true)}
+          </div>
+        </div>
+
+        <div class="anim-in d-3">
+          ${liabilities.length === 0
+            ? `<div class="f-card" style="text-align:center;padding:20px;"><p style="font-size:12.5px;color:var(--text-sub);">Belum ada Kartu Kredit atau Cicilan tercatat.</p></div>`
+            : liabilities.map(l => {
+                const used = Math.max(0, Number(l.usedAmount) || 0);
+                const lim = Math.max(0, Number(l.limitAmount) || 0);
+                const usedPct = lim > 0 ? Math.min(100, Math.round((used / lim) * 100)) : 0;
+                const code = String(l.provider || l.name || 'CC').slice(0, 3).toUpperCase();
+                return `
+                  <div class="dompet-cc-card" onclick="openLiabilityModal('${l.id}')">
+                    <div class="item-left">
+                      <div class="icon-squircle" style="width:44px;height:44px;background:rgba(255,77,106,0.15);color:#FF6B81;position:relative;">
+                        ${escapeHtml(code)}
+                        <span style="position:absolute;bottom:-2px;right:-2px;width:9px;height:9px;border-radius:50%;background:#FF4D6A;border:2px solid #131B2E;"></span>
+                      </div>
+                      <div class="item-info">
+                        <div class="item-title" style="font-size:15px;">${escapeHtml(l.name)}</div>
+                        <div class="item-meta">${escapeHtml(l.type || 'Kartu Kredit')}${lim > 0 ? ` • Limit ${formatRupiah(lim, true)}` : ''}</div>
+                      </div>
+                    </div>
+                    <div class="item-right">
+                      <div class="item-amt" style="font-size:15.5px;color:var(--danger);">-${formatRupiah(used, true)}</div>
+                      <span class="edit-pill">${usedPct}% terpakai</span>
+                    </div>
+                  </div>
+                `;
+              }).join('')}
+
+          <button type="button" class="btn-finpro-secondary" style="width:100%;margin-top:6px;border-style:dashed;" onclick="openLiabilityModal()">
+            ${SVG_PATHS.plus}
+            <span>Tambah Kartu Kredit / Cicilan</span>
+          </button>
         </div>
       `;
     }
@@ -4214,6 +5056,340 @@
           </button>
         </div>
       `);
+    }
+
+    /* 4D. MODAL PORTOFOLIO & ASET (SAHAM, KRIPTO, OBLIGASI, EMAS, ETF, DEPOSITO, ASET TETAP) */
+    const PORTFOLIO_PRESETS = [
+      { name: 'BBCA', ticker: 'BBCA', instrument: 'Saham', currency: 'IDR', changePct: '8.4' },
+      { name: 'Bittensor', ticker: 'TAO', instrument: 'Kripto', currency: 'USD', changePct: '-5.05' },
+      { name: 'Bitcoin', ticker: 'BTC', instrument: 'Kripto', currency: 'BTC', changePct: '14.2' },
+      { name: 'SBN Ritel', ticker: 'SBN', instrument: 'Obligasi', currency: 'IDR', changePct: '6.35' },
+      { name: 'S&P 500 ETF', ticker: 'VOO', instrument: 'ETF', currency: 'USD', changePct: '11.2' },
+      { name: 'Emas Antam', ticker: 'ANTM', instrument: 'Emas', currency: 'XAU', changePct: '9.8' },
+      { name: 'Deposito Krom', ticker: 'DEPO', instrument: 'Deposito', currency: 'IDR', changePct: '7.5' },
+      { name: 'Reksa Dana Pasar Uang', ticker: 'RDPU', instrument: 'Reksa Dana', currency: 'IDR', changePct: '4.8' },
+      { name: 'Tabungan USD', ticker: 'USD', instrument: 'Valas', currency: 'USD', changePct: '2.1' },
+      { name: 'Properti / Kendaraan', ticker: 'ASET', instrument: 'Aset Tetap', currency: 'IDR', changePct: '5.0' },
+    ];
+
+    function openPortfolioModal(portfolioId = null, defaultInstrument = 'Saham') {
+      const existing = portfolioId ? (state.portfolio || []).find(p => p.id === portfolioId) : null;
+      form = {
+        id: existing ? existing.id : null,
+        name: existing ? existing.name : '',
+        ticker: existing ? existing.ticker : '',
+        instrument: existing ? existing.instrument : defaultInstrument,
+        currency: existing ? existing.currency : 'IDR',
+        value: existing ? String(existing.value || '') : '',
+        changePct: existing ? String(existing.changePct !== undefined ? existing.changePct : '0') : '8.4',
+      };
+      renderPortfolioModal();
+    }
+
+    function pickPortfolioPreset(idx) {
+      const p = PORTFOLIO_PRESETS[idx];
+      if (!p) return;
+      form.name = p.name;
+      form.ticker = p.ticker;
+      form.instrument = p.instrument;
+      form.currency = p.currency;
+      form.changePct = p.changePct;
+      renderPortfolioModal();
+    }
+
+    function addPortfolioAmount(delta) {
+      const inp = document.getElementById('portValueInput');
+      const curRaw = inp ? inp.value.replace(/\D/g, '') : form.value;
+      const cur = parseInt(curRaw, 10) || 0;
+      form.value = String(Math.max(0, cur + delta));
+      if (inp) inp.value = formatThousands(form.value);
+    }
+
+    function renderPortfolioModal() {
+      const isEdit = !!form.id;
+      openModal(`
+        <div class="modal-header">
+          <span class="modal-title">${SVG_PATHS.diamond} <span>${isEdit ? 'Edit Instrumen / Aset' : 'Tambah Instrumen Portofolio'}</span></span>
+          <button type="button" class="close-btn" onclick="closeModal()">✕</button>
+        </div>
+
+        <label class="form-label" style="margin-top:0;">Pilih Cepat Instrumen Populer</label>
+        <div class="preset-grid">
+          ${PORTFOLIO_PRESETS.map((p, idx) => `
+            <button type="button" class="preset-btn ${form.name === p.name ? 'selected' : ''}" onclick="pickPortfolioPreset(${idx})">
+              <span style="font-size:9.5px;font-weight:900;color:#A3E635;">${escapeHtml(p.ticker)}</span>
+              <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(p.name)}</span>
+            </button>
+          `).join('')}
+        </div>
+
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:10px;">
+          <div>
+            <label class="form-label">Nama Instrumen / Aset</label>
+            <input id="portNameInput" type="text" class="form-control" style="font-weight:700;" placeholder="Cth: BBCA, Bittensor, Emas Antam..." value="${escapeHtml(form.name)}" oninput="form.name=this.value" />
+          </div>
+          <div>
+            <label class="form-label">Kode / Ticker</label>
+            <input id="portTickerInput" type="text" class="form-control" style="font-weight:800;text-transform:uppercase;" maxlength="6" placeholder="BBCA" value="${escapeHtml(form.ticker)}" oninput="form.ticker=this.value.toUpperCase()" />
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div>
+            <label class="form-label">Kategori Instrumen</label>
+            <select class="form-control" onchange="form.instrument=this.value">
+              ${PORTFOLIO_INSTRUMENTS.map(i => `<option value="${i.id}" ${form.instrument === i.id ? 'selected' : ''}>${escapeHtml(i.label)}</option>`).join('')}
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Mata Uang / Basis</label>
+            <select class="form-control" onchange="form.currency=this.value">
+              ${PORTFOLIO_CURRENCIES.map(c => `<option value="${c.id}" ${form.currency === c.id ? 'selected' : ''}>${escapeHtml(c.label)}</option>`).join('')}
+            </select>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:10px;">
+          <div>
+            <label class="form-label">Nilai Saat Ini (Rp)</label>
+            <input id="portValueInput" type="text" inputmode="numeric" class="form-control" style="font-size:19px;font-weight:800;" placeholder="0" value="${formatThousands(form.value)}" oninput="form.value=this.value.replace(/\\D/g,'');this.value=formatThousands(form.value);" />
+          </div>
+          <div>
+            <label class="form-label">Return / Profit (%)</label>
+            <input id="portPctInput" type="text" class="form-control" style="font-size:16px;font-weight:800;" placeholder="8.4" value="${escapeHtml(form.changePct)}" oninput="form.changePct=this.value" />
+          </div>
+        </div>
+
+        <div class="chip-row">
+          <button type="button" class="chip-btn" onclick="addPortfolioAmount(500000)">+500rb</button>
+          <button type="button" class="chip-btn" onclick="addPortfolioAmount(1000000)">+1 Juta</button>
+          <button type="button" class="chip-btn" onclick="addPortfolioAmount(5000000)">+5 Juta</button>
+          <button type="button" class="chip-btn" onclick="addPortfolioAmount(10000000)">+10 Juta</button>
+        </div>
+
+        <button type="button" class="btn-submit" onclick="savePortfolioItem()">Simpan Instrumen Aset</button>
+        ${isEdit ? `
+          <button type="button" class="btn-danger" onclick="deletePortfolioItem('${form.id}')">Hapus Instrumen Ini</button>
+        ` : ''}
+      `);
+    }
+
+    function savePortfolioItem() {
+      const nameEl = document.getElementById('portNameInput');
+      const tickerEl = document.getElementById('portTickerInput');
+      const valEl = document.getElementById('portValueInput');
+      const pctEl = document.getElementById('portPctInput');
+
+      const cleanName = ((nameEl ? nameEl.value : form.name) || '').trim() || 'Instrumen Baru';
+      const cleanTicker = (((tickerEl ? tickerEl.value : form.ticker) || '').trim() || cleanName.slice(0, 4)).toUpperCase();
+      const valNum = parseInt(String((valEl ? valEl.value : form.value) || '0').replace(/\D/g, ''), 10) || 0;
+      const pctNum = parseFloat(String((pctEl ? pctEl.value : form.changePct) || '0').replace(',', '.')) || 0;
+
+      if (!Array.isArray(state.portfolio)) state.portfolio = [];
+      const payload = {
+        id: form.id || 'p_' + uid(),
+        name: cleanName,
+        ticker: cleanTicker,
+        instrument: form.instrument || 'Saham',
+        currency: form.currency || 'IDR',
+        value: valNum,
+        changePct: pctNum,
+      };
+
+      if (form.id) {
+        state.portfolio = state.portfolio.map(p => p.id === form.id ? payload : p);
+      } else {
+        state.portfolio.push(payload);
+      }
+      closeModal();
+      saveState();
+      showToast(`${cleanName} disimpan ke portofolio`);
+    }
+
+    function deletePortfolioItem(id) {
+      state.portfolio = (state.portfolio || []).filter(p => p.id !== id);
+      closeModal();
+      saveState();
+      showToast('Instrumen dihapus dari portofolio');
+    }
+
+    /* 4E. MODAL KARTU KREDIT & CICILAN (SCREENSHOT 3) */
+    const LIABILITY_PRESETS = [
+      { name: 'BCA KrisFlyer', provider: 'BCA', type: 'Kartu Kredit', limit: '15000000' },
+      { name: 'BCA Everyday Card', provider: 'BCA', type: 'Kartu Kredit', limit: '10000000' },
+      { name: 'Mandiri Fengshui / Skyz', provider: 'MDR', type: 'Kartu Kredit', limit: '20000000' },
+      { name: 'BNI JCB / Visa', provider: 'BNI', type: 'Kartu Kredit', limit: '15000000' },
+      { name: 'BRI Touch', provider: 'BRI', type: 'Kartu Kredit', limit: '12000000' },
+      { name: 'ShopeePayLater / Kredivo', provider: 'SPL', type: 'PayLater', limit: '8000000' },
+      { name: 'Cicilan Gadget / Elektronik', provider: 'CCL', type: 'Cicilan Bulanan', limit: '15000000' },
+      { name: 'Cicilan KPR / Kendaraan', provider: 'KPR', type: 'Cicilan Aset', limit: '100000000' },
+    ];
+
+    function openLiabilityModal(liabilityId = null) {
+      const existing = liabilityId ? (state.liabilities || []).find(l => l.id === liabilityId) : null;
+      form = {
+        id: existing ? existing.id : null,
+        name: existing ? existing.name : '',
+        provider: existing ? existing.provider : 'BCA',
+        type: existing ? existing.type : 'Kartu Kredit',
+        usedAmount: existing ? String(existing.usedAmount || '') : '',
+        limitAmount: existing ? String(existing.limitAmount || '15000000') : '15000000',
+        payWalletId: state.wallets[0] ? state.wallets[0].id : '',
+      };
+      renderLiabilityModal();
+    }
+
+    function pickLiabilityPreset(idx) {
+      const p = LIABILITY_PRESETS[idx];
+      if (!p) return;
+      form.name = p.name;
+      form.provider = p.provider;
+      form.type = p.type;
+      form.limitAmount = p.limit;
+      renderLiabilityModal();
+    }
+
+    function addLiabilityAmount(delta) {
+      const inp = document.getElementById('liabUsedInput');
+      const curRaw = inp ? inp.value.replace(/\D/g, '') : form.usedAmount;
+      const cur = parseInt(curRaw, 10) || 0;
+      form.usedAmount = String(Math.max(0, cur + delta));
+      if (inp) inp.value = formatThousands(form.usedAmount);
+    }
+
+    function renderLiabilityModal() {
+      const isEdit = !!form.id;
+      const curUsed = parseInt(String(form.usedAmount || '0').replace(/\D/g, ''), 10) || 0;
+      openModal(`
+        <div class="modal-header">
+          <span class="modal-title">${SVG_PATHS.card} <span>${isEdit ? 'Kelola Kartu Kredit / Cicilan' : 'Tambah Kartu Kredit / Cicilan'}</span></span>
+          <button type="button" class="close-btn" onclick="closeModal()">✕</button>
+        </div>
+
+        <label class="form-label" style="margin-top:0;">Pilih Cepat Kartu Kredit / Cicilan</label>
+        <div class="preset-grid">
+          ${LIABILITY_PRESETS.map((p, idx) => `
+            <button type="button" class="preset-btn ${form.name === p.name ? 'selected' : ''}" onclick="pickLiabilityPreset(${idx})">
+              <span style="font-size:9px;font-weight:900;color:#FF6B81;">${escapeHtml(p.provider)}</span>
+              <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(p.name)}</span>
+            </button>
+          `).join('')}
+        </div>
+
+        <div style="display:grid;grid-template-columns:2fr 1fr;gap:10px;">
+          <div>
+            <label class="form-label">Nama Kartu Kredit / Cicilan</label>
+            <input id="liabNameInput" type="text" class="form-control" style="font-weight:700;" placeholder="Cth: BCA KrisFlyer..." value="${escapeHtml(form.name)}" oninput="form.name=this.value" />
+          </div>
+          <div>
+            <label class="form-label">Kode Bank</label>
+            <input id="liabProvInput" type="text" class="form-control" style="font-weight:800;text-transform:uppercase;" maxlength="4" placeholder="BCA" value="${escapeHtml(form.provider)}" oninput="form.provider=this.value.toUpperCase()" />
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+          <div>
+            <label class="form-label">Tagihan Terpakai Saat Ini (Rp)</label>
+            <input id="liabUsedInput" type="text" inputmode="numeric" class="form-control" style="font-size:18px;font-weight:800;color:var(--danger);" placeholder="0" value="${formatThousands(form.usedAmount)}" oninput="form.usedAmount=this.value.replace(/\\D/g,'');this.value=formatThousands(form.usedAmount);" />
+          </div>
+          <div>
+            <label class="form-label">Batas Limit Total (Rp)</label>
+            <input id="liabLimitInput" type="text" inputmode="numeric" class="form-control" style="font-size:18px;font-weight:800;" placeholder="15.000.000" value="${formatThousands(form.limitAmount)}" oninput="form.limitAmount=this.value.replace(/\\D/g,'');this.value=formatThousands(form.limitAmount);" />
+          </div>
+        </div>
+
+        <div class="chip-row">
+          <button type="button" class="chip-btn" onclick="addLiabilityAmount(100000)">+100rb</button>
+          <button type="button" class="chip-btn" onclick="addLiabilityAmount(500000)">+500rb</button>
+          <button type="button" class="chip-btn" onclick="addLiabilityAmount(1000000)">+1 Juta</button>
+          <button type="button" class="chip-btn" style="color:var(--emerald);" onclick="form.usedAmount='0';document.getElementById('liabUsedInput').value='0';">Lunas (Rp 0)</button>
+        </div>
+
+        ${isEdit && curUsed > 0 ? `
+          <div style="margin-top:12px;padding:12px;border-radius:14px;background:rgba(0,229,143,0.06);border:1px solid rgba(0,229,143,0.2);">
+            <div style="font-size:11.5px;font-weight:800;color:var(--emerald);margin-bottom:6px;">LUNASI TAGIHAN DARI SALDO REKENING</div>
+            <div style="display:flex;gap:8px;">
+              <select class="form-control" style="flex:1;" onchange="form.payWalletId=this.value">
+                ${state.wallets.map(w => `<option value="${w.id}" ${form.payWalletId===w.id?'selected':''}>${escapeHtml(w.name)}</option>`).join('')}
+              </select>
+              <button type="button" class="btn-finpro-primary" style="white-space:nowrap;" onclick="payLiabilityBill('${form.id}')">Bayar Lunas</button>
+            </div>
+          </div>
+        ` : ''}
+
+        <button type="button" class="btn-submit" onclick="saveLiabilityItem()">Simpan Kartu / Cicilan</button>
+        ${isEdit ? `
+          <button type="button" class="btn-danger" onclick="deleteLiabilityItem('${form.id}')">Hapus Kartu / Cicilan Ini</button>
+        ` : ''}
+      `);
+    }
+
+    function saveLiabilityItem() {
+      const nameEl = document.getElementById('liabNameInput');
+      const provEl = document.getElementById('liabProvInput');
+      const usedEl = document.getElementById('liabUsedInput');
+      const limEl = document.getElementById('liabLimitInput');
+
+      const cleanName = ((nameEl ? nameEl.value : form.name) || '').trim() || 'Kartu Kredit';
+      const cleanProv = (((provEl ? provEl.value : form.provider) || '').trim() || cleanName.slice(0, 3)).toUpperCase();
+      const usedVal = parseInt(String((usedEl ? usedEl.value : form.usedAmount) || '0').replace(/\D/g, ''), 10) || 0;
+      const limVal = parseInt(String((limEl ? limEl.value : form.limitAmount) || '0').replace(/\D/g, ''), 10) || 0;
+
+      if (!Array.isArray(state.liabilities)) state.liabilities = [];
+      const payload = {
+        id: form.id || 'l_' + uid(),
+        name: cleanName,
+        provider: cleanProv,
+        type: form.type || 'Kartu Kredit',
+        usedAmount: usedVal,
+        limitAmount: limVal,
+      };
+
+      if (form.id) {
+        state.liabilities = state.liabilities.map(l => l.id === form.id ? payload : l);
+      } else {
+        state.liabilities.push(payload);
+      }
+      closeModal();
+      saveState();
+      showToast(`${cleanName} berhasil disimpan`);
+    }
+
+    function payLiabilityBill(id) {
+      const liab = (state.liabilities || []).find(l => l.id === id);
+      if (!liab) return;
+      const bill = Math.max(0, Number(liab.usedAmount) || 0);
+      if (bill <= 0) {
+        showToast('Tagihan sudah Rp 0 (Lunas)');
+        return;
+      }
+      const totals = computeTotals();
+      const wId = form.payWalletId || (state.wallets[0] && state.wallets[0].id);
+      const wBal = Number(totals.walletBalances[wId] || 0);
+      if (wBal < bill) {
+        showToast(`Saldo rekening tidak cukup untuk melunasi ${formatRupiah(bill)}`);
+        return;
+      }
+      liab.usedAmount = 0;
+      state.transactions.unshift({
+        id: uid(),
+        type: 'expense',
+        amount: bill,
+        categoryId: 'tagihan',
+        walletId: wId,
+        note: `Bayar Tagihan ${liab.name}`,
+        date: localDateStr(),
+      });
+      closeModal();
+      saveState();
+      showToast(`Tagihan ${liab.name} (${formatRupiah(bill)}) berhasil dilunasi!`);
+    }
+
+    function deleteLiabilityItem(id) {
+      state.liabilities = (state.liabilities || []).filter(l => l.id !== id);
+      closeModal();
+      saveState();
+      showToast('Kartu kredit / cicilan dihapus');
     }
 
     /* 5. MODAL PROFIL */
