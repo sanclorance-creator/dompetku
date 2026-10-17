@@ -2,27 +2,17 @@
 <html lang="id" data-theme="dark">
 <head>
   <script>
-    // Strip ChatGPT's attribution query from the visible URL, preserving the app version and hash.
-    (function () {
-      function cleanChatGPTTracking() {
-        try {
-          var u = new URL(window.location.href);
-          if (u.searchParams.get('utm_source') !== 'chatgpt.com') return;
-          u.searchParams.delete('utm_source');
-          var next = u.pathname + (u.searchParams.toString() ? '?' + u.searchParams.toString() : '') + u.hash;
-          window.history.replaceState(window.history.state, document.title, next);
-        } catch (e) {}
-      }
-      cleanChatGPTTracking();
-      window.addEventListener('pageshow', cleanChatGPTTracking);
-      window.addEventListener('popstate', cleanChatGPTTracking);
-      // Also handle clients that append campaign parameters shortly after navigation.
-      var attempts = 0;
-      var timer = window.setInterval(function () {
-        cleanChatGPTTracking();
-        attempts += 1;
-        if (attempts >= 20) window.clearInterval(timer);
-      }, 250);
+    (() => {
+      const clean = () => {
+        const u = new URL(location.href);
+        [...u.searchParams.keys()].forEach(k => {
+          if (/^utm_/i.test(k) || (k.toLowerCase() === 'source' && /chatgpt/i.test(u.searchParams.get(k) || ''))) u.searchParams.delete(k);
+        });
+        history.replaceState(history.state, '', u.pathname + (u.search ? '?' + u.searchParams : '') + u.hash);
+      };
+      clean();
+      addEventListener('pageshow', clean);
+      let n = 0, timer = setInterval(() => { clean(); if (++n >= 20) clearInterval(timer); }, 250);
     })();
   </script>
 
