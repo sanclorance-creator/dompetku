@@ -1,13 +1,13 @@
 {
-  "name": "DompetKu — Pengatur Keuangan",
+  "name": "DompetKu Pro — Smart Personal Finance",
   "short_name": "DompetKu",
-  "description": "Aplikasi pencatat pemasukan, pengeluaran, dan tabungan pribadi.",
+  "description": "Aplikasi pengatur keuangan pribadi modern: Pemasukan, Pengeluaran & Target Dana.",
   "start_url": "./app.html",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#0B253A",
-  "theme_color": "#133955",
+  "background_color": "#0B0E14",
+  "theme_color": "#0B0E14",
   "icons": [
     {
       "src": "./icon.svg",
