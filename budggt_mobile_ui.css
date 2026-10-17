@@ -417,3 +417,197 @@ html[data-theme="light"] #pageContent .alloc-seg-wrap {
     padding: 14px;
   }
 }
+
+/* Wallet page polish: styles for the markup's actual wallet section class names. */
+#pageContent .wallet-sec-head {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  margin: 20px 2px 10px;
+  min-width: 0;
+}
+#pageContent .wallet-sec-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  color: var(--text-sub);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .65px;
+  line-height: 1.35;
+}
+#pageContent .wallet-sec-label > span:last-child {
+  font-weight: 800;
+}
+#pageContent .wallet-sec-label svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+}
+#pageContent .wallet-sec-total {
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -.35px;
+  font-variant-numeric: tabular-nums;
+}
+#pageContent .dompet-acc-card,
+#pageContent .dompet-cc-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+  margin-bottom: 10px;
+  padding: 15px 15px;
+  border: 1px solid var(--glass-border);
+  border-radius: 19px;
+  background: var(--card-bg);
+  cursor: pointer;
+  transition: border-color .2s ease, transform .2s ease;
+}
+#pageContent .dompet-acc-card:active,
+#pageContent .dompet-cc-card:active {
+  transform: scale(.99);
+}
+#pageContent .dompet-acc-card .item-left,
+#pageContent .dompet-cc-card .item-left {
+  min-width: 0;
+  gap: 10px;
+}
+#pageContent .dompet-acc-card .item-info,
+#pageContent .dompet-cc-card .item-info {
+  min-width: 0;
+}
+#pageContent .dompet-acc-card .item-title,
+#pageContent .dompet-cc-card .item-title {
+  max-width: 100%;
+  font-size: 14px !important;
+  font-weight: 800;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+#pageContent .dompet-acc-card .item-meta,
+#pageContent .dompet-cc-card .item-meta {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: .45px;
+  line-height: 1.35;
+}
+#pageContent .dompet-acc-card .item-right,
+#pageContent .dompet-cc-card .item-right {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 5px;
+  max-width: 48%;
+  min-width: 0;
+}
+#pageContent .dompet-acc-card .item-amt,
+#pageContent .dompet-cc-card .item-amt {
+  max-width: 100%;
+  font-size: 14px !important;
+  font-weight: 800;
+  line-height: 1.3;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  font-variant-numeric: tabular-nums;
+}
+#pageContent .dompet-acc-card .edit-pill,
+#pageContent .dompet-cc-card .edit-pill {
+  font-size: 10px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+#pageContent .dompet-cc-card {
+  border-color: rgba(255,77,106,.23);
+  background: linear-gradient(145deg, rgba(255,77,106,.065), var(--card-bg));
+}
+#pageContent .wallet-empty-state {
+  margin: 0 0 8px;
+  padding: 17px 15px !important;
+  border-radius: 17px;
+  border-style: dashed;
+  box-shadow: none;
+  background: rgba(148,163,184,.035);
+}
+#pageContent .wallet-empty-state p {
+  color: var(--text-sub);
+  font-size: 12px !important;
+  font-weight: 600;
+  line-height: 1.55;
+}
+#pageContent .wallet-empty-state strong {
+  color: var(--text-main);
+  font-weight: 800;
+}
+#pageContent .wallet-credit-add {
+  min-height: 46px;
+  margin-top: 4px !important;
+  border-radius: 14px !important;
+  font-size: 13px;
+  font-weight: 800;
+}
+@media (max-width: 480px) {
+  #pageContent .wallet-sec-head {
+    margin-top: 19px;
+    margin-bottom: 9px;
+    gap: 4px;
+  }
+  #pageContent .wallet-sec-label {
+    font-size: 11.5px;
+    letter-spacing: .55px;
+  }
+  #pageContent .wallet-sec-total {
+    font-size: 18px;
+  }
+  #pageContent .dompet-acc-card,
+  #pageContent .dompet-cc-card {
+    gap: 9px;
+    padding: 13px 12px;
+    border-radius: 17px;
+  }
+  #pageContent .dompet-acc-card .item-left,
+  #pageContent .dompet-cc-card .item-left {
+    gap: 9px;
+  }
+  #pageContent .dompet-acc-card .icon-squircle,
+  #pageContent .dompet-cc-card .icon-squircle {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 12px;
+    flex: 0 0 40px;
+  }
+  #pageContent .dompet-acc-card .item-right,
+  #pageContent .dompet-cc-card .item-right {
+    max-width: 52%;
+  }
+  #pageContent .dompet-acc-card .item-amt,
+  #pageContent .dompet-cc-card .item-amt {
+    font-size: 13px !important;
+  }
+  #pageContent .wallet-empty-state {
+    padding: 15px 12px !important;
+  }
+  #pageContent .wallet-credit-add {
+    min-height: 44px;
+    padding: 11px 12px;
+    font-size: 12.5px;
+  }
+}
+@media (max-width: 360px) {
+  #pageContent .wallet-sec-label {
+    font-size: 10.5px;
+  }
+  #pageContent .wallet-sec-total {
+    font-size: 17px;
+  }
+  #pageContent .dompet-acc-card .item-amt,
+  #pageContent .dompet-cc-card .item-amt {
+    font-size: 12px !important;
+  }
+}
