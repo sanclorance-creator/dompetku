@@ -4069,7 +4069,7 @@
 
         <div class="anim-in d-3">
           ${liabilities.length === 0
-            ? `<div class="f-card" style="text-align:center;padding:20px;"><p style="font-size:12.5px;color:var(--text-sub);">Belum ada Kartu Kredit atau Cicilan tercatat.</p></div>`
+            ? `<div class="f-card wallet-empty-state" style="text-align:center;"><p>Belum ada kartu kredit atau cicilan tercatat.</p></div>`
             : liabilities.map(l => {
                 const used = Math.max(0, Number(l.usedAmount) || 0);
                 const lim = Math.max(0, Number(l.limitAmount) || 0);
@@ -4095,7 +4095,7 @@
                 `;
               }).join('')}
 
-          <button type="button" class="btn-finpro-secondary" style="width:100%;margin-top:6px;border-style:dashed;" onclick="openLiabilityModal()">
+          <button type="button" class="btn-finpro-secondary wallet-credit-add" style="width:100%;border-style:dashed;" onclick="openLiabilityModal()">
             ${SVG_PATHS.plus}
             <span>Tambah Kartu Kredit / Cicilan</span>
           </button>
