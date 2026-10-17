@@ -2291,7 +2291,7 @@
               changePct: Number.isFinite(Number(p.changePct)) ? Number(p.changePct) : 0,
               goalId: p.goalId && s.savings.some(sv => String(sv.id) === String(p.goalId)) ? String(p.goalId) : '',
             }))
-          : DEFAULT_PORTFOLIO.map(p => ({ ...p })),
+          : [],
         liabilities: Array.isArray(s.liabilities)
           ? s.liabilities.map(l => ({
               id: String(l.id || uid()),
@@ -2301,7 +2301,7 @@
               usedAmount: Math.max(0, Number(l.usedAmount) || 0),
               limitAmount: Math.max(0, Number(l.limitAmount) || 0),
             }))
-          : DEFAULT_LIABILITIES.map(l => ({ ...l })),
+          : [],
       };
       return out;
     }
@@ -2311,7 +2311,33 @@
         const raw = localStorage.getItem(STORAGE_KEY);
         if (raw) {
           const parsed = JSON.parse(raw);
-          if (isValidState(parsed)) return normalizeState(parsed);
+          if (isValidState(parsed)) {
+            const normalized = normalizeState(parsed);
+            // One-time cleanup for the app's original fake starter holdings/debt,
+            // but only when the user has no activity and all starter values are untouched.
+            const noRecordedActivity = normalized.transactions.length === 0
+              && normalized.wallets.every(w => (Number(w.initialBalance) || 0) === 0)
+              && normalized.savings.every(g => (Number(g.current) || 0) === 0);
+            const onlyDefaultPortfolio = normalized.portfolio.every(p => {
+              const d = DEFAULT_PORTFOLIO.find(x => x.id === p.id);
+              return !!d && p.name === d.name && p.value === d.value
+                && p.changePct === d.changePct && p.instrument === d.instrument
+                && p.currency === d.currency;
+            });
+            const onlyDefaultLiabilities = normalized.liabilities.every(l => {
+              const d = DEFAULT_LIABILITIES.find(x => x.id === l.id);
+              return !!d && l.name === d.name && l.usedAmount === d.usedAmount
+                && l.limitAmount === d.limitAmount && l.provider === d.provider
+                && l.type === d.type;
+            });
+            if (noRecordedActivity && onlyDefaultPortfolio && onlyDefaultLiabilities
+                && (normalized.portfolio.length > 0 || normalized.liabilities.length > 0)) {
+              normalized.portfolio = [];
+              normalized.liabilities = [];
+              try { localStorage.setItem(STORAGE_KEY, JSON.stringify(normalized)); } catch (e) {}
+            }
+            return normalized;
+          }
         }
       } catch (e) {}
       const clean = getCleanZeroData();
