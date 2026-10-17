@@ -5581,5 +5581,20 @@
   </script>
   <script src="./dompetku_safety_patch.js?v=fix7"></script>
   <script src="./dompetku_budggt_patch.js?v=budggt2fix1"></script>
+  <script>
+    // Remove only ChatGPT's URL attribution parameter while preserving the app version and other query parameters.
+    (function () {
+      try {
+        var currentUrl = new URL(window.location.href);
+        if (currentUrl.searchParams.get('utm_source') === 'chatgpt.com') {
+          currentUrl.searchParams.delete('utm_source');
+          var cleanUrl = currentUrl.pathname
+            + (currentUrl.searchParams.toString() ? '?' + currentUrl.searchParams.toString() : '')
+            + currentUrl.hash;
+          window.history.replaceState(window.history.state, document.title, cleanUrl);
+        }
+      } catch (e) {}
+    })();
+  </script>
 </body>
 </html>
