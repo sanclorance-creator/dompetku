@@ -1202,12 +1202,32 @@
   </div>
 
   <script>
-    // Clear any stale Service Worker or old caches immediately
+    // Bersihkan HANYA service worker & cache milik DompetKu (tidak mengganggu app lain di origin yang sama)
+    const APP_SCOPE_PATH = new URL('./', location.href).pathname; // contoh: /dompetku/
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.unregister())).catch(() => {});
+      navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => {
+        try {
+          if (new URL(r.scope).pathname.startsWith(APP_SCOPE_PATH)) r.unregister();
+        } catch (e) {}
+      })).catch(() => {});
     }
     if ('caches' in window) {
-      caches.keys().then(keys => keys.forEach(k => caches.delete(k))).catch(() => {});
+      caches.keys().then(keys => keys.forEach(k => {
+        if (k.toLowerCase().startsWith('dompetku')) caches.delete(k);
+      })).catch(() => {});
+    }
+
+    // Tanggal lokal perangkat (bukan UTC) -> aman untuk WIB jam 00.00 - 07.00
+    function localDateStr(d = new Date()) {
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+    function parseLocalDate(str) {
+      const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(str || ''));
+      if (!m) return new Date(str);
+      return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
     }
 
     /* ==================== PROFESSIONAL VECTOR SVG ICON SYSTEM ==================== */
@@ -1394,6 +1414,11 @@
     }
 
     function getSampleData() {
+      const now = new Date();
+      const d0 = localDateStr(now);
+      const d1 = localDateStr(new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1));
+      const d2 = localDateStr(new Date(now.getFullYear(), now.getMonth(), now.getDate() - 2));
+      const dFirst = localDateStr(new Date(now.getFullYear(), now.getMonth(), 1));
       return {
         userName: 'Alfian Dimas',
         customCategories: [],
@@ -1404,10 +1429,10 @@
           { id: 'w_dana', name: 'DANA', type: 'ewallet', initialBalance: 250000 },
         ],
         transactions: [
-          { id: 't1', type: 'income', amount: 6500000, categoryId: 'gaji', walletId: 'w_bca', note: 'Gaji Bulanan', date: '2026-10-01' },
-          { id: 't2', type: 'expense', amount: 45000, categoryId: 'makan', walletId: 'w_gopay', note: 'Makan Siang', date: '2026-10-15' },
-          { id: 't3', type: 'expense', amount: 28000, categoryId: 'ngopi', walletId: 'w_dana', note: 'Kopi Espresso', date: '2026-10-16' },
-          { id: 't4', type: 'income', amount: 1200000, categoryId: 'freelance', walletId: 'w_mandiri', note: 'Proyek Desain UI', date: '2026-10-17' },
+          { id: 't1', type: 'income', amount: 6500000, categoryId: 'gaji', walletId: 'w_bca', note: 'Gaji Bulanan', date: dFirst },
+          { id: 't2', type: 'expense', amount: 45000, categoryId: 'makan', walletId: 'w_gopay', note: 'Makan Siang', date: d2 },
+          { id: 't3', type: 'expense', amount: 28000, categoryId: 'ngopi', walletId: 'w_dana', note: 'Kopi Espresso', date: d1 },
+          { id: 't4', type: 'income', amount: 1200000, categoryId: 'freelance', walletId: 'w_mandiri', note: 'Proyek Desain UI', date: d0 },
         ],
         savings: [
           { id: 's1', name: 'Dana Darurat', icon: 'vault', current: 4500000, target: 10000000 },
@@ -1418,19 +1443,51 @@
 
     let state = loadState();
 
+    function isValidState(s) {
+      return !!s && typeof s === 'object'
+        && Array.isArray(s.wallets)
+        && Array.isArray(s.transactions)
+        && Array.isArray(s.savings);
+    }
+
+    function normalizeState(s) {
+      const out = {
+        userName: typeof s.userName === 'string' && s.userName.trim() ? s.userName : 'Alfian Dimas',
+        customCategories: Array.isArray(s.customCategories) ? s.customCategories : [],
+        wallets: s.wallets.map(w => ({
+          id: String(w.id || uid()),
+          name: String(w.name || 'Akun'),
+          type: ['bank', 'ewallet', 'cash'].includes(w.type) ? w.type : 'bank',
+          initialBalance: Number(w.initialBalance) || 0,
+        })),
+        transactions: s.transactions.map(t => ({
+          id: String(t.id || uid()),
+          type: t.type === 'income' ? 'income' : 'expense',
+          amount: Math.max(0, Number(t.amount) || 0),
+          categoryId: String(t.categoryId || (t.type === 'income' ? 'other_inc' : 'other_exp')),
+          walletId: String(t.walletId || ''),
+          note: String(t.note || ''),
+          date: /^\d{4}-\d{2}-\d{2}$/.test(String(t.date)) ? t.date : localDateStr(),
+          transfer: !!t.transfer || /^(Nabung ke|Alokasi ke|Tarik dari|Pencairan) /.test(String(t.note || '')),
+          savingId: t.savingId ? String(t.savingId) : undefined,
+        })),
+        savings: s.savings.map(sv => ({
+          id: String(sv.id || uid()),
+          name: String(sv.name || 'Target'),
+          icon: SVG_PATHS[sv.icon] ? sv.icon : 'vault',
+          current: Math.max(0, Number(sv.current) || 0),
+          target: Math.max(0, Number(sv.target) || 0),
+        })),
+      };
+      return out;
+    }
+
     function loadState() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
         if (raw) {
           const parsed = JSON.parse(raw);
-          if (!parsed.customCategories) parsed.customCategories = [];
-          // Sanitize any legacy emoji icons in savings to clean SVG keys
-          if (Array.isArray(parsed.savings)) {
-            parsed.savings.forEach(s => {
-              if (!SVG_PATHS[s.icon]) s.icon = 'vault';
-            });
-          }
-          return parsed;
+          if (isValidState(parsed)) return normalizeState(parsed);
         }
       } catch (e) {}
       const clean = getCleanZeroData();
@@ -1453,13 +1510,89 @@
       renderPage();
     }
 
+    /* ==================== BACKUP / SNAPSHOT ==================== */
+    const BACKUP_KEY = 'dompetku_backup_snapshot';
+
+    function saveSnapshot(reason) {
+      try {
+        localStorage.setItem(BACKUP_KEY, JSON.stringify({
+          savedAt: new Date().toISOString(),
+          reason,
+          data: state,
+        }));
+      } catch (e) {}
+    }
+
+    function getSnapshot() {
+      try {
+        const raw = localStorage.getItem(BACKUP_KEY);
+        return raw ? JSON.parse(raw) : null;
+      } catch (e) { return null; }
+    }
+
+    function restoreSnapshot() {
+      const snap = getSnapshot();
+      if (!snap || !isValidState(snap.data)) {
+        showToast('Tidak ada cadangan yang bisa dipulihkan');
+        return;
+      }
+      state = normalizeState(snap.data);
+      localStorage.removeItem(BACKUP_KEY);
+      closeModal();
+      saveState();
+      showToast('Data sebelum reset berhasil dipulihkan');
+    }
+
+    // Reset kini WAJIB konfirmasi (modal in-app, bukan window.confirm yang diblokir di HP)
     function resetAllToZero() {
+      confirmAction({
+        title: 'Nolkan semua saldo?',
+        message: 'Semua <strong>riwayat transaksi</strong> akan dihapus, saldo <strong>semua akun</strong> & <strong>target dana</strong> jadi Rp 0. Cadangan otomatis akan disimpan, jadi masih bisa dipulihkan dari menu ⚙️.',
+        confirmLabel: 'Ya, Nolkan Rp 0',
+        onConfirm: doResetAllToZero,
+      });
+    }
+
+    function doResetAllToZero() {
+      saveSnapshot('Nolkan Rp 0');
       state.transactions = [];
       state.wallets.forEach(w => { w.initialBalance = 0; });
       state.savings.forEach(s => { s.current = 0; });
       closeModal();
       saveState();
-      showToast('Semua saldo & transaksi berhasil di-reset ke Rp 0');
+      showToast('Direset ke Rp 0 — bisa dipulihkan dari menu ⚙️');
+    }
+
+    function doFullReset() {
+      saveSnapshot('Reset penuh');
+      state = getCleanZeroData();
+      closeModal();
+      saveState();
+      showToast('Direset penuh — bisa dipulihkan dari menu ⚙️');
+    }
+
+    function doLoadSample() {
+      saveSnapshot('Muat contoh data');
+      state = getSampleData();
+      closeModal();
+      saveState();
+      showToast('Contoh data dimuat — data lama dicadangkan');
+    }
+
+    let pendingConfirm = null;
+    function confirmAction({ title, message, confirmLabel, onConfirm }) {
+      pendingConfirm = onConfirm;
+      openModal(`
+        <div class="modal-header">
+          <span class="modal-title" style="color:var(--danger);">${SVG_PATHS.trash} <span>${title}</span></span>
+          <button type="button" class="close-btn" onclick="closeModal()">✕</button>
+        </div>
+        <p style="font-size:13px;color:var(--text-sub);line-height:1.6;">${message}</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:16px;">
+          <button type="button" class="btn-finpro-secondary" onclick="pendingConfirm=null;closeModal();">Batal</button>
+          <button type="button" class="btn-danger" style="margin-top:0;" onclick="const f=pendingConfirm;pendingConfirm=null;if(f)f();">${confirmLabel}</button>
+        </div>
+      `);
     }
 
     function uid() {
@@ -1487,7 +1620,7 @@
     }
 
     function formatDateIndo(dateStr) {
-      const d = new Date(dateStr);
+      const d = parseLocalDate(dateStr);
       if (isNaN(d)) return dateStr;
       return `${d.getDate()} ${MONTHS_SHORT[d.getMonth()]}`;
     }
@@ -1513,8 +1646,9 @@
       return { id, name: 'Transaksi', icon: 'layers', svg: SVG_PATHS.layers, color: '#3B82F6' };
     }
 
+    // Tidak lagi "menempelkan" transaksi yatim ke akun pertama secara diam-diam
     function getWallet(id) {
-      return state.wallets.find(w => w.id === id) || state.wallets[0] || { id: '', name: 'Utama', type: 'bank' };
+      return state.wallets.find(w => w.id === id) || { id: '', name: '(Akun terhapus)', type: 'bank', missing: true };
     }
 
     function getWalletBadge(wallet) {
@@ -1541,18 +1675,15 @@
 
       state.transactions.forEach(t => {
         const amt = Number(t.amount) || 0;
-        if (t.type === 'income') {
-          totalIncome += amt;
-          if (walletBalances[t.walletId] !== undefined) {
-            walletBalances[t.walletId] += amt;
-            walletTxNet[t.walletId] += amt;
-          }
-        } else {
-          totalExpense += amt;
-          if (walletBalances[t.walletId] !== undefined) {
-            walletBalances[t.walletId] -= amt;
-            walletTxNet[t.walletId] -= amt;
-          }
+        const sign = t.type === 'income' ? 1 : -1;
+        // Setor/tarik target dana = perpindahan uang, BUKAN pemasukan/pengeluaran
+        if (!t.transfer) {
+          if (t.type === 'income') totalIncome += amt;
+          else totalExpense += amt;
+        }
+        if (walletBalances[t.walletId] !== undefined) {
+          walletBalances[t.walletId] += sign * amt;
+          walletTxNet[t.walletId] += sign * amt;
         }
       });
 
@@ -1571,6 +1702,141 @@
       };
     }
 
+    /* ==================== STATISTIK PER PERIODE (DATA ASLI) ==================== */
+    // week  = 7 hari terakhir (termasuk hari ini)
+    // month = tanggal 1 bulan ini s/d hari ini
+    // all   = seluruh transaksi
+    function getPeriodRange(period) {
+      const today = parseLocalDate(localDateStr());
+      if (period === 'week') {
+        const start = new Date(today);
+        start.setDate(start.getDate() - 6);
+        return { start, end: today };
+      }
+      if (period === 'month') {
+        return { start: new Date(today.getFullYear(), today.getMonth(), 1), end: today };
+      }
+      return null;
+    }
+
+    function computePeriodStats(period) {
+      const range = getPeriodRange(period);
+      const txs = state.transactions.filter(t => !t.transfer);
+      let start, end;
+      if (range) {
+        start = range.start; end = range.end;
+      } else {
+        const dates = txs.map(t => parseLocalDate(t.date)).filter(d => !isNaN(d));
+        end = parseLocalDate(localDateStr());
+        start = dates.length ? new Date(Math.min(...dates.map(d => d.getTime()))) : new Date(end);
+        if (start > end) start = new Date(end);
+      }
+
+      const dayMs = 86400000;
+      let days = Math.round((end - start) / dayMs) + 1;
+      // Untuk "Semua", gabungkan per bulan kalau rentang panjang
+      const byMonth = !range && days > 62;
+
+      const labels = [];
+      const keyIndex = {};
+      if (byMonth) {
+        const cur = new Date(start.getFullYear(), start.getMonth(), 1);
+        while (cur <= end) {
+          const key = `${cur.getFullYear()}-${cur.getMonth()}`;
+          keyIndex[key] = labels.length;
+          labels.push(MONTHS_SHORT[cur.getMonth()]);
+          cur.setMonth(cur.getMonth() + 1);
+        }
+      } else {
+        for (let i = 0; i < days; i++) {
+          const d = new Date(start.getFullYear(), start.getMonth(), start.getDate() + i);
+          keyIndex[localDateStr(d)] = labels.length;
+          labels.push(String(d.getDate()));
+        }
+      }
+
+      const incomeSeries = new Array(labels.length).fill(0);
+      const expenseSeries = new Array(labels.length).fill(0);
+      let income = 0, expense = 0;
+
+      txs.forEach(t => {
+        const d = parseLocalDate(t.date);
+        if (isNaN(d) || d < start || d > end) return;
+        const key = byMonth ? `${d.getFullYear()}-${d.getMonth()}` : localDateStr(d);
+        const idx = keyIndex[key];
+        if (idx === undefined) return;
+        const amt = Number(t.amount) || 0;
+        if (t.type === 'income') { income += amt; incomeSeries[idx] += amt; }
+        else { expense += amt; expenseSeries[idx] += amt; }
+      });
+
+      return { income, expense, net: income - expense, labels, incomeSeries, expenseSeries };
+    }
+
+    // Kurva halus (Catmull-Rom -> Bezier) dari data asli
+    function buildSplinePaths(series, maxVal, w, h, padTop, padBottom) {
+      const n = series.length;
+      const usableH = h - padTop - padBottom;
+      const pts = series.map((v, i) => {
+        const x = n === 1 ? w / 2 : 4 + (i * (w - 8)) / (n - 1);
+        const y = padTop + usableH - (maxVal > 0 ? (v / maxVal) * usableH : 0);
+        return [x, y];
+      });
+      if (pts.length === 1) pts.unshift([4, pts[0][1]]);
+      let d = `M ${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
+      for (let i = 0; i < pts.length - 1; i++) {
+        const p0 = pts[i - 1] || pts[i];
+        const p1 = pts[i];
+        const p2 = pts[i + 1];
+        const p3 = pts[i + 2] || p2;
+        const c1x = p1[0] + (p2[0] - p0[0]) / 6;
+        const c1y = Math.min(h - padBottom, p1[1] + (p2[1] - p0[1]) / 6);
+        const c2x = p2[0] - (p3[0] - p1[0]) / 6;
+        const c2y = Math.min(h - padBottom, p2[1] - (p3[1] - p1[1]) / 6);
+        d += ` C ${c1x.toFixed(1)} ${c1y.toFixed(1)}, ${c2x.toFixed(1)} ${c2y.toFixed(1)}, ${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
+      }
+      const last = pts[pts.length - 1];
+      const area = `${d} L ${last[0].toFixed(1)} ${h} L ${pts[0][0].toFixed(1)} ${h} Z`;
+      return { line: d, area, last };
+    }
+
+    function renderCashflowChart(stats) {
+      const W = 320, H = 92;
+      const maxVal = Math.max(1, ...stats.incomeSeries, ...stats.expenseSeries);
+      const inc = buildSplinePaths(stats.incomeSeries, maxVal, W, H, 8, 4);
+      const exp = buildSplinePaths(stats.expenseSeries, maxVal, W, H, 8, 4);
+      const empty = stats.income === 0 && stats.expense === 0;
+      const first = stats.labels[0] || '';
+      const mid = stats.labels[Math.floor(stats.labels.length / 2)] || '';
+      const lastLbl = stats.labels[stats.labels.length - 1] || '';
+      return `
+        <svg class="spline-svg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="emeraldGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#00E58F" stop-opacity="0.28"/>
+              <stop offset="100%" stop-color="#00E58F" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="blueGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1D6FF2" stop-opacity="0.26"/>
+              <stop offset="100%" stop-color="#1D6FF2" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <path d="${exp.area}" fill="url(#blueGrad)" />
+          <path class="spline-path" d="${exp.line}" fill="none" stroke="#1D6FF2" stroke-width="2.4" stroke-linecap="round" />
+          <path d="${inc.area}" fill="url(#emeraldGrad)" />
+          <path class="spline-path" d="${inc.line}" fill="none" stroke="#00E58F" stroke-width="2.4" stroke-linecap="round" />
+          ${empty ? '' : `
+            <circle cx="${inc.last[0]}" cy="${inc.last[1]}" r="4" fill="#00E58F" stroke="#0A0D14" stroke-width="1.6" />
+            <circle cx="${exp.last[0]}" cy="${exp.last[1]}" r="4" fill="#1D6FF2" stroke="#fff" stroke-width="1.6" />
+          `}
+        </svg>
+        <div style="display:flex;justify-content:space-between;font-size:10.5px;color:var(--text-muted);font-weight:600;margin-top:4px;">
+          <span>${first}</span><span>${mid}</span><span>${lastLbl}</span>
+        </div>
+        ${empty ? `<div style="font-size:11px;color:var(--text-muted);text-align:center;margin-top:2px;">Belum ada transaksi di periode ini</div>` : ''}
+      `;
+    }
+
     function navigate(page) {
       currentPage = page;
       document.querySelectorAll('.nav-btn').forEach(btn => {
@@ -1581,9 +1847,12 @@
     }
 
     function renderTxTableRow(tx) {
-      const cat = getCategory(tx.categoryId);
+      const cat = tx.transfer
+        ? { name: 'Transfer Target Dana', svg: SVG_PATHS.vault, color: '#8B5CF6' }
+        : getCategory(tx.categoryId);
       const w = getWallet(tx.walletId);
       const isInc = tx.type === 'income';
+      const amtColor = tx.transfer ? 'var(--text-sub)' : (isInc ? 'var(--emerald)' : 'var(--danger)');
       return `
         <div class="tx-grid-row" onclick="openTxModal('${tx.type}', '${tx.id}')">
           <div class="item-left">
@@ -1595,14 +1864,14 @@
               <div class="item-meta">${cat.name}</div>
             </div>
           </div>
-          <div style="font-weight:800;font-size:13.5px;color:${isInc ? 'var(--emerald)' : 'var(--danger)'};">
+          <div style="font-weight:800;font-size:13.5px;color:${amtColor};">
             ${isInc ? '+' : '-'} ${formatRupiah(tx.amount, true)}
           </div>
           <div style="font-size:12px;color:var(--text-sub);font-weight:600;">
             ${formatDateIndo(tx.date)}
           </div>
           <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;">
-            <span style="font-size:12px;color:var(--text-sub);font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(w.name)}</span>
+            <span style="font-size:12px;color:${w.missing ? 'var(--danger)' : 'var(--text-sub)'};font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${escapeHtml(w.name)}</span>
             <span class="edit-pill">${SVG_PATHS.edit}</span>
           </div>
         </div>
@@ -1633,7 +1902,7 @@
       const arcLength = 176;
       const arcOffset = arcLength - (arcLength * savPct) / 100;
 
-      const netCashflow = t.totalIncome - t.totalExpense;
+      const ps = computePeriodStats(chartPeriod);
 
       return `
         <div class="finpro-top-grid">
@@ -1674,54 +1943,36 @@
             </div>
           </div>
 
-          <!-- WIDGET 2: ARUS KAS & SMOOTH SPLINE GRAPH (FinPro Statistics Card) -->
+          <!-- WIDGET 2: ARUS KAS PER PERIODE (data asli) -->
           <div class="f-card anim-in d-2">
             <div class="card-head-row">
               <div>
-                <div class="card-subtitle">Statistik Arus Kas</div>
-                <div class="card-main-title" style="color:${netCashflow >= 0 ? 'var(--emerald)' : 'var(--danger)'};">
-                  ${netCashflow >= 0 ? '+' : ''}${formatRupiah(netCashflow, true)}
+                <div class="card-subtitle">Arus Kas ${chartPeriod === 'week' ? '7 Hari Terakhir' : chartPeriod === 'month' ? 'Bulan Ini' : 'Semua Waktu'}</div>
+                <div class="card-main-title" style="color:${ps.net >= 0 ? 'var(--emerald)' : 'var(--danger)'};">
+                  ${ps.net >= 0 ? '+' : ''}${formatRupiah(ps.net, true)}
                 </div>
               </div>
               <div class="period-pills">
                 <button type="button" class="period-pill ${chartPeriod==='week'?'active':''}" onclick="chartPeriod='week';renderPage();">Minggu</button>
                 <button type="button" class="period-pill ${chartPeriod==='month'?'active':''}" onclick="chartPeriod='month';renderPage();">Bulan</button>
+                <button type="button" class="period-pill ${chartPeriod==='all'?'active':''}" onclick="chartPeriod='all';renderPage();">Semua</button>
               </div>
             </div>
 
             <div class="cashflow-mini-stats">
               <div class="cf-pill">
-                <span class="cf-dot" style="background:var(--blue-light);box-shadow:0 0 8px var(--blue-light);"></span>
+                <span class="cf-dot" style="background:var(--emerald);box-shadow:0 0 8px var(--emerald);"></span>
                 <span style="color:var(--text-sub);">Masuk:</span>
-                <span style="color:var(--text-main);">${formatRupiah(t.totalIncome, true)}</span>
+                <span style="color:var(--text-main);">${formatRupiah(ps.income, true)}</span>
               </div>
               <div class="cf-pill">
-                <span class="cf-dot" style="background:var(--emerald);box-shadow:0 0 8px var(--emerald);"></span>
+                <span class="cf-dot" style="background:var(--blue-light);box-shadow:0 0 8px var(--blue-light);"></span>
                 <span style="color:var(--text-sub);">Keluar:</span>
-                <span style="color:var(--text-main);">${formatRupiah(t.totalExpense, true)}</span>
+                <span style="color:var(--text-main);">${formatRupiah(ps.expense, true)}</span>
               </div>
             </div>
 
-            <!-- FinPro Dual Smooth Spline SVG -->
-            <svg class="spline-svg" viewBox="0 0 320 92" preserveAspectRatio="none">
-              <defs>
-                <linearGradient id="emeraldGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#00E58F" stop-opacity="0.28"/>
-                  <stop offset="100%" stop-color="#00E58F" stop-opacity="0.0"/>
-                </linearGradient>
-                <linearGradient id="blueGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#1D6FF2" stop-opacity="0.26"/>
-                  <stop offset="100%" stop-color="#1D6FF2" stop-opacity="0.0"/>
-                </linearGradient>
-              </defs>
-              <path d="M 4 76 C 45 70, 75 28, 120 42 C 160 54, 195 16, 240 28 C 275 38, 295 18, 316 14 L 316 88 L 4 88 Z" fill="url(#blueGrad)" />
-              <path class="spline-path" d="M 4 76 C 45 70, 75 28, 120 42 C 160 54, 195 16, 240 28 C 275 38, 295 18, 316 14" fill="none" stroke="#1D6FF2" stroke-width="2.6" stroke-linecap="round" />
-              <path d="M 4 82 C 50 76, 85 52, 130 58 C 175 64, 210 34, 250 44 L 250 88 L 4 88 Z" fill="url(#emeraldGrad)" />
-              <path class="spline-path" d="M 4 82 C 50 76, 85 52, 130 58 C 175 64, 210 34, 250 44" fill="none" stroke="#00E58F" stroke-width="2.5" stroke-linecap="round" />
-              <path d="M 250 44 C 275 50, 295 28, 316 32" fill="none" stroke="rgba(148,163,184,0.45)" stroke-width="2" stroke-dasharray="4 4" stroke-linecap="round" />
-              <circle cx="240" cy="28" r="4.5" fill="#1D6FF2" stroke="#fff" stroke-width="1.8" />
-              <circle cx="250" cy="44" r="4.5" fill="#00E58F" stroke="#0A0D14" stroke-width="1.8" />
-            </svg>
+            ${hideBalance ? `<div style="height:92px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:12px;">Grafik disembunyikan</div>` : renderCashflowChart(ps)}
           </div>
 
           <!-- WIDGET 3: TARGET DANA & SKOR PROGRES (FinPro Radial Gauge Style) -->
@@ -1933,7 +2184,7 @@
     /* ==================== PAGE 3 & 4: PEMASUKAN / PENGELUARAN ==================== */
     function renderTxListPage(type) {
       const isInc = type === 'income';
-      const list = state.transactions.filter(tx => tx.type === type);
+      const list = state.transactions.filter(tx => tx.type === type && !tx.transfer);
       const total = list.reduce((s, tx) => s + (Number(tx.amount) || 0), 0);
 
       return `
@@ -2217,30 +2468,150 @@
     }
 
     function deleteWallet(id) {
-      state.wallets = state.wallets.filter(w => w.id !== id);
-      if (selectedBankFilter === id) selectedBankFilter = 'all';
+      if (state.wallets.length <= 1) {
+        showToast('Minimal harus ada 1 akun aktif');
+        return;
+      }
+      const w = state.wallets.find(x => x.id === id);
+      if (!w) return;
+      const linkedTx = state.transactions.filter(t => t.walletId === id);
+      const others = state.wallets.filter(x => x.id !== id);
+
+      if (linkedTx.length === 0) {
+        confirmAction({
+          title: `Hapus akun ${escapeHtml(w.name)}?`,
+          message: `Akun <strong>${escapeHtml(w.name)}</strong> belum memiliki riwayat transaksi dan akan dihapus.`,
+          confirmLabel: 'Ya, Hapus Akun',
+          onConfirm: () => {
+            saveSnapshot(`Hapus akun ${w.name}`);
+            state.wallets = state.wallets.filter(x => x.id !== id);
+            if (selectedBankFilter === id) selectedBankFilter = 'all';
+            closeModal();
+            saveState();
+            showToast(`Akun ${w.name} dihapus`);
+          },
+        });
+        return;
+      }
+
+      // Jika ada transaksi terkait, wajib pilih: pindahkan ke akun lain atau hapus beserta transaksinya
+      openModal(`
+        <div class="modal-header">
+          <span class="modal-title" style="color:var(--warning);">${SVG_PATHS.bank} <span>Pindahkan Transaksi ${escapeHtml(w.name)}</span></span>
+          <button type="button" class="close-btn" onclick="closeModal()">✕</button>
+        </div>
+        <p style="font-size:13px;color:var(--text-sub);line-height:1.6;margin-bottom:10px;">
+          Akun <strong>${escapeHtml(w.name)}</strong> memiliki <strong>${linkedTx.length} transaksi</strong> tercatat. Agar tidak meninggalkan transaksi yatim, pilih akun tujuan untuk memindahkan transaksi & saldo awal:
+        </p>
+        <label class="form-label">Pindahkan ke Akun</label>
+        <select id="migrateTargetWallet" class="form-control">
+          ${others.map(o => `<option value="${o.id}">${escapeHtml(o.name)}</option>`).join('')}
+        </select>
+        <button type="button" class="btn-submit" onclick="confirmMigrateAndDeleteWallet('${id}')">
+          Pindahkan Transaksi & Hapus ${escapeHtml(w.name)}
+        </button>
+        <button type="button" class="btn-danger" onclick="confirmDeleteWalletWithTx('${id}')">
+          Hapus Akun Beserta ${linkedTx.length} Transaksinya
+        </button>
+      `);
+    }
+
+    function confirmMigrateAndDeleteWallet(sourceId) {
+      const sel = document.getElementById('migrateTargetWallet');
+      const targetId = sel ? sel.value : '';
+      const source = state.wallets.find(w => w.id === sourceId);
+      const target = state.wallets.find(w => w.id === targetId);
+      if (!source || !target) return;
+
+      saveSnapshot(`Pindahkan & hapus akun ${source.name}`);
+      target.initialBalance = (Number(target.initialBalance) || 0) + (Number(source.initialBalance) || 0);
+      state.transactions.forEach(t => {
+        if (t.walletId === sourceId) t.walletId = targetId;
+      });
+      state.wallets = state.wallets.filter(w => w.id !== sourceId);
+      if (selectedBankFilter === sourceId) selectedBankFilter = 'all';
       closeModal();
       saveState();
-      showToast('Akun dihapus');
+      showToast(`Transaksi dipindahkan ke ${target.name} & akun dihapus`);
+    }
+
+    function confirmDeleteWalletWithTx(sourceId) {
+      const source = state.wallets.find(w => w.id === sourceId);
+      if (!source) return;
+      saveSnapshot(`Hapus akun ${source.name} beserta transaksi`);
+      state.transactions = state.transactions.filter(t => t.walletId !== sourceId);
+      state.wallets = state.wallets.filter(w => w.id !== sourceId);
+      if (selectedBankFilter === sourceId) selectedBankFilter = 'all';
+      closeModal();
+      saveState();
+      showToast(`Akun ${source.name} beserta transaksinya dihapus`);
     }
 
     /* 2. MODAL TRANSAKSI */
     function openTxModal(type = 'expense', txId = null) {
       const existing = txId ? state.transactions.find(t => t.id === txId) : null;
+      if (existing && existing.transfer) return openTransferInfoModal(existing);
       const actualType = existing ? existing.type : type;
       const cats = actualType === 'income' ? getIncomeCategories() : getExpenseCategories();
+      const walletExists = existing && state.wallets.some(w => w.id === existing.walletId);
       form = {
         id: existing ? existing.id : null,
         type: actualType,
         note: existing ? existing.note : '',
         amount: existing ? String(existing.amount) : '',
         categoryId: existing ? existing.categoryId : cats[0].id,
-        walletId: existing ? existing.walletId : (state.wallets[0] ? state.wallets[0].id : ''),
-        date: existing ? existing.date : new Date().toISOString().slice(0, 10),
+        walletId: walletExists ? existing.walletId : (state.wallets[0] ? state.wallets[0].id : ''),
+        date: existing ? existing.date : localDateStr(),
         addingCustomCat: false,
         customCatName: '',
       };
       renderTxModal();
+    }
+
+    // Transaksi setor/tarik target dana tidak boleh diedit bebas (bisa bikin saldo target & akun tidak sinkron)
+    function openTransferInfoModal(tx) {
+      const sv = state.savings.find(s => s.id === tx.savingId);
+      const isDeposit = tx.type === 'expense';
+      openModal(`
+        <div class="modal-header">
+          <span class="modal-title">${SVG_PATHS.vault} <span>Transfer Target Dana</span></span>
+          <button type="button" class="close-btn" onclick="closeModal()">✕</button>
+        </div>
+        <p style="font-size:13px;color:var(--text-sub);line-height:1.6;">
+          ${escapeHtml(tx.note)}<br>
+          <strong style="color:var(--text-main);">${formatRupiah(tx.amount)}</strong> • ${formatDateIndo(tx.date)} • ${escapeHtml(getWallet(tx.walletId).name)}
+        </p>
+        <p style="font-size:12px;color:var(--text-muted);margin-top:10px;line-height:1.5;">
+          Ini perpindahan uang antara akun dan target dana, jadi tidak dihitung sebagai pemasukan/pengeluaran.
+          ${sv ? '' : '<br><span style="color:var(--warning);">Target dana terkait sudah tidak ada / data lama — membatalkan hanya mengembalikan saldo akun.</span>'}
+        </p>
+        <button type="button" class="btn-danger" onclick="cancelTransfer('${tx.id}')">
+          Batalkan ${isDeposit ? 'Setoran' : 'Penarikan'} Ini
+        </button>
+      `);
+    }
+
+    function cancelTransfer(txId) {
+      const tx = state.transactions.find(t => t.id === txId);
+      if (!tx) return closeModal();
+      const sv = state.savings.find(s => s.id === tx.savingId);
+      const amt = Number(tx.amount) || 0;
+      if (sv) {
+        if (tx.type === 'expense') {
+          // membatalkan setoran: dana target harus cukup untuk dikembalikan
+          if ((Number(sv.current) || 0) < amt) {
+            showToast(`Dana ${sv.name} tinggal ${formatRupiah(sv.current)}, tidak cukup untuk dibatalkan`);
+            return;
+          }
+          sv.current = (Number(sv.current) || 0) - amt;
+        } else {
+          sv.current = (Number(sv.current) || 0) + amt;
+        }
+      }
+      state.transactions = state.transactions.filter(t => t.id !== txId);
+      closeModal();
+      saveState();
+      showToast('Transfer dibatalkan');
     }
 
     function addTxAmount(delta) {
@@ -2397,6 +2768,12 @@
     }
 
     function renderSavingDepositModal() {
+      const totals = computeTotals();
+      const target = state.savings.find(s => s.id === form.savingId) || state.savings[0];
+      const maxAvailable = form.mode === 'withdraw'
+        ? Math.max(0, Number(target ? target.current : 0) || 0)
+        : Math.max(0, Number(totals.walletBalances[form.walletId] || 0));
+
       openModal(`
         <div class="modal-header">
           <span class="modal-title">${SVG_PATHS.vault} <span>Setor / Tarik Dana Simpanan</span></span>
@@ -2407,15 +2784,21 @@
           <button type="button" class="${form.mode==='withdraw'?'btn-finpro-primary':'btn-finpro-secondary'}" onclick="form.mode='withdraw';renderSavingDepositModal();">Tarik Dana</button>
         </div>
         <label class="form-label">Pilih Target Dana</label>
-        <select class="form-control" onchange="form.savingId=this.value">
-          ${state.savings.map(s => `<option value="${s.id}" ${form.savingId===s.id?'selected':''}>${escapeHtml(s.name)} (${formatRupiah(s.current)})</option>`).join('')}
+        <select class="form-control" onchange="form.savingId=this.value;renderSavingDepositModal();">
+          ${state.savings.map(s => `<option value="${s.id}" ${form.savingId===s.id?'selected':''}>${escapeHtml(s.name)} (Tersedia: ${formatRupiah(s.current)})</option>`).join('')}
         </select>
         <label class="form-label">${form.mode === 'deposit' ? 'Sumber Akun Bank/Dompet' : 'Tujuan Akun Bank/Dompet'}</label>
-        <select class="form-control" onchange="form.walletId=this.value">
-          ${state.wallets.map(w => `<option value="${w.id}" ${form.walletId===w.id?'selected':''}>${escapeHtml(w.name)}</option>`).join('')}
+        <select class="form-control" onchange="form.walletId=this.value;renderSavingDepositModal();">
+          ${state.wallets.map(w => `<option value="${w.id}" ${form.walletId===w.id?'selected':''}>${escapeHtml(w.name)} (Saldo: ${formatRupiah(totals.walletBalances[w.id] || 0)})</option>`).join('')}
         </select>
-        <label class="form-label">Nominal (Rp)</label>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin:12px 0 6px;">
+          <label class="form-label" style="margin:0;">Nominal (Rp)</label>
+          <span style="font-size:11.5px;color:var(--text-sub);">Maks: <strong>${formatRupiah(maxAvailable)}</strong></span>
+        </div>
         <input id="savDepInput" type="text" inputmode="numeric" class="form-control" style="font-size:20px;font-weight:800;" placeholder="0" value="${formatThousands(form.amount)}" oninput="form.amount=this.value.replace(/\\D/g,'');this.value=formatThousands(form.amount);" />
+        <div class="chip-row">
+          <button type="button" class="chip-btn" onclick="form.amount='${maxAvailable}';document.getElementById('savDepInput').value=formatThousands('${maxAvailable}');">Isi Maksimal (${formatRupiah(maxAvailable)})</button>
+        </div>
         <button type="button" class="btn-submit" onclick="saveSavingDeposit()">Simpan Perubahan</button>
       `);
     }
@@ -2424,20 +2807,50 @@
       const inp = document.getElementById('savDepInput');
       const raw = (inp ? inp.value : form.amount) || '0';
       const amt = parseInt(String(raw).replace(/\D/g, ''), 10) || 0;
-      if (amt <= 0) return;
+      if (amt <= 0) {
+        showToast('Masukkan nominal lebih dari Rp 0');
+        return;
+      }
       const target = state.savings.find(s => s.id === form.savingId);
       if (!target) return;
+      const totals = computeTotals();
+
       if (form.mode === 'deposit') {
+        const walletBal = Number(totals.walletBalances[form.walletId]) || 0;
+        if (amt > walletBal) {
+          showToast(`Saldo akun tidak cukup (Tersedia: ${formatRupiah(walletBal)})`);
+          return;
+        }
         target.current = (Number(target.current) || 0) + amt;
         state.transactions.unshift({
-          id: uid(), type: 'expense', amount: amt, categoryId: 'other_exp',
-          walletId: form.walletId, note: `Alokasi ke ${target.name}`, date: new Date().toISOString().slice(0, 10)
+          id: uid(),
+          type: 'expense',
+          amount: amt,
+          categoryId: 'other_exp',
+          walletId: form.walletId,
+          note: `Alokasi ke ${target.name}`,
+          date: localDateStr(),
+          transfer: true,
+          savingId: target.id,
         });
       } else {
-        target.current = Math.max(0, (Number(target.current) || 0) - amt);
+        const availableSaving = Number(target.current) || 0;
+        // Blokir penarikan yang melebihi saldo tabungan agar tidak menciptakan uang fiktif!
+        if (amt > availableSaving) {
+          showToast(`Dana simpanan tidak cukup! Maksimal tarik: ${formatRupiah(availableSaving)}`);
+          return;
+        }
+        target.current = availableSaving - amt;
         state.transactions.unshift({
-          id: uid(), type: 'income', amount: amt, categoryId: 'cashback',
-          walletId: form.walletId, note: `Pencairan ${target.name}`, date: new Date().toISOString().slice(0, 10)
+          id: uid(),
+          type: 'income',
+          amount: amt,
+          categoryId: 'cashback',
+          walletId: form.walletId,
+          note: `Pencairan ${target.name}`,
+          date: localDateStr(),
+          transfer: true,
+          savingId: target.id,
         });
       }
       closeModal();
@@ -2556,23 +2969,117 @@
       }
     }
 
-    /* 6. MODAL PENGATURAN DATA */
+    /* 6. MODAL PENGATURAN DATA, BACKUP EKSPOR/IMPOR & RESET */
+    function exportBackupJson() {
+      const payload = {
+        app: 'DompetKu Pro',
+        version: 5,
+        exportedAt: new Date().toISOString(),
+        data: state,
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `dompetku-backup-${localDateStr()}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      showToast('File Backup JSON berhasil diunduh');
+    }
+
+    function exportTransactionsCsv() {
+      const rows = [['Tanggal', 'Tipe', 'Kategori', 'Keterangan', 'Akun', 'Nominal']];
+      state.transactions.forEach(t => {
+        const cat = t.transfer ? { name: 'Transfer Target Dana' } : getCategory(t.categoryId);
+        const w = getWallet(t.walletId);
+        const tipe = t.transfer ? 'Transfer' : (t.type === 'income' ? 'Pemasukan' : 'Pengeluaran');
+        rows.push([
+          t.date,
+          tipe,
+          cat.name,
+          String(t.note || '').replace(/"/g, '""'),
+          String(w.name || '').replace(/"/g, '""'),
+          String(t.amount || 0),
+        ]);
+      });
+      const csvContent = rows.map(r => r.map(cell => `"${cell}"`).join(',')).join('\n');
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `dompetku-transaksi-${localDateStr()}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      showToast('Laporan CSV berhasil diunduh');
+    }
+
+    function handleImportJsonFile(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          const candidate = parsed && parsed.data && isValidState(parsed.data) ? parsed.data : parsed;
+          if (!isValidState(candidate)) {
+            showToast('Format file backup tidak valid');
+            return;
+          }
+          saveSnapshot('Sebelum impor backup');
+          state = normalizeState(candidate);
+          closeModal();
+          saveState();
+          showToast('Data backup berhasil dipulihkan!');
+        } catch (err) {
+          showToast('Gagal membaca file JSON');
+        }
+      };
+      reader.readAsText(file);
+    }
+
     function openDataModal() {
+      const snap = getSnapshot();
       openModal(`
         <div class="modal-header">
-          <span class="modal-title">${SVG_PATHS.settings} <span>Kelola Data Keuangan</span></span>
+          <span class="modal-title">${SVG_PATHS.settings} <span>Backup & Kelola Data</span></span>
           <button type="button" class="close-btn" onclick="closeModal()">✕</button>
         </div>
-        <p style="font-size:13px;color:var(--text-sub);margin-bottom:12px;line-height:1.5;">
-          Pilih aksi di bawah untuk mengosongkan seluruh saldo ke Rp 0, mengembalikan setelan awal, atau memuat contoh data:
-        </p>
+
+        <label class="form-label" style="margin-top:0;">Cadangkan & Pulihkan Data (Backup)</label>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">
+          <button type="button" class="btn-finpro-primary" onclick="exportBackupJson()">
+            ${SVG_PATHS.income}
+            <span>Ekspor JSON</span>
+          </button>
+          <button type="button" class="btn-finpro-secondary" onclick="exportTransactionsCsv()">
+            ${SVG_PATHS.layers}
+            <span>Ekspor CSV</span>
+          </button>
+        </div>
+        <input type="file" id="importJsonInput" accept=".json,application/json" style="display:none;" onchange="handleImportJsonFile(event)" />
+        <button type="button" class="btn-finpro-secondary" style="width:100%;margin-bottom:10px;" onclick="document.getElementById('importJsonInput').click()">
+          ${SVG_PATHS.expense}
+          <span>Impor / Pulihkan dari File JSON</span>
+        </button>
+
+        ${snap ? `
+          <button type="button" class="btn-submit" style="margin-top:4px;margin-bottom:10px;background:linear-gradient(135deg,#059669,#10B981);" onclick="restoreSnapshot()">
+            Pulihkan Data Sebelum Reset (${escapeHtml(snap.reason || 'Cadangan')})
+          </button>
+        ` : ''}
+
+        <label class="form-label">Reset & Data Contoh</label>
         <button type="button" class="btn-danger" onclick="resetAllToZero()">
           Nolkan Semua Saldo & Transaksi (Rp 0)
         </button>
-        <button type="button" class="btn-danger" style="color:var(--text-main);border-color:var(--glass-border);background:rgba(255,255,255,0.05);" onclick="state=getCleanZeroData();closeModal();saveState();showToast('Direset penuh ke setelan awal Rp 0');">
+        <button type="button" class="btn-danger" style="color:var(--text-main);border-color:var(--glass-border);background:rgba(255,255,255,0.05);" onclick="confirmAction({title:'Reset penuh ke setelan awal?',message:'Semua akun, transaksi, dan target dana akan dikembalikan ke daftar awal Rp 0. Cadangan otomatis tetap disimpan.',confirmLabel:'Ya, Reset Penuh',onConfirm:doFullReset})">
           Reset Penuh ke Setelan Awal (Rp 0)
         </button>
-        <button type="button" class="btn-submit" onclick="state=getSampleData();closeModal();saveState();showToast('Contoh data FinPro dimuat');">
+        <button type="button" class="btn-finpro-secondary" style="width:100%;margin-top:8px;" onclick="confirmAction({title:'Muat contoh data?',message:'Data saat ini akan dicadangkan otomatis lalu diganti dengan contoh data dashboard.',confirmLabel:'Muat Contoh',onConfirm:doLoadSample})">
           Muat Contoh Data Dashboard
         </button>
       `);
