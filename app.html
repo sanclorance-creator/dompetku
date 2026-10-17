@@ -1118,6 +1118,130 @@
         padding: 18px 15px 28px;
       }
     }
+  
+    
+    /* Fix 7.1: compact, non-wrapping mobile header controls */
+    @media (max-width: 480px) {
+      .topbar {
+        height: auto;
+        min-height: 60px;
+        padding: 8px 10px;
+        gap: 8px;
+      }
+
+      .user-chip {
+        flex: 1 1 0;
+        min-width: 0;
+        max-width: 44%;
+        padding: 4px 7px 4px 4px;
+        gap: 7px;
+      }
+
+      .user-avatar {
+        width: 32px;
+        height: 32px;
+        flex: 0 0 32px;
+      }
+
+      .user-chip > div:last-child {
+        min-width: 0;
+        overflow: hidden;
+      }
+
+      .user-greeting {
+        display: none;
+      }
+
+      .user-name {
+        display: flex;
+        min-width: 0;
+        max-width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        font-size: 12px;
+        gap: 3px;
+      }
+
+      #userNameText {
+        display: block;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      #editUserIco {
+        flex: 0 0 auto;
+      }
+
+      .topbar-actions {
+        flex: 0 0 auto;
+        min-width: 0;
+        gap: 5px;
+      }
+
+      .theme-pill {
+        flex: 0 0 auto;
+      }
+
+      .theme-pill-btn {
+        width: 27px;
+        height: 27px;
+      }
+
+      .topbar-actions > .top-btn {
+        flex: 0 0 36px;
+        width: 36px;
+        min-width: 36px;
+        height: 36px;
+        padding: 0;
+        justify-content: center;
+        gap: 0;
+      }
+
+      .topbar-actions > .top-btn.danger span:last-child {
+        display: none;
+      }
+    }
+
+    /* Tiny phones: reclaim a little space while keeping every control available */
+    @media (max-width: 360px) {
+      .topbar {
+        padding-left: 7px;
+        padding-right: 7px;
+        gap: 5px;
+      }
+
+      .user-chip {
+        gap: 5px;
+        padding-right: 4px;
+        max-width: 40%;
+      }
+
+      .user-avatar {
+        width: 29px;
+        height: 29px;
+        flex-basis: 29px;
+        font-size: 11px;
+      }
+
+      .topbar-actions {
+        gap: 4px;
+      }
+
+      .topbar-actions > .top-btn {
+        flex-basis: 34px;
+        width: 34px;
+        min-width: 34px;
+        height: 34px;
+      }
+
+      .theme-pill-btn {
+        width: 25px;
+        height: 25px;
+      }
+    }
+
   </style>
 </head>
 <body>
