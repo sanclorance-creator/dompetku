@@ -17,7 +17,7 @@
   </script>
 
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#0B0E14" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -1841,7 +1841,7 @@
       .user-name { max-width: 92px; }
     }
   </style>
-  <link rel="stylesheet" href="./budggt_mobile_ui.css?v=walletfix2" />
+  <link rel="stylesheet" href="./budggt_mobile_ui.css?v=bughunt1" />
 </head>
 <body>
 
@@ -2265,6 +2265,25 @@
       // Optional collections may be absent in older backups, but malformed values must be rejected.
       for (const key of ['customCategories', 'budgets', 'portfolio', 'liabilities']) {
         if (s[key] !== undefined && !isRecordArray(key)) return false;
+      }
+      // IDs are inserted into HTML attributes/handlers elsewhere. Only accept our safe ID alphabet.
+      const safeId = value => value == null || value === ''
+        || /^[A-Za-z0-9_-]{1,128}$/.test(String(value));
+      const fieldsByCollection = {
+        wallets: ['id'],
+        transactions: ['id', 'walletId', 'categoryId', 'savingId'],
+        savings: ['id'],
+        budgets: ['id', 'categoryId'],
+        portfolio: ['id', 'goalId'],
+        liabilities: ['id'],
+        customCategories: ['id'],
+      };
+      for (const [key, fields] of Object.entries(fieldsByCollection)) {
+        for (const item of (s[key] || [])) {
+          for (const field of fields) {
+            if (!safeId(item[field])) return false;
+          }
+        }
       }
       return true;
     }
@@ -2777,7 +2796,7 @@
             </div>
             <div class="item-info">
               <div class="item-title">${escapeHtml(tx.note || cat.name)}</div>
-              <div class="item-meta">${cat.name}</div>
+              <div class="item-meta">${escapeHtml(cat.name)}</div>
             </div>
           </div>
           <div style="font-weight:800;font-size:13.5px;color:${amtColor};">
