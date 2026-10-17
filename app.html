@@ -2183,14 +2183,17 @@
     let portfolioAllocTab = 'instrument'; // 'instrument' | 'currency'
 
     function setTheme(mode) {
-      document.documentElement.setAttribute('data-theme', mode);
-      localStorage.setItem('dompetku_theme', mode);
-      document.getElementById('themeLightBtn').classList.toggle('active', mode === 'light');
-      document.getElementById('themeDarkBtn').classList.toggle('active', mode === 'dark');
+      document.documentElement.setAttribute('data-theme', mode === 'light' ? 'light' : 'dark');
+      try { localStorage.setItem('dompetku_theme', mode); } catch (e) {}
+      const lightBtn = document.getElementById('themeLightBtn');
+      const darkBtn = document.getElementById('themeDarkBtn');
+      if (lightBtn) lightBtn.classList.toggle('active', mode === 'light');
+      if (darkBtn) darkBtn.classList.toggle('active', mode === 'dark');
     }
 
     (function initTheme() {
-      const savedTheme = localStorage.getItem('dompetku_theme') || 'dark';
+      let savedTheme = 'dark';
+      try { savedTheme = localStorage.getItem('dompetku_theme') || 'dark'; } catch (e) {}
       setTheme(savedTheme);
     })();
 
@@ -2254,10 +2257,16 @@
     let state = loadState();
 
     function isValidState(s) {
-      return !!s && typeof s === 'object'
-        && Array.isArray(s.wallets)
-        && Array.isArray(s.transactions)
-        && Array.isArray(s.savings);
+      if (!s || typeof s !== 'object' || Array.isArray(s)) return false;
+      const isRecord = value => !!value && typeof value === 'object' && !Array.isArray(value);
+      const isRecordArray = key => Array.isArray(s[key]) && s[key].every(isRecord);
+      if (!isRecordArray('wallets') || s.wallets.length === 0
+          || !isRecordArray('transactions') || !isRecordArray('savings')) return false;
+      // Optional collections may be absent in older backups, but malformed values must be rejected.
+      for (const key of ['customCategories', 'budgets', 'portfolio', 'liabilities']) {
+        if (s[key] !== undefined && !isRecordArray(key)) return false;
+      }
+      return true;
     }
 
     function normalizeState(s) {
@@ -2289,7 +2298,9 @@
           target: Math.max(0, Number(sv.target) || 0),
           targetDate: typeof sv.targetDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(sv.targetDate) ? sv.targetDate : '2027-12-31',
         })),
-        budgets: Array.isArray(s.budgets) && s.budgets.length > 0
+        // Preserve an intentionally empty budget list during save/reload/backup restore.
+        // Only use defaults for older backup formats that did not contain the budgets key.
+        budgets: Array.isArray(s.budgets)
           ? s.budgets.map(b => ({
               id: String(b.id || uid()),
               categoryId: String(b.categoryId || 'makan'),
@@ -2411,7 +2422,7 @@
         return;
       }
       state = normalizeState(snap.data);
-      localStorage.removeItem(BACKUP_KEY);
+      try { localStorage.removeItem(BACKUP_KEY); } catch (e) {}
       closeModal();
       saveState();
       showToast('Data sebelum reset berhasil dipulihkan');
@@ -4677,7 +4688,11 @@
       form.categoryId = newCat.id;
       form.addingCustomCat = false;
       form.customCatName = '';
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {
+        showToast('Penyimpanan browser gagal. Ekspor backup JSON sebelum menutup halaman.');
+      }
       renderTxModal();
     }
 
@@ -5485,26 +5500,34 @@
       document.body.appendChild(a);
       a.click();
       a.remove();
-      URL.revokeObjectURL(url);
+      setTimeout(() => URL.revokeObjectURL(url), 10000);
       showToast('File Backup JSON berhasil diunduh');
     }
 
     function exportTransactionsCsv() {
+      const csvCell = (value, protectFormula = true) => {
+        let text = String(value == null ? '' : value);
+        // Prevent spreadsheet formula injection in user-controlled text fields.
+        if (protectFormula && /^[\\t\\r ]*[=+\\-@]/.test(text)) text = "'" + text;
+        return '"' + text.replace(/"/g, '""') + '"';
+      };
       const rows = [['Tanggal', 'Tipe', 'Kategori', 'Keterangan', 'Akun', 'Nominal']];
       state.transactions.forEach(t => {
-        const cat = t.transfer ? { name: 'Transfer Target Dana' } : getCategory(t.categoryId);
-        const w = getWallet(t.walletId);
-        const tipe = t.transfer ? 'Transfer' : (t.type === 'income' ? 'Pemasukan' : 'Pengeluaran');
+        const cat = t.transfer ? { name: 'Transfer Target Dana' } : (getCategory(t.categoryId) || { name: 'Kategori tidak ditemukan' });
+        const w = (state.wallets || []).find(item => item.id === t.walletId);
+        const typeLabel = t.transfer ? 'Transfer' : (t.type === 'income' ? 'Pemasukan' : 'Pengeluaran');
         rows.push([
-          t.date,
-          tipe,
-          cat.name,
-          String(t.note || '').replace(/"/g, '""'),
-          String(w.name || '').replace(/"/g, '""'),
-          String(t.amount || 0),
+          t.date || '',
+          typeLabel,
+          cat.name || 'Kategori tidak ditemukan',
+          String(t.note || ''),
+          w ? String(w.name || '') : 'Akun tidak ditemukan',
+          Number.isFinite(Number(t.amount)) ? Number(t.amount) : 0,
         ]);
       });
-      const csvContent = rows.map(r => r.map(cell => `"${cell}"`).join(',')).join('\n');
+      const csvContent = '\\uFEFF' + rows.map((row, rowIndex) =>
+        row.map((cell, columnIndex) => csvCell(cell, !(rowIndex > 0 && columnIndex === 5))).join(',')
+      ).join('\\r\\n');
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -5513,29 +5536,39 @@
       document.body.appendChild(a);
       a.click();
       a.remove();
-      URL.revokeObjectURL(url);
+      setTimeout(() => URL.revokeObjectURL(url), 10000);
       showToast('Laporan CSV berhasil diunduh');
     }
 
     function handleImportJsonFile(event) {
-      const file = event.target.files && event.target.files[0];
+      const input = event.target;
+      const file = input && input.files && input.files[0];
       if (!file) return;
+      const clearInput = () => { if (input) input.value = ''; };
       const reader = new FileReader();
+      reader.onerror = () => {
+        showToast('Gagal membaca file. Coba pilih backup JSON lain.');
+        clearInput();
+      };
       reader.onload = (e) => {
         try {
           const parsed = JSON.parse(e.target.result);
           const candidate = parsed && parsed.data && isValidState(parsed.data) ? parsed.data : parsed;
           if (!isValidState(candidate)) {
-            showToast('Format file backup tidak valid');
+            showToast('Format backup tidak valid atau koleksi datanya rusak. Data saat ini tidak diubah.');
             return;
           }
+          const normalized = normalizeState(candidate);
+          // Snapshot first, and only then replace the current state.
           saveSnapshot('Sebelum impor backup');
-          state = normalizeState(candidate);
+          state = normalized;
           closeModal();
           saveState();
           showToast('Data backup berhasil dipulihkan!');
         } catch (err) {
-          showToast('Gagal membaca file JSON');
+          showToast('Gagal membaca backup JSON. Data saat ini tidak diubah.');
+        } finally {
+          clearInput();
         }
       };
       reader.readAsText(file);
