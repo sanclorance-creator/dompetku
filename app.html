@@ -1967,6 +1967,19 @@
       return new Date(Number(m[1]), Number(m[2]) - 1, Number(m[3]));
     }
 
+    function toFiniteNumber(value, fallback = 0) {
+      const n = Number(value);
+      return Number.isFinite(n) ? n : fallback;
+    }
+
+    function isValidDateKey(value) {
+      const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(value || ''));
+      if (!m) return false;
+      const year = Number(m[1]), month = Number(m[2]), day = Number(m[3]);
+      const d = new Date(year, month - 1, day);
+      return d.getFullYear() === year && d.getMonth() === month - 1 && d.getDate() === day;
+    }
+
     /* ==================== PROFESSIONAL VECTOR SVG ICON SYSTEM ==================== */
     const SVG_PATHS = {
       finpro: `<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="4" y="10" width="4.5" height="12" rx="2.25" transform="rotate(-28 4 10)" fill="#3B82F6" opacity="0.55"/><rect x="10" y="4" width="4.5" height="17" rx="2.25" transform="rotate(-28 10 4)" fill="#1D6FF2"/><circle cx="19" cy="6" r="2.3" fill="#00E58F"/></svg>`,
@@ -2294,16 +2307,16 @@
           id: String(w.id || uid()),
           name: String(w.name || 'Akun'),
           type: ['bank', 'ewallet', 'cash'].includes(w.type) ? w.type : 'bank',
-          initialBalance: Number(w.initialBalance) || 0,
+          initialBalance: toFiniteNumber(w.initialBalance, 0),
         })),
         transactions: s.transactions.map(t => ({
           id: String(t.id || uid()),
           type: t.type === 'income' ? 'income' : 'expense',
-          amount: Math.max(0, Number(t.amount) || 0),
+          amount: Math.max(0, toFiniteNumber(t.amount, 0)),
           categoryId: String(t.categoryId || (t.type === 'income' ? 'other_inc' : 'other_exp')),
           walletId: String(t.walletId || ''),
           note: String(t.note || ''),
-          date: /^\d{4}-\d{2}-\d{2}$/.test(String(t.date)) ? t.date : localDateStr(),
+          date: isValidDateKey(t.date) ? String(t.date) : localDateStr(),
           transfer: !!t.transfer || /^(Nabung ke|Alokasi ke|Tarik dari|Pencairan) /.test(String(t.note || '')),
           savingId: t.savingId ? String(t.savingId) : undefined,
         })),
@@ -2311,9 +2324,9 @@
           id: String(sv.id || uid()),
           name: String(sv.name || 'Target'),
           icon: SVG_PATHS[sv.icon] ? sv.icon : 'vault',
-          current: Math.max(0, Number(sv.current) || 0),
-          target: Math.max(0, Number(sv.target) || 0),
-          targetDate: typeof sv.targetDate === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(sv.targetDate) ? sv.targetDate : '2027-12-31',
+          current: Math.max(0, toFiniteNumber(sv.current, 0)),
+          target: Math.max(0, toFiniteNumber(sv.target, 0)),
+          targetDate: isValidDateKey(sv.targetDate) ? String(sv.targetDate) : '2027-12-31',
         })),
         // Preserve an intentionally empty budget list during save/reload/backup restore.
         // Only use defaults for older backup formats that did not contain the budgets key.
@@ -2321,7 +2334,7 @@
           ? s.budgets.map(b => ({
               id: String(b.id || uid()),
               categoryId: String(b.categoryId || 'makan'),
-              limit: Math.max(0, Number(b.limit) || 0),
+              limit: Math.max(0, toFiniteNumber(b.limit, 0)),
             }))
           : DEFAULT_BUDGETS.map(b => ({ ...b })),
         portfolio: Array.isArray(s.portfolio)
@@ -2331,7 +2344,7 @@
               ticker: String(p.ticker || String(p.name || 'AST').slice(0, 4).toUpperCase()),
               instrument: PORTFOLIO_INSTRUMENTS.some(i => i.id === p.instrument) ? p.instrument : 'Saham',
               currency: PORTFOLIO_CURRENCIES.some(c => c.id === p.currency) ? p.currency : 'IDR',
-              value: Math.max(0, Number(p.value) || 0),
+              value: Math.max(0, toFiniteNumber(p.value, 0)),
               changePct: Number.isFinite(Number(p.changePct)) ? Number(p.changePct) : 0,
               goalId: p.goalId && s.savings.some(sv => String(sv.id) === String(p.goalId)) ? String(p.goalId) : '',
             }))
@@ -2342,8 +2355,8 @@
               name: String(l.name || 'Kartu Kredit / Cicilan'),
               provider: String(l.provider || 'BCA'),
               type: String(l.type || 'Kartu Kredit'),
-              usedAmount: Math.max(0, Number(l.usedAmount) || 0),
-              limitAmount: Math.max(0, Number(l.limitAmount) || 0),
+              usedAmount: Math.max(0, toFiniteNumber(l.usedAmount, 0)),
+              limitAmount: Math.max(0, toFiniteNumber(l.limitAmount, 0)),
             }))
           : [],
       };
@@ -3919,13 +3932,23 @@
       `;
     }
 
+    function estimateMonthlyBurn(bs) {
+      const budgetLimit = Math.max(0, toFiniteNumber(bs.totalBudgetLimit, 0));
+      const monthExpense = Math.max(0, toFiniteNumber(bs.monthExpense, 0));
+      const daysInMonth = Math.max(1, Math.floor(toFiniteNumber(bs.daysInMonth, 30)));
+      const currentDay = Math.min(daysInMonth, Math.max(1, Math.floor(toFiniteNumber(bs.currentDay, daysInMonth))));
+      // Month-to-date expense is partial. Project it to a full month, then use the larger of
+      // that pace or the planned budget so a quiet first week doesn't inflate the runway.
+      const projectedExpense = monthExpense > 0 ? monthExpense * daysInMonth / currentDay : 0;
+      if (budgetLimit > 0) return Math.max(budgetLimit, projectedExpense);
+      return projectedExpense > 0 ? projectedExpense : 3500000;
+    }
+
     function renderAssetsPage() {
       const t = computeTotals();
       const bs = computeMonthlyBudgetStats();
       const liquidTotal = Math.max(0, t.dompetDanAkun + t.totalPortfolioLiquid);
-      const monthlyBurn = bs.monthExpense > 0
-        ? bs.monthExpense
-        : (bs.totalBudgetLimit > 0 ? bs.totalBudgetLimit : 3500000);
+      const monthlyBurn = estimateMonthlyBurn(bs);
       const runwayMonths = liquidTotal > 0 ? Number((liquidTotal / monthlyBurn).toFixed(1)) : 0;
       const lvl = getWealthLevelInfo(t.netWorth);
 
@@ -5042,11 +5065,15 @@
       }
       if (!Array.isArray(state.budgets)) state.budgets = [];
 
-      // Jika tambah baru tapi kategori sudah ada di daftar budget, update yang sudah ada
-      const duplicate = !form.id && state.budgets.find(b => b.categoryId === form.categoryId);
+      const duplicate = state.budgets.find(b =>
+        b.categoryId === form.categoryId && b.id !== form.id
+      );
       if (duplicate) {
-        duplicate.limit = limitVal;
-      } else if (form.id) {
+        showToast('Kategori ini sudah punya budget. Pilih kategori lain atau edit budget yang ada.');
+        return;
+      }
+
+      if (form.id) {
         state.budgets = state.budgets.map(b =>
           b.id === form.id ? { ...b, categoryId: form.categoryId, limit: limitVal } : b
         );
