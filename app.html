@@ -1,6 +1,31 @@
 <!DOCTYPE html>
 <html lang="id" data-theme="dark">
 <head>
+  <script>
+    // Strip ChatGPT's attribution query from the visible URL, preserving the app version and hash.
+    (function () {
+      function cleanChatGPTTracking() {
+        try {
+          var u = new URL(window.location.href);
+          if (u.searchParams.get('utm_source') !== 'chatgpt.com') return;
+          u.searchParams.delete('utm_source');
+          var next = u.pathname + (u.searchParams.toString() ? '?' + u.searchParams.toString() : '') + u.hash;
+          window.history.replaceState(window.history.state, document.title, next);
+        } catch (e) {}
+      }
+      cleanChatGPTTracking();
+      window.addEventListener('pageshow', cleanChatGPTTracking);
+      window.addEventListener('popstate', cleanChatGPTTracking);
+      // Also handle clients that append campaign parameters shortly after navigation.
+      var attempts = 0;
+      var timer = window.setInterval(function () {
+        cleanChatGPTTracking();
+        attempts += 1;
+        if (attempts >= 20) window.clearInterval(timer);
+      }, 250);
+    })();
+  </script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#0B0E14" />
@@ -5581,20 +5606,5 @@
   </script>
   <script src="./dompetku_safety_patch.js?v=fix7"></script>
   <script src="./dompetku_budggt_patch.js?v=budggt2fix1"></script>
-  <script>
-    // Remove only ChatGPT's URL attribution parameter while preserving the app version and other query parameters.
-    (function () {
-      try {
-        var currentUrl = new URL(window.location.href);
-        if (currentUrl.searchParams.get('utm_source') === 'chatgpt.com') {
-          currentUrl.searchParams.delete('utm_source');
-          var cleanUrl = currentUrl.pathname
-            + (currentUrl.searchParams.toString() ? '?' + currentUrl.searchParams.toString() : '')
-            + currentUrl.hash;
-          window.history.replaceState(window.history.state, document.title, cleanUrl);
-        }
-      } catch (e) {}
-    })();
-  </script>
 </body>
 </html>
