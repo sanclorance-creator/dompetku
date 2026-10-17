@@ -611,3 +611,18 @@ html[data-theme="light"] #pageContent .alloc-seg-wrap {
     font-size: 12px !important;
   }
 }
+
+/* Visible keyboard focus; does not depend on the browser default outline. */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--blue-light);
+  outline-offset: 2px;
+}
+.bank-filter-select:focus-visible {
+  outline: 2px solid var(--blue-light);
+  outline-offset: 2px;
+}
